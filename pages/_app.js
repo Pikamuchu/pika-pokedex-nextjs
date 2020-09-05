@@ -1,7 +1,13 @@
-import '../styles/globals.css'
+import React from 'react';
+import App from 'next/app';
+import { appWithTranslation } from '../i18n';
+import '../styles/globals.scss';
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+class MyApp extends App {
+  render() {
+    const { Component, pageProps } = this.props;
+    return <Component {...pageProps} />;
+  }
 }
 
-export default MyApp
+export default appWithTranslation(MyApp);

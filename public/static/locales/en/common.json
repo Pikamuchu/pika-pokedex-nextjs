@@ -1,0 +1,9 @@
+{
+  "menu-title": "Pokedex",
+  "menu-option-home": "Home",
+  "menu-option-about": "About",
+  "search-placeholder": "Search for a pokemon",
+  "change-locale": "Change locale",
+  "error-with-status": "A {{statusCode}} error occurred on server",
+  "error-without-status": "An error occurred on the server"
+}

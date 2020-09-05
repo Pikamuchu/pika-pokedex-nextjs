@@ -1,65 +1,68 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+// import React, { useState, useCallback, useEffect } from 'react';
+// import useSWR from 'swr';
+import Head from 'next/head';
+import { Container, Row, InputGroup, FormControl, Button, Spinner } from 'react-bootstrap';
 
-export default function Home() {
+import { withTranslation } from '../i18n';
+import { getListItems } from '../models/pokemonModel';
+import Layout from '../components/Layout';
+import Pokemon from '../components/Pokemon';
+
+const Home = ({ pokemons, t }) => {
+  /*
+  const [pokemons, setPokemons] = useState(initialPokemons);
+  const [search, setSearch] = useState("");
+
+  const { data, error } = useSWR(`/api/pokemon?name=${search}`, fetcher);
+
+  const handleSearch = useCallback((event) => {
+    setSearch(event.target.value);
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      setPokemons(prev => [...prev, ...data]);
+    }
+  }, [data]);
+*/
   return (
-    <div className={styles.container}>
+    <Layout>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Pokedex - Home</title>
       </Head>
+      <Container>
+        <Row>
+          <InputGroup className="mb-3">
+            <FormControl placeholder=" {t('search-placeholder')}" />
+            <InputGroup.Append>
+              <Button variant="outline-secondary">Search</Button>
+            </InputGroup.Append>
+          </InputGroup>
+        </Row>
+      </Container>
+      <Container>
+        <Row className="pokemons-container">
+          {pokemons ? (
+            pokemons.map((pokemon) => <Pokemon key={pokemon.id} pokemon={pokemon} />)
+          ) : (
+            <Spinner animation="border" />
+          )}
+        </Row>
+      </Container>
+    </Layout>
+  );
+};
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+export async function getStaticProps(context) {
+  const pokemons = await getListItems();
+  return {
+    props: {
+      pokemons,
+      namespacesRequired: ['common', 'pokemon'],
+    },
+  };
 }
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+export default withTranslation('common')(Home);

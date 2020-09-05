@@ -1,0 +1,44 @@
+#!/bin/bash
+
+COMMAND="$1"
+shift
+PARAMS="$@"
+
+if [ "$COMMAND" = "install" ]; then
+  echo "* Installing node_modules..."
+  yarn install
+
+elif [ "$COMMAND" = "test" ]; then
+  echo "* Testing..."
+  yarn test
+
+elif [ "$COMMAND" = "coverage" ]; then
+  echo "* Coverage..."
+  yarn coverage
+
+elif [ "$COMMAND" = "format" ]; then
+  echo "* Formating..."
+  yarn format
+
+elif [ "$COMMAND" = "docker" ]; then
+  if [ "$1" = "build" ]; then
+    echo "* Building docker..."
+    docker build . -t pikamachu/pokedex-pwa-nextjs
+
+  elif [ "$1" = "start" ]; then
+    echo "* Starting docker..."
+    docker run -d -p 3000:3000 pikamachu/pokedex-pwa-nextjs
+  fi
+
+else
+  echo ""
+  echo "Usage: pika [command]"
+  echo ""
+  echo "where [command] is one of:"
+  echo "   install -> install application dependencies."
+  echo "   build -> compile application."
+  echo "   test -> execute application tests."
+  echo "   format -> auto format project code using prettier."
+
+  exit 1
+fi
