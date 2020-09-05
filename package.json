@@ -17,9 +17,6 @@
     "pokedex",
     "pokemon"
   ],
-  "engines": {
-    "node": "12"
-  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development next",
     "build": "cross-env NODE_ENV=production next build",
