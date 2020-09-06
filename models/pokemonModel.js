@@ -11,21 +11,17 @@ const P = new Pokedex({
 const DEFAULT_LIMIT = 20;
 const DEFAULT_LANG = 'en';
 
-export const getListItems = async (params) => {
-  const limit = (params && params.limit) || DEFAULT_LIMIT;
-  const offset = (params && params.offset) || 0;
-  const lang = (params && params.lang) || DEFAULT_LANG;
-  const itemList = await P.getPokemonsList({ limit, offset });
+export const getListItems = async (params, limit, offset) => {
+  const itemList = await P.getPokemonsList({
+    limit: limit || DEFAULT_LIMIT,
+    offset: offset || 0,
+  });
   const pokemonList = await Promise.all(
     itemList.results.map(async (item) => {
-      return getItem(item.name, lang);
+      return getItem(item.name, params?.lang || DEFAULT_LANG);
     })
   );
   return pokemonList.filter((pokemon) => !pokemon.evolvesFromId);
-};
-
-export const getListFilters = async (params) => {
-  return {};
 };
 
 export const getDetails = async (id, lang) => {
@@ -36,7 +32,7 @@ export const getDetails = async (id, lang) => {
       code: formatCode(pokemon.id),
       name: translateName(species.names, lang),
       types: mapTypes(pokemon.types),
-      color: pokemon.color,
+      color: species.color?.name,
       evolvesFromId: species.evolves_from_species && species.evolves_from_species.name,
       abilities: pokemon.abilities && pokemon.abilities.map((item) => item.ability.name),
       weight: pokemon.weight,
@@ -48,7 +44,7 @@ export const getDetails = async (id, lang) => {
   );
 };
 
-export const getItem = async (id, lang) => {
+export const getItem = async (id) => {
   const pokemon = await P.getPokemonByName(id);
   return {
     id,

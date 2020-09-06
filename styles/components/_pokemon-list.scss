@@ -6,39 +6,39 @@
   border-radius: 5px;
   width: 100%;
   padding-top: 100%;
-  border: thin solid #303030
+  border: thin solid #303030;
 }
 
 .pokedex-results figure img {
   float: left;
   width: 100%;
   position: absolute;
-  top: 0
+  top: 0;
 }
 
 .pokedex-results .pokemon-info {
   clear: both;
   top: -5px;
-  padding-left: 7.2525%
+  padding-left: 7.2525%;
 }
 
 .pokedex-results .pokemon-info .id {
-  font-family: Flexo-Bold,arial,sans-serif;
+  font-family: Flexo-Bold, arial, sans-serif;
   color: #303030;
   font-size: 80%;
-  padding-top: 2px
+  padding-top: 2px;
 }
 
 .pokedex-results .pokemon-info h5 {
-  font-family: Flexo-Demi,arial,sans-serif;
+  font-family: Flexo-Demi, arial, sans-serif;
   color: #303030;
   text-transform: none;
   font-size: 145%;
-  margin-bottom: 5px
+  margin-bottom: 5px;
 }
 
 .pokedex-results .pokemon-info .abilities span {
-  font-family: Flexo-Medium,arial,sans-serif;
+  font-family: Flexo-Medium, arial, sans-serif;
   border-radius: 3px;
   border: thin solid #303030;
   line-height: 18px;
@@ -48,7 +48,7 @@
   float: left;
   text-transform: none;
   font-size: 11px;
-  text-align: center
+  text-align: center;
 }
 
 .button-load-more {
@@ -85,9 +85,10 @@
 
 .button-lightblue {
   background-color: #30a7d7;
-  color: #fff
+  color: #fff;
 }
 
-.button-lightblue.active,.button-lightblue:hover {
-  background-color: #1b82b1
+.button-lightblue.active,
+.button-lightblue:hover {
+  background-color: #1b82b1;
 }

@@ -1,7 +1,7 @@
-import { Row, Col, Badge } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { Link, withTranslation } from '../i18n';
 
-const Pokemon = ({ pokemon, t }) => {
+const PokemonDetails = ({ pokemon }) => {
   return (
     <Col>
       <Link href={`/pokemon/${pokemon.id}`}>
@@ -24,7 +24,7 @@ const Pokemon = ({ pokemon, t }) => {
   );
 };
 
-const PokemonType = ({ type, t }) => {
+const PokemonType = ({ type }) => {
   return (
     <div className="abilities">
       <span className="pill background-color-{type.id}">{type.name}</span>
@@ -32,4 +32,4 @@ const PokemonType = ({ type, t }) => {
   );
 };
 
-export default withTranslation('pokemon')(Pokemon);
+export default withTranslation('pokemon')(PokemonDetails);

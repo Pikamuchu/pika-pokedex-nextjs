@@ -24,7 +24,7 @@
     "test": "cross-env NODE_ENV=test nyc mocha",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "lint": "eslint --fix . --ignore-path ./.gitignore",
-    "format": "prettier --write './**/*.{js,jsx,css,md,json}' --config ./.prettierrc --ignore-path ./.gitignore"
+    "format": "prettier --write './**/*.{js,jsx,scss,md,json}' --config ./.prettierrc --ignore-path ./.gitignore"
   },
   "dependencies": {
     "bootstrap": "^4.5.2",
@@ -62,5 +62,16 @@
     "mocha": "^7.1.1",
     "nyc": "^14.1.1",
     "prettier": "^2.0.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "./**/*.{js,jsx,scss,md,json}": [
+      "eslint --fix .",
+      "prettier --write"
+    ]
   }
 }

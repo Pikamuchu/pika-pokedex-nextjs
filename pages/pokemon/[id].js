@@ -1,48 +1,59 @@
-import { useRouter } from 'next/router';
-import useSWR from 'swr';
+/*
+import { useRouter } from 'next/router'
+import useSWR from 'swr'
+*/
+import Head from 'next/head';
+import { Container } from 'react-bootstrap';
 
+import { withTranslation } from '../../i18n';
+import { getDetails } from '../../models/pokemonModel';
+import Layout from '../../components/Layout';
+import PokemonDetails from '../../components/PokemonDetails';
+
+/*
 const fetcher = async (url) => {
-  const res = await fetch(url);
-  const data = await res.json();
+  const res = await fetch(url)
+  const data = await res.json()
 
   if (res.status !== 200) {
-    throw new Error(data.message);
+    throw new Error(data.message)
   }
-  return data;
-};
+  return data
+}
+*/
 
-export default function Pokemon() {
+const Pokemon = ({ pokemon }) => {
   /*
-  const { query } = useRouter();
-  const { data, error } = useSWR(() => query.id && `/api/pokemon/${query.id}`, fetcher);
+  const { query } = useRouter()
+  const { data, error } = useSWR(() => query.id && `/api/pokemon/${query.id}`, fetcher)
 
-  if (error) return <div>{error.message}</div>;
-  if (!data) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>
+  if (!data) return <div>Loading...</div>
 */
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Height</th>
-          <th>Mass</th>
-          <th>Hair color</th>
-          <th>Skin color</th>
-          <th>Eye color</th>
-          <th>Gender</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{data.name}</td>
-          <td>{data.height}</td>
-          <td>{data.mass}</td>
-          <td>{data.hair_color}</td>
-          <td>{data.skin_color}</td>
-          <td>{data.eye_color}</td>
-          <td>{data.gender}</td>
-        </tr>
-      </tbody>
-    </table>
+    <Layout>
+      <Head>
+        <title>Pokedex - Home</title>
+      </Head>
+      <Container>
+        <PokemonDetails pokemon={pokemon} />
+      </Container>
+    </Layout>
   );
+};
+
+export async function getServerSideProps({ query: { id, lang } }) {
+  const pokemon = await getDetails(id, lang);
+  return {
+    props: {
+      pokemon,
+      namespacesRequired: ['common', 'pokemon'],
+    },
+  };
 }
+
+/*
+const fetcher = (url) => fetch(url).then((res) => res.json())
+*/
+
+export default withTranslation('common')(Pokemon);

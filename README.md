@@ -6,20 +6,11 @@
 
 ## Introduction
 
+<<<<<<< Updated upstream
 
-TODO: Review package.json hooks
+=======
 
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "./**/*.{js,jsx}": [
-      "eslint --fix .",
-      "prettier --write"
-    ]
-  }
+> > > > > > > Stashed changes
 
 ## Installing / Getting started
 

@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Nav, Navbar } from 'react-bootstrap';
-import { Link, withTranslation } from '../i18n';
+import { i18n, Link, withTranslation } from '../i18n';
 
 const Layout = ({ children, t }) => (
   <>
@@ -18,12 +18,12 @@ const Layout = ({ children, t }) => (
         <Nav className="mr-auto">
           <Navbar.Text>
             <Link href="/">
-              <a>{t('menu-option-home')}</a>
+              <span>{t('menu-option-home')}</span>
             </Link>
           </Navbar.Text>
           <Navbar.Text>
             <Link href="/about">
-              <a>{t('menu-option-about')}</a>
+              <span>{t('menu-option-about')}</span>
             </Link>
           </Navbar.Text>
         </Nav>
@@ -32,7 +32,12 @@ const Layout = ({ children, t }) => (
 
     <main>{children}</main>
 
-    <footer>{t('Footer')}</footer>
+    <footer>
+      {t('Footer')}
+      <button type="button" onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'es' : 'en')}>
+        {t('change-locale')}
+      </button>
+    </footer>
   </>
 );
 

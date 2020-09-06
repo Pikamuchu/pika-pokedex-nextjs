@@ -112,9 +112,11 @@ typings/
 .next
 out
 
-# Next.js PWA
+# Next.js PWA worker
 **/public/workbox-*.js
+**/public/workbox-*.js.map
 **/public/sw.js
+**/public/sw.js.map
 
 # Nuxt.js build / generate output
 .nuxt

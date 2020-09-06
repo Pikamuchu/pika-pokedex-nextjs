@@ -15,9 +15,9 @@
       "runtimeExecutable": "${workspaceFolder}/node_modules/next/dist/bin/next",
       "env": {
         "NODE_ENV": "development",
-        "NODE_OPTIONS": "--inspect-brk=9300"
+        "NODE_OPTIONS": "--inspect=9230"
       },
-      "port": 9300,
+      "port": 9230,
       "console": "integratedTerminal"
     },
     {

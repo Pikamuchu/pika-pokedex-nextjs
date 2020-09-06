@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import React from 'react';
 import expect from 'expect.js';
 
-import App from '../pages/index.js';
+import App from '../pages/index';
 
 describe('With Enzyme', () => {
   it('App shows "Hello world!"', () => {

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const withPWA = require('next-pwa');
 const { nextI18NextRewrites } = require('next-i18next/rewrites');
 
@@ -9,12 +10,14 @@ const localeSubpaths = {
 module.exports = withPWA({
   target: 'serverless',
   pwa: {
-    dest: 'public'
+    dest: 'public',
   },
+  rewrites: async () => nextI18NextRewrites(localeSubpaths),
   publicRuntimeConfig: {
     localeSubpaths,
   },
-  async rewrites() {
-    return [...nextI18NextRewrites(localeSubpaths)];
+  webpack: (config) => {
+    config.devtool = 'inline-source-map';
+    return config;
   },
 });

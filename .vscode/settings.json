@@ -1,3 +1,19 @@
 {
-  "cSpell.words": ["pokedex", "pokemons"]
+  "cSpell.words": [
+    "Codacy",
+    "Subpaths",
+    "codecov",
+    "devtool",
+    "gitignore",
+    "lcov",
+    "msapplication",
+    "navbutton",
+    "nextjs",
+    "pokeapi",
+    "pokedex",
+    "pokemons",
+    "precommit",
+    "prettierrc",
+    "readonly"
+  ]
 }
