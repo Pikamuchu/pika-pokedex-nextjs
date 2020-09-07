@@ -12,20 +12,21 @@ const Layout = ({ children, t }) => (
     </Head>
 
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="#home">{t('menu-title')}</Navbar.Brand>
+      <Link href="/" passHref>
+        <Navbar.Brand>{t('menu-title')}</Navbar.Brand>
+      </Link>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Navbar.Text>
-            <Link href="/">
-              <span>{t('menu-option-home')}</span>
-            </Link>
-          </Navbar.Text>
-          <Navbar.Text>
-            <Link href="/about">
-              <span>{t('menu-option-about')}</span>
-            </Link>
-          </Navbar.Text>
+          <Link href="/" passHref>
+            <Nav.Link>{t('menu-option-home')}</Nav.Link>
+          </Link>
+          <Link href="/pokemon" passHref>
+            <Nav.Link>{t('menu-option-pokemon')}</Nav.Link>
+          </Link>
+          <Link href="/about" passHref>
+            <Nav.Link>{t('menu-option-about')}</Nav.Link>
+          </Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

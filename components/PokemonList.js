@@ -1,4 +1,4 @@
-import { Col, Row, Spinner } from 'react-bootstrap';
+import { Badge, Col, Image, Row, Spinner } from 'react-bootstrap';
 import { Link, withTranslation } from '../i18n';
 
 const PokemonList = ({ pokemons }) => {
@@ -15,20 +15,20 @@ const PokemonList = ({ pokemons }) => {
 
 const Pokemon = ({ pokemon }) => {
   return (
-    <Col>
+    <Col className="pokemon-card pb-3">
       <Link href={`/pokemon/${pokemon.id}`}>
-        <Row className="pokemon-card">
-          <img
+        <Row>
+          <Image
+            className="border"
             src={`https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${pokemon.code}.png`}
             label={pokemon.name}
             alt={pokemon.name}
           />
           <div className="pokemon-info">
-            <h5>{pokemon.name}</h5>
-            <p>{pokemon.code}</p>
-            {pokemon.types.map((type) => (
-              <PokemonType key={type.id} type={type} />
-            ))}
+            <h5>
+              {pokemon.code} - {pokemon.name}
+            </h5>
+            <PokemonTypes types={pokemon.types} />
           </div>
         </Row>
       </Link>
@@ -36,10 +36,14 @@ const Pokemon = ({ pokemon }) => {
   );
 };
 
-const PokemonType = ({ type }) => {
+const PokemonTypes = ({ types }) => {
   return (
-    <div className="abilities">
-      <span className="pill background-color-{type.id}">{type.name}</span>
+    <div className="pokemon-abilities">
+      {types?.map((type) => (
+        <Badge key={type.id} className={`background-color-${type.id}`} pill>
+          {type.name}
+        </Badge>
+      ))}
     </div>
   );
 };

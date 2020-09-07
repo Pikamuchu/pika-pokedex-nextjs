@@ -35,7 +35,7 @@ const Home = ({ initialPokemons, t }) => {
       </Head>
       <Container>
         <Row>
-          <InputGroup className="mb-3">
+          <InputGroup className="mt-3 mb-3">
             <FormControl placeholder={t('search-placeholder')} />
             <InputGroup.Append>
               <Button variant="outline-secondary">Search</Button>

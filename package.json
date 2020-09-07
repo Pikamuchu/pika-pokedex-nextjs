@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.5.2",
+    "bootswatch": "^4.5.2",
     "express": "^4.17.1",
     "i18next": "^14.0.1",
     "isomorphic-unfetch": "3.0.0",

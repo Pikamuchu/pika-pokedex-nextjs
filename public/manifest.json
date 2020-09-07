@@ -1,8 +1,8 @@
 {
-  "name": "Pikamachu Pokedex Progressive Web App",
-  "short_name": "Pikamachu Pokedex PWA",
-  "theme_color": "#ffe62d",
-  "background_color": "#ffe62d",
+  "name": "Pokedex Progressive Web App",
+  "short_name": "Pokedex PWA",
+  "theme_color": "#ffc40d",
+  "background_color": "#ffc40d",
   "display": "fullscreen",
   "orientation": "portrait",
   "scope": "/",

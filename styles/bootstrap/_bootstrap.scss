@@ -10,7 +10,7 @@
 @import '~bootstrap/scss/root';
 @import '~bootstrap/scss/reboot';
 @import '~bootstrap/scss/type';
-// @import "~bootstrap/scss/images";
+@import "~bootstrap/scss/images";
 // @import "~bootstrap/scss/code";
 @import '~bootstrap/scss/grid';
 // @import "~bootstrap/scss/tables";
@@ -24,11 +24,11 @@
 @import '~bootstrap/scss/nav';
 @import '~bootstrap/scss/navbar';
 // @import "~bootstrap/scss/card";
-// @import "~bootstrap/scss/breadcrumb";
-// @import "~bootstrap/scss/pagination";
-// @import "~bootstrap/scss/badge";
+@import "~bootstrap/scss/breadcrumb";
+@import "~bootstrap/scss/pagination";
+@import "~bootstrap/scss/badge";
 // @import "~bootstrap/scss/jumbotron";
-// @import "~bootstrap/scss/alert";
+//@import "~bootstrap/scss/alert";
 // @import "~bootstrap/scss/progress";
 // @import "~bootstrap/scss/media";
 // @import "~bootstrap/scss/list-group";

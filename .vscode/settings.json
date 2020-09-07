@@ -2,6 +2,7 @@
   "cSpell.words": [
     "Codacy",
     "Subpaths",
+    "bootswatch",
     "codecov",
     "devtool",
     "gitignore",
@@ -15,5 +16,5 @@
     "precommit",
     "prettierrc",
     "readonly"
-  ]
+]
 }
