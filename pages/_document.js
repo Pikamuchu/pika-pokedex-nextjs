@@ -1,4 +1,4 @@
-import Document, { Head, Main, NextScript } from 'next/document';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 const APP_NAME = 'Pokedex PWA';
 const APP_DESCRIPTION = 'Pokedex Progressive Web Application using Next.js';
@@ -6,13 +6,9 @@ const APP_COLOR = '#c40012';
 const APP_ICON = '/favicon.ico';
 
 class MyDocument extends Document {
-  static async getInitialProps(ctx) {
-    return Document.getInitialProps(ctx);
-  }
-
   render() {
     return (
-      <html lang="en" dir="ltr">
+      <Html lang="en" dir="ltr">
         <Head>
           {/* Must */}
           <meta charSet="utf-8" />
@@ -56,7 +52,7 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }

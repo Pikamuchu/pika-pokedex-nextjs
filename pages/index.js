@@ -7,10 +7,12 @@ import { withTranslation } from '../i18n';
 import { getListItems } from '../models/pokemonModel';
 import Layout from '../components/Layout';
 import PokemonList from '../components/PokemonList';
+import usePokemon from '../hooks/usePokemon';
 
-const Home = ({ pokemons, t }) => {
+const Home = ({ initialPokemons, t }) => {
+  const pokemons = usePokemon({}, initialPokemons);
+
   /*
-  const [pokemons, setPokemons] = useState(initialPokemons)
   const [search, setSearch] = useState("")
 
   const { data, error } = useSWR(`/api/pokemon?name=${search}`, fetcher)
@@ -25,6 +27,7 @@ const Home = ({ pokemons, t }) => {
     }
   }, [data])
 */
+
   return (
     <Layout>
       <Head>
@@ -47,16 +50,14 @@ const Home = ({ pokemons, t }) => {
   );
 };
 
-export async function getServerSideProps({ query }) {
-  const pokemons = await getListItems(query);
+export async function getServerSideProps(context) {
+  const pokemons = await getListItems(context?.query?.lang);
   return {
     props: {
-      pokemons,
+      initialPokemons: pokemons,
       namespacesRequired: ['common', 'pokemon'],
     },
   };
 }
-
-// const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default withTranslation('common')(Home);

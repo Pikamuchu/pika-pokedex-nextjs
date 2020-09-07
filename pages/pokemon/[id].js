@@ -9,6 +9,7 @@ import { withTranslation } from '../../i18n';
 import { getDetails } from '../../models/pokemonModel';
 import Layout from '../../components/Layout';
 import PokemonDetails from '../../components/PokemonDetails';
+import usePokemon from '../../hooks/usePokemon';
 
 /*
 const fetcher = async (url) => {
@@ -22,7 +23,8 @@ const fetcher = async (url) => {
 }
 */
 
-const Pokemon = ({ pokemon }) => {
+const Pokemon = ({ pokemonId, initialPokemon }) => {
+  const pokemon = usePokemon({ id:pokemonId}, initialPokemon);
   /*
   const { query } = useRouter()
   const { data, error } = useSWR(() => query.id && `/api/pokemon/${query.id}`, fetcher)
@@ -46,14 +48,11 @@ export async function getServerSideProps({ query: { id, lang } }) {
   const pokemon = await getDetails(id, lang);
   return {
     props: {
-      pokemon,
+      pokemonId: id,
+      initialPokemon: pokemon,
       namespacesRequired: ['common', 'pokemon'],
     },
   };
 }
-
-/*
-const fetcher = (url) => fetch(url).then((res) => res.json())
-*/
 
 export default withTranslation('common')(Pokemon);

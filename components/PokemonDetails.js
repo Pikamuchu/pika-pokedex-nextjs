@@ -4,7 +4,6 @@ import { Link, withTranslation } from '../i18n';
 const PokemonDetails = ({ pokemon }) => {
   return (
     <Col>
-      <Link href={`/pokemon/${pokemon.id}`}>
         <Row className="pokemon-card">
           <img
             src={`https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${pokemon.code}.png`}
@@ -19,7 +18,6 @@ const PokemonDetails = ({ pokemon }) => {
             ))}
           </div>
         </Row>
-      </Link>
     </Col>
   );
 };
