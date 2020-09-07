@@ -11,13 +11,16 @@ module.exports = withPWA({
   target: 'serverless',
   pwa: {
     dest: 'public',
+    disable: process.env.NODE_ENV === 'development'
   },
   rewrites: async () => nextI18NextRewrites(localeSubpaths),
   publicRuntimeConfig: {
     localeSubpaths,
   },
   webpack: (config) => {
-    config.devtool = 'inline-source-map';
+    if (process.env.NODE_ENV === 'development') {
+      config.devtool = 'inline-source-map';
+    }
     return config;
   },
 });
