@@ -6,11 +6,6 @@
 
 ## Introduction
 
-<<<<<<< Updated upstream
-
-=======
-
-> > > > > > > Stashed changes
 
 ## Installing / Getting started
 
