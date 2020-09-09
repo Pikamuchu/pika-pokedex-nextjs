@@ -1,6 +1,8 @@
-$staticPath: '../../public/static';
+$staticPath: '../../../public/static';
 
-html, body, #__next {
+html,
+body,
+#__next {
   height: 100%;
 }
 
@@ -13,7 +15,7 @@ h1 {
 }
 
 main {
-//  background: #fff url(#{$staticPath}/images/container-bg.png);
+  //  background: #fff url(#{$staticPath}/images/container-bg.png);
 }
 
 footer {

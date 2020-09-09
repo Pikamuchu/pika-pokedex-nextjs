@@ -7,10 +7,12 @@ const localeSubpaths = {
   es: 'es',
 };
 
+// Using ./src as root directory
 module.exports = withPWA({
   target: 'serverless',
+  distDir: '../.next',
   pwa: {
-    dest: 'public'
+    dest: '../public',
   },
   rewrites: async () => nextI18NextRewrites(localeSubpaths),
   publicRuntimeConfig: {

@@ -68,11 +68,15 @@ const Layout = ({ children, t }) => (
             </Row>
             <Row>
               <p>
-                Made by <a href="https://pikamachu.github.com">Antonio Marin</a>.
+                Made by
+                {' '}
+                <a href="https://pikamachu.github.com">Antonio Marin</a>
+                .
               </p>
               <p>
                 Code released under the
-                <a href="https://github.com/pikamachu/pika-pokedex-nextjs/blob/master/LICENSE">MIT License</a>.
+                <a href="https://github.com/pikamachu/pika-pokedex-nextjs/blob/master/LICENSE">MIT License</a>
+                .
               </p>
               <p>
                 Build with

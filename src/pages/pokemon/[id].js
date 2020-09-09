@@ -23,7 +23,7 @@ const fetcher = async (url) => {
 */
 
 const Pokemon = ({ pokemonId, initialPokemon }) => {
-  const pokemon = usePokemon({ id:pokemonId}, initialPokemon);
+  const pokemon = usePokemon({ id: pokemonId }, initialPokemon);
   /*
   const { query } = useRouter()
   const { data, error } = useSWR(() => query.id && `/api/pokemon/${query.id}`, fetcher)

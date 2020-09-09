@@ -28,7 +28,10 @@ const Pokemon = ({ pokemon }) => {
       </Row>
       <Row className="justify-content-center">
         <h5>
-          {pokemon.code} - {pokemon.name}
+          {pokemon.code}
+          {' '}
+          -
+          {pokemon.name}
         </h5>
       </Row>
       <Row className="justify-content-center">

@@ -11,21 +11,18 @@ const About = ({ t }) => {
       <Head>
         <title>{t('title-about')}</title>
       </Head>
-      <Container>
-        {t('title-about')}
-      </Container>
+      <Container>{t('title-about')}</Container>
     </>
   );
 };
 
 About.defaultProps = {
-  i18nNamespaces: ['common', 'about']
-}
+  i18nNamespaces: ['common', 'about'],
+};
 
 export async function getServerSideProps() {
   return {
-    props: {
-    },
+    props: {},
   };
 }
 
