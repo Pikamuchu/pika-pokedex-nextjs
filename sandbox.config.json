@@ -1,0 +1,9 @@
+{
+  "infiniteLoopProtection": true,
+  "hardReloadOnChange": false,
+  "startScript": "dev",
+  "template": "next",
+  "container": {
+    "port": 3000
+  }
+}

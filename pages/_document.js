@@ -32,20 +32,6 @@ class MyDocument extends Document {
           <meta name="msapplication-navbutton-color" content={APP_COLOR} />
           <meta name="msapplication-TileColor" content={APP_COLOR} />
           <meta name="msapplication-config" content="/static/icons/browserconfig.xml" />
-
-          <style>
-            {`
-              html, body, #__next {
-                height: 100%;
-              }
-              #__next {
-                margin: 0 auto;
-              }
-              h1 {
-                text-align: center;
-              }
-            `}
-          </style>
         </Head>
         <body>
           <Main />
