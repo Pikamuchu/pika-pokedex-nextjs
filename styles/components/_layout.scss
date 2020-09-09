@@ -1,5 +1,15 @@
 $staticPath: '../../public/static';
 
-.main {
-  background: #fff url(#{$staticPath}/images/container-bg.png);
+main {
+//  background: #fff url(#{$staticPath}/images/container-bg.png);
+}
+
+footer {
+  line-height: 1;
+}
+
+.list-horizontal li {
+  float: left;
+  margin-right: 1.5em;
+  margin-bottom: 1.5em;
 }
