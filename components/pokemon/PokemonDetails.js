@@ -1,5 +1,5 @@
 import { Row, Col } from 'react-bootstrap';
-import { Link, withTranslation } from '../i18n';
+import { Link, withTranslation } from '../../i18n';
 
 const PokemonDetails = ({ pokemon }) => {
   return (
@@ -24,7 +24,7 @@ const PokemonDetails = ({ pokemon }) => {
 
 const PokemonType = ({ type }) => {
   return (
-    <div className="abilities">
+    <div className="p-1">
       <span className="pill background-color-{type.id}">{type.name}</span>
     </div>
   );

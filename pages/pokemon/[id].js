@@ -7,8 +7,7 @@ import { Container } from 'react-bootstrap';
 
 import { withTranslation } from '../../i18n';
 import { getDetails } from '../../models/pokemonModel';
-import Layout from '../../components/Layout';
-import PokemonDetails from '../../components/PokemonDetails';
+import PokemonDetails from '../../components/pokemon/PokemonDetails';
 import usePokemon from '../../hooks/usePokemon';
 
 /*
@@ -33,14 +32,14 @@ const Pokemon = ({ pokemonId, initialPokemon }) => {
   if (!data) return <div>Loading...</div>
 */
   return (
-    <Layout>
+    <>
       <Head>
         <title>Pokedex - Home</title>
       </Head>
       <Container>
         <PokemonDetails pokemon={pokemon} />
       </Container>
-    </Layout>
+    </>
   );
 };
 

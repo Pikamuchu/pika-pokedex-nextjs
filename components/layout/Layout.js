@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Container, Col, ul, Nav, Navbar, Row } from 'react-bootstrap';
-import { i18n, Link, withTranslation } from '../i18n';
+import { i18n, Link, withTranslation } from '../../i18n';
 
 const Layout = ({ children, t }) => (
   <>

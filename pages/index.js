@@ -5,8 +5,7 @@ import { Container, Row, InputGroup, FormControl, Button } from 'react-bootstrap
 
 import { withTranslation } from '../i18n';
 import { getListItems } from '../models/pokemonModel';
-import Layout from '../components/Layout';
-import PokemonList from '../components/PokemonList';
+import PokemonList from '../components/pokemon/PokemonList';
 import usePokemon from '../hooks/usePokemon';
 
 const Home = ({ initialPokemons, t }) => {
@@ -29,7 +28,7 @@ const Home = ({ initialPokemons, t }) => {
 */
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>Pokedex - Home</title>
       </Head>
@@ -46,7 +45,7 @@ const Home = ({ initialPokemons, t }) => {
       <Container>
         <PokemonList pokemons={pokemons} />
       </Container>
-    </Layout>
+    </>
   );
 };
 

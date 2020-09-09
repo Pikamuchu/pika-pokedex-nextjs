@@ -1,5 +1,5 @@
 import { Badge, Col, Image, Row, Spinner } from 'react-bootstrap';
-import { Link, withTranslation } from '../i18n';
+import { Link, withTranslation } from '../../i18n';
 
 const PokemonList = ({ pokemons }) => {
   return (
