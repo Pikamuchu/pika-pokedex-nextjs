@@ -1,5 +1,17 @@
 $staticPath: '../../public/static';
 
+html, body, #__next {
+  height: 100%;
+}
+
+#__next {
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+}
+
 main {
 //  background: #fff url(#{$staticPath}/images/container-bg.png);
 }

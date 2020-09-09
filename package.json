@@ -12,8 +12,8 @@
     "progressive web app",
     "web",
     "app",
-    "redux",
-    "react-redux",
+    "react",
+    "bootstrap",
     "pokedex",
     "pokemon"
   ],
@@ -59,8 +59,6 @@
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.8",
     "expect.js": "^0.3.1",
-    "husky": "^4.2.5",
-    "lint-staged": "^10.2.11",
     "mocha": "^7.1.1",
     "nyc": "^14.1.1",
     "prettier": "^2.0.5"
