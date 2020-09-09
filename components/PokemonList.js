@@ -3,7 +3,7 @@ import { Link, withTranslation } from '../i18n';
 
 const PokemonList = ({ pokemons }) => {
   return (
-    <Row className="pokemons-container">
+    <Row className="pokemons-container justify-content-around">
       {pokemons ? (
         pokemons.map((pokemon) => <Pokemon key={pokemon.id} pokemon={pokemon} />)
       ) : (
@@ -15,23 +15,25 @@ const PokemonList = ({ pokemons }) => {
 
 const Pokemon = ({ pokemon }) => {
   return (
-    <Col className="pokemon-card pb-3">
-      <Link href={`/pokemon/${pokemon.id}`}>
-        <Row>
+    <Col lg={3} md={4} sm={6} xs={10} className="pokemon-card p-3">
+      <Row className="pokemon-image justify-content-center">
+        <Link href={`/pokemon/${pokemon.id}`}>
           <Image
-            className="border"
             src={`https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${pokemon.code}.png`}
             label={pokemon.name}
             alt={pokemon.name}
+            thumbnail
           />
-          <div className="pokemon-info">
-            <h5>
-              {pokemon.code} - {pokemon.name}
-            </h5>
-            <PokemonTypes types={pokemon.types} />
-          </div>
-        </Row>
-      </Link>
+        </Link>
+      </Row>
+      <Row className="justify-content-center">
+        <h5>
+          {pokemon.code} - {pokemon.name}
+        </h5>
+      </Row>
+      <Row className="justify-content-center">
+        <PokemonTypes types={pokemon.types} />
+      </Row>
     </Col>
   );
 };

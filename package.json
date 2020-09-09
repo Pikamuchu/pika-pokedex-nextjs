@@ -1,7 +1,7 @@
 {
-  "name": "pika-pokedex-nextjs",
+  "name": "pikadex",
   "version": "0.1.0",
-  "description": "Pokedex progressive web app with next js + bootstrap",
+  "description": "Pokedex progressive web app with nextjs + bootstrap",
   "author": "Antonio Marin",
   "license": "MIT",
   "keywords": [

@@ -1,9 +1,9 @@
 {
-  "name": "Pokedex Progressive Web App",
-  "short_name": "Pokedex PWA",
+  "name": "Pika Pokedex PWA",
+  "short_name": "Pikadex",
   "theme_color": "#ffc40d",
   "background_color": "#ffc40d",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
   "scope": "/",
   "start_url": "/",
@@ -17,6 +17,12 @@
       "src": "static/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "static/icons/maskable_icon.png",
+      "sizes": "196x196",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
   "splash_pages": null

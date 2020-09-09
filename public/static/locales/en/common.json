@@ -1,6 +1,7 @@
 {
-  "menu-title": "Pokedex",
+  "menu-title": "Pikadex",
   "menu-option-home": "Home",
+  "menu-option-pokemon": "Pokemons",
   "menu-option-about": "About",
   "search-placeholder": "Search for a pokemon",
   "change-locale": "Change locale",
