@@ -2,7 +2,7 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 const APP_NAME = 'Pokedex PWA';
 const APP_DESCRIPTION = 'Pokedex Progressive Web Application using Next.js';
-const APP_COLOR = '#ffc40d';
+const APP_COLOR = '#f4dc26';
 
 class MyDocument extends Document {
   render() {

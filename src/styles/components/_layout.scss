@@ -15,15 +15,37 @@ h1 {
 }
 
 main {
-  //  background: #fff url(#{$staticPath}/images/container-bg.png);
+  background: #fff;
+  padding: 150px 0 0 0;
 }
 
 footer {
-  line-height: 1;
+  line-height: 1.25;
 }
 
 .list-horizontal li {
   float: left;
   margin-right: 1.5em;
   margin-bottom: 1.5em;
+}
+
+.menu-pokeball-shape {
+  border: solid !important;
+  border-width: 2px 2px 4px 2px !important;
+  border-radius: 25px 25px 0 0 !important;
+  background-color: #f4dc26 !important;
+}
+
+.main-pokeball-shape {
+  border: solid !important;
+  border-width: 0 2px 0 2px !important;
+  border-radius: 0 0 0 0 !important;
+  background-color: #fff !important;
+}
+
+.footer-pokeball-shape {
+  border: solid !important;
+  border-radius: 0 0 25px 25px;
+  background-color: #fff;
+  border-width: 0 2px 2px 2px !important;
 }

@@ -15,7 +15,7 @@ const PokemonList = ({ pokemons }) => {
 
 const Pokemon = ({ pokemon }) => {
   return (
-    <Col lg={3} md={4} sm={6} xs={10} className="pokemon-card p-3">
+    <Col lg={3} md={4} sm={6} xs={6} className="pokemon-card p-3">
       <Row className="pokemon-image justify-content-center">
         <Link href={`/pokemon/${pokemon.id}`}>
           <Image

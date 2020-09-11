@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { Container, Col, ul, Nav, Navbar, Row } from 'react-bootstrap';
 import { i18n, Link, withTranslation } from '../../i18n';
+import PokeballButton from '../pokeball/PokeballButton';
 
 const Layout = ({ children, t }) => (
   <>
@@ -12,8 +13,8 @@ const Layout = ({ children, t }) => (
     </Head>
 
     <header>
-      <Container>
-        <Navbar bg="light" expand="lg" fixed="top">
+      <Navbar bg="light" expand="lg" fixed="top" className="menu-pokeball-shape">
+        <Container>
           <Link href="/" passHref>
             <Navbar.Brand>{t('menu-title')}</Navbar.Brand>
           </Link>
@@ -31,8 +32,9 @@ const Layout = ({ children, t }) => (
               </Link>
             </Nav>
           </Navbar.Collapse>
-        </Navbar>
-      </Container>
+          <PokeballButton />
+        </Container>
+      </Navbar>
     </header>
 
     <main>{children}</main>
@@ -68,15 +70,11 @@ const Layout = ({ children, t }) => (
             </Row>
             <Row>
               <p>
-                Made by
-                {' '}
-                <a href="https://pikamachu.github.com">Antonio Marin</a>
-                .
+                Made by <a href="https://pikamachu.github.com">Antonio Marin</a>.
               </p>
               <p>
                 Code released under the
-                <a href="https://github.com/pikamachu/pika-pokedex-nextjs/blob/master/LICENSE">MIT License</a>
-                .
+                <a href="https://github.com/pikamachu/pika-pokedex-nextjs/blob/master/LICENSE">MIT License</a>.
               </p>
               <p>
                 Build with

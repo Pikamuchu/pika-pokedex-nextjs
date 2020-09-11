@@ -12,10 +12,12 @@
     "nextjs",
     "pikadex",
     "pokeapi",
+    "pokeball",
+    "pokebox",
     "pokedex",
     "pokemons",
     "precommit",
     "prettierrc",
     "readonly"
-  ]
+]
 }
