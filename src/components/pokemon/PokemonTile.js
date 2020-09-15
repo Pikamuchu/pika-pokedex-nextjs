@@ -1,29 +1,12 @@
-import { Badge, Col, Image, Row, Spinner } from 'react-bootstrap';
+import { Badge, Col, Image, Row } from 'react-bootstrap';
 import { Link, withTranslation } from '../../i18n';
 
-const PokemonList = ({ pokemons }) => {
-  return (
-    <Row className="pokemons-container justify-content-around">
-      {pokemons && pokemons.length ? (
-        pokemons.map((pokemon) => <Pokemon key={pokemon.id} pokemon={pokemon} />)
-      ) : (
-        <Spinner animation="border" />
-      )}
-    </Row>
-  );
-};
-
-const Pokemon = ({ pokemon }) => {
+const PokemonTile = ({ pokemon }) => {
   return (
     <Col lg={3} md={4} sm={6} xs={6} className="pokemon-card p-3">
       <Row className="pokemon-image justify-content-center">
         <Link href={`/pokemon/${pokemon.id}`}>
-          <Image
-            src={`https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${pokemon.code}.png`}
-            label={pokemon.name}
-            alt={pokemon.name}
-            thumbnail
-          />
+          <Image src={pokemon.image} label={pokemon.slug} alt={pokemon.slug} thumbnail />
         </Link>
       </Row>
       <Row className="justify-content-center">
@@ -53,4 +36,4 @@ const PokemonTypes = ({ types }) => {
   );
 };
 
-export default withTranslation('pokemon')(PokemonList);
+export default withTranslation('pokemon')(PokemonTile);

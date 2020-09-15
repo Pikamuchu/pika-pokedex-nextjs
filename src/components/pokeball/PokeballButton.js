@@ -1,8 +1,3 @@
-
-const PokeballButton = () => (
-  <div className="pokebox">
-    <div className="pokeball-button" />
-  </div>
-);
+const PokeballButton = () => <div className="pokeball-button" />;
 
 export default PokeballButton;

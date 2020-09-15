@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { Container, Col, ul, Nav, Navbar, Row } from 'react-bootstrap';
 import { i18n, Link, withTranslation } from '../../i18n';
 import PokeballButton from '../pokeball/PokeballButton';
+import PokemonSearch from '../pokemon/PokemonSearch';
 
 const Layout = ({ children, t }) => (
   <>
@@ -32,14 +33,19 @@ const Layout = ({ children, t }) => (
               </Link>
             </Nav>
           </Navbar.Collapse>
-          <PokeballButton />
+          <div className="menu-searchbox">
+            <PokemonSearch />
+          </div>
+          <div className="menu-pokebox">
+            <PokeballButton />
+          </div>
         </Container>
       </Navbar>
     </header>
 
-    <main>{children}</main>
+    <main className="main-pokeball-shape pt-5 mt-5">{children}</main>
 
-    <footer>
+    <footer className="footer-pokeball-shape">
       <Container>
         <Row className="justify-content-between">
           <Col xs={12} sm={4} className="text-sm-right order-sm-12">
@@ -70,11 +76,15 @@ const Layout = ({ children, t }) => (
             </Row>
             <Row>
               <p>
-                Made by <a href="https://pikamachu.github.com">Antonio Marin</a>.
+                Made by 
+                {' '}
+                <a href="https://pikamachu.github.com">Antonio Marin</a>
+                .
               </p>
               <p>
                 Code released under the
-                <a href="https://github.com/pikamachu/pika-pokedex-nextjs/blob/master/LICENSE">MIT License</a>.
+                <a href="https://github.com/pikamachu/pika-pokedex-nextjs/blob/master/LICENSE">MIT License</a>
+                .
               </p>
               <p>
                 Build with

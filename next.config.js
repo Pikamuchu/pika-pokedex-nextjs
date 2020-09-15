@@ -5,14 +5,14 @@ const { nextI18NextRewrites } = require('next-i18next/rewrites');
 const localeSubpaths = {
   en: 'en',
   es: 'es',
+  ca: 'ca',
 };
 
-// Using ./src as root directory
 module.exports = withPWA({
   target: 'serverless',
-  distDir: '../.next',
+  distDir: '.next',
   pwa: {
-    dest: '../public',
+    dest: 'public',
   },
   rewrites: async () => nextI18NextRewrites(localeSubpaths),
   publicRuntimeConfig: {

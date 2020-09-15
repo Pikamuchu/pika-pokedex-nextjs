@@ -7,8 +7,8 @@ const PokemonDetails = ({ pokemon }) => {
       <Row className="pokemon-card">
         <img
           src={`https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${pokemon.code}.png`}
-          label={pokemon.name}
-          alt={pokemon.name}
+          label={pokemon.slug}
+          alt={pokemon.slug}
         />
         <div className="pokemon-info">
           <h5>{pokemon.name}</h5>
