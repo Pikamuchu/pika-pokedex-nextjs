@@ -1,62 +1,40 @@
 // import React, { useState, useCallback, useEffect } from 'react'
 // import useSWR from 'swr'
 import Head from 'next/head';
-import { Container, Row, InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
+import { withTranslation } from '../../src/i18n';
+import { getPokemons } from '../../src/models/pokemonModel';
+import PokemonList from '../../src/components/pokemon/PokemonList';
+import usePokemon from '../../src/hooks/usePokemon';
 
-import { withTranslation } from '../../i18n';
-import { getListItems } from '../../models/pokemonModel';
-import Layout from '../../components/Layout';
-import PokemonList from '../../components/PokemonList';
-
-const Home = ({ pokemons, t }) => {
-  /*
-  const [pokemons, setPokemons] = useState(initialPokemons)
-  const [search, setSearch] = useState("")
-
-  const { data, error } = useSWR(`/api/pokemon?name=${search}`, fetcher)
-
-  const handleSearch = useCallback((event) => {
-    setSearch(event.target.value)
-  }, [])
-
-  useEffect(() => {
-    if (data) {
-      setPokemons(prev => [...prev, ...data])
-    }
-  }, [data])
-*/
+const PokemonListPage = ({ initialData, t }) => {
+  const { data: pokemons } = usePokemon({}, initialData.pokemons);
   return (
-    <Layout>
+    <>
       <Head>
-        <title>Pokedex - Home</title>
+        <title>{`Pikadex - ${t('pokemon-list-title')}`}</title>
       </Head>
-      <Container>
-        <Row>
-          <InputGroup className="mb-3">
-            <FormControl placeholder={t('search-placeholder')} />
-            <InputGroup.Append>
-              <Button variant="outline-secondary">Search</Button>
-            </InputGroup.Append>
-          </InputGroup>
-        </Row>
-      </Container>
       <Container>
         <PokemonList pokemons={pokemons} />
       </Container>
-    </Layout>
+    </>
   );
 };
 
-export async function getServerSideProps(context) {
-  const pokemons = await getListItems(context?.query?.lang);
+PokemonListPage.defaultProps = {
+  i18nNamespaces: ['common', 'pokemon'],
+};
+
+export const getServerSideProps = async ({ query }) => {
+  const pokemons = await getPokemons(query);
   return {
     props: {
-      pokemons,
-      namespacesRequired: ['common', 'pokemon'],
+      initialData: {
+        query,
+        pokemons,
+      },
     },
   };
-}
+};
 
-// const fetcher = (url) => fetch(url).then((res) => res.json())
-
-export default withTranslation('common')(Home);
+export default withTranslation(['common', 'pokemon'])(PokemonListPage);

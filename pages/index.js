@@ -1,63 +1,57 @@
+/* eslint-disable react/forbid-prop-types */
 // import React, { useState, useCallback, useEffect } from 'react'
 // import useSWR from 'swr'
+import PropTypes from 'prop-types';
 import Head from 'next/head';
-import { Container, Row, InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
+import { withTranslation } from '../src/i18n';
+import { getPokemons } from '../src/models/pokemonModel';
+import HomeHello from '../src/components/home/HomeHello';
+import PokemonCarousel from '../src/components/pokemon/PokemonCarousel';
+import usePokemon from '../src/hooks/usePokemon';
 
-import { withTranslation } from '../i18n';
-import { getListItems } from '../models/pokemonModel';
-import Layout from '../components/Layout';
-import PokemonList from '../components/PokemonList';
-import usePokemon from '../hooks/usePokemon';
-
-const Home = ({ initialPokemons, t }) => {
-  const pokemons = usePokemon({}, initialPokemons);
-
-  /*
-  const [search, setSearch] = useState("")
-
-  const { data, error } = useSWR(`/api/pokemon?name=${search}`, fetcher)
-
-  const handleSearch = useCallback((event) => {
-    setSearch(event.target.value)
-  }, [])
-
-  useEffect(() => {
-    if (data) {
-      setPokemons(prev => [...prev, ...data])
-    }
-  }, [data])
-*/
-
+const HomePage = ({ initialData, t }) => {
+  const { data: popularPokemons } = usePokemon({}, initialData.popularPokemons);
   return (
-    <Layout>
+    <>
       <Head>
-        <title>Pokedex - Home</title>
+        <title>
+          Pokedex -
+          {t('home-title')}
+        </title>
       </Head>
       <Container>
-        <Row>
-          <InputGroup className="mt-3 mb-3">
-            <FormControl placeholder={t('search-placeholder')} />
-            <InputGroup.Append>
-              <Button variant="outline-secondary">Search</Button>
-            </InputGroup.Append>
-          </InputGroup>
-        </Row>
+        <HomeHello className="border-0" />
       </Container>
       <Container>
-        <PokemonList pokemons={pokemons} />
+        <PokemonCarousel pokemons={popularPokemons} />
       </Container>
-    </Layout>
+    </>
   );
 };
 
-export async function getServerSideProps(context) {
-  const pokemons = await getListItems(context?.query?.lang);
+HomePage.propTypes = {
+  initialData: PropTypes.shape({
+    popularPokemons: PropTypes.arrayOf(PropTypes.object),
+    query: PropTypes.object,
+  }).isRequired,
+  i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
+  t: PropTypes.func.isRequired,
+};
+
+HomePage.defaultProps = {
+  i18nNamespaces: ['common', 'home', 'pokemon'],
+};
+
+export const getServerSideProps = async ({ query }) => {
+  const popularPokemons = await getPokemons(query);
   return {
     props: {
-      initialPokemons: pokemons,
-      namespacesRequired: ['common', 'pokemon'],
+      initialData: {
+        popularPokemons,
+      },
     },
   };
-}
+};
 
-export default withTranslation('common')(Home);
+export default withTranslation(['common', 'home', 'pokemon'])(HomePage);

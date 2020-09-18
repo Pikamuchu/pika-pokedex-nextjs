@@ -1,58 +1,50 @@
-/*
-import { useRouter } from 'next/router'
-import useSWR from 'swr'
-*/
+/* eslint-disable react/forbid-prop-types */
+import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { Container } from 'react-bootstrap';
 
-import { withTranslation } from '../../i18n';
-import { getDetails } from '../../models/pokemonModel';
-import Layout from '../../components/Layout';
-import PokemonDetails from '../../components/PokemonDetails';
-import usePokemon from '../../hooks/usePokemon';
+import { withTranslation } from '../../src/i18n';
+import { getPokemonDetails } from '../../src/models/pokemonModel';
+import PokemonDetails from '../../src/components/pokemon/PokemonDetails';
+import usePokemon from '../../src/hooks/usePokemon';
 
-/*
-const fetcher = async (url) => {
-  const res = await fetch(url)
-  const data = await res.json()
-
-  if (res.status !== 200) {
-    throw new Error(data.message)
-  }
-  return data
-}
-*/
-
-const Pokemon = ({ pokemonId, initialPokemon }) => {
-  const pokemon = usePokemon({ id:pokemonId}, initialPokemon);
-  /*
-  const { query } = useRouter()
-  const { data, error } = useSWR(() => query.id && `/api/pokemon/${query.id}`, fetcher)
-
-  if (error) return <div>{error.message}</div>
-  if (!data) return <div>Loading...</div>
-*/
+const PokemonDetailsPage = ({ initialData, t }) => {
+  const { data: pokemon } = usePokemon({ id: initialData?.query?.id }, initialData?.pokemon);
   return (
-    <Layout>
+    <>
       <Head>
-        <title>Pokedex - Home</title>
+        <title>{`Pikadex - ${t('pokemon-details-title')} - ${pokemon?.id}`}</title>
       </Head>
       <Container>
         <PokemonDetails pokemon={pokemon} />
       </Container>
-    </Layout>
+    </>
   );
 };
 
-export async function getServerSideProps({ query: { id, lang } }) {
-  const pokemon = await getDetails(id, lang);
+PokemonDetailsPage.propTypes = {
+  initialData: PropTypes.shape({
+    pokemon: PropTypes.object,
+    query: PropTypes.object,
+  }).isRequired,
+  i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
+  t: PropTypes.func.isRequired,
+};
+
+PokemonDetailsPage.defaultProps = {
+  i18nNamespaces: ['common', 'pokemon'],
+};
+
+export const getServerSideProps = async ({ query }) => {
+  const pokemon = await getPokemonDetails(query);
   return {
     props: {
-      pokemonId: id,
-      initialPokemon: pokemon,
-      namespacesRequired: ['common', 'pokemon'],
+      initialData: {
+        query,
+        pokemon,
+      },
     },
   };
-}
+};
 
-export default withTranslation('common')(Pokemon);
+export default withTranslation(['common', 'pokemon'])(PokemonDetailsPage);

@@ -1,33 +1,39 @@
-// import React, { useState, useCallback, useEffect } from 'react'
-// import useSWR from 'swr'
+import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { Container } from 'react-bootstrap';
 
-import { withTranslation } from '../../i18n';
-import Layout from '../../components/Layout';
+import { withTranslation } from '../../src/i18n';
 
 const About = ({ t }) => {
   return (
-    <Layout>
+    <>
       <Head>
-        <title>{t('title-about')}</title>
+        <title>{`Pikadex - ${t('about-title')}`}</title>
       </Head>
       <Container>
-        {t('title-about')}
+        <h3>{t('about-title')}</h3>
       </Container>
-    </Layout>
+    </>
   );
 };
 
-About.defaultProps = {
-  i18nNamespaces: ['common', 'about']
-}
+About.propTypes = {
+  i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
+  t: PropTypes.func.isRequired,
+};
 
-export async function getServerSideProps() {
+About.defaultProps = {
+  i18nNamespaces: ['common', 'about'],
+};
+
+export const getServerSideProps = async ({ query }) => {
   return {
     props: {
+      initialData: {
+        query,
+      },
     },
   };
-}
+};
 
 export default withTranslation(['common', 'about'])(About);

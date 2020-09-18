@@ -1,7 +1,7 @@
 {
-  "name": "pika-pokedex-nextjs",
+  "name": "pikadex",
   "version": "0.1.0",
-  "description": "Pokedex progressive web app with next js + bootstrap",
+  "description": "Pokedex progressive web app with nextjs + bootstrap",
   "author": "Antonio Marin",
   "license": "MIT",
   "keywords": [
@@ -12,8 +12,8 @@
     "progressive web app",
     "web",
     "app",
-    "redux",
-    "react-redux",
+    "react",
+    "bootstrap",
     "pokedex",
     "pokemon"
   ],
@@ -22,25 +22,31 @@
     "build": "cross-env NODE_ENV=production next build",
     "start": "cross-env NODE_ENV=production next start",
     "test": "cross-env NODE_ENV=test nyc mocha",
+    "analyze": "cross-env NODE_ENV=production ANALYZE=1 next build",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "lint": "eslint --fix . --ignore-path ./.gitignore",
-    "format": "prettier --write './**/*.{js,jsx,scss,md,json}' --config ./.prettierrc --ignore-path ./.gitignore"
+    "format": "prettier --write './**/*.{js,jsx,scss,md,json}' --config ./.prettierrc --ignore-path ./.gitignore",
+    "disabled--precommit": "yarn format && yarn lint"
   },
   "dependencies": {
+    "animejs": "^3.2.0",
+    "autosuggest-highlight": "^3.1.1",
     "bootstrap": "^4.5.2",
     "bootswatch": "^4.5.2",
-    "express": "^4.17.1",
     "i18next": "^14.0.1",
     "isomorphic-unfetch": "3.0.0",
     "next": "^9.5.2",
     "next-i18next": "^6.0.2",
     "next-pwa": "^3.1.3",
     "pokedex-promise-v2": "^3.2.0",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-autosuggest": "^10.0.2",
     "react-bootstrap": "^1.3.0",
     "react-dom": "^16.13.1",
     "sass": "^1.26.10",
-    "swr": "^0.1.18"
+    "swr": "^0.1.18",
+    "zingtouch": "^1.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",
@@ -59,8 +65,7 @@
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.8",
     "expect.js": "^0.3.1",
-    "husky": "^4.2.5",
-    "lint-staged": "^10.2.11",
+    "husky": "^4.3.0",
     "mocha": "^7.1.1",
     "nyc": "^14.1.1",
     "prettier": "^2.0.5"

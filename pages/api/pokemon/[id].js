@@ -1,11 +1,10 @@
-import { getDetails } from '../../../models/pokemonModel';
+import { getPokemonDetails } from '../../../src/models/pokemonModel';
 
-export default async function pokemonHandler({ query: { id, lang } }, res) {
-  const details = await getDetails(id, lang);
-
+export default async function handler({ query }, res) {
+  const details = await getPokemonDetails(query);
   if (details) {
     res.status(200).json(details);
   } else {
-    res.status(404).json({ message: `User with id: ${id} not found.` });
+    res.status(404).json({ message: `User with id: ${query?.id} not found.` });
   }
 }

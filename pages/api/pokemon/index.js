@@ -1,6 +1,6 @@
-import { getListItems } from '../../../models/pokemonModel';
+import { getPokemons } from '../../../src/models/pokemonModel';
 
-export default async function handler({query}, res) {
-  const list = await getListItems(query);
-  res.status(200).json(list);
+export default async function handler({ query }, res) {
+  const pokemons = await getPokemons(query);
+  res.status(200).json(pokemons);
 }

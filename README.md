@@ -6,7 +6,6 @@
 
 ## Introduction
 
-
 ## Installing / Getting started
 
 First, run the development server:
