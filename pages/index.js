@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 // import React, { useState, useCallback, useEffect } from 'react'
 // import useSWR from 'swr'
 import PropTypes from 'prop-types';
@@ -31,7 +32,7 @@ const HomePage = ({ initialData, t }) => {
 
 HomePage.propTypes = {
   initialData: PropTypes.shape({
-    popularPokemons: PropTypes.object,
+    popularPokemons: PropTypes.arrayOf(PropTypes.object),
     query: PropTypes.object,
   }).isRequired,
   i18nNamespaces: PropTypes.arrayOf(PropTypes.string),

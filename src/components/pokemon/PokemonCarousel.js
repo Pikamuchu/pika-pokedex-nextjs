@@ -7,7 +7,7 @@ const PokemonCarousel = ({ pokemons }) => {
     <Carousel>
       {pokemons ? (
         arrayChunk(pokemons, 4).map((pokemonChunk) => (
-          <Carousel.Item key={pokemonChunk[0].id}>
+          <Carousel.Item key={pokemonChunk[0].id} className="pl-3 pr-3">
             <Row className="pokemons-container justify-content-around">
               {pokemonChunk.map((pokemon) => (
                 <Pokemon key={pokemon.id} pokemon={pokemon} />

@@ -4,6 +4,7 @@
     "Subpaths",
     "bootswatch",
     "codecov",
+    "debounced",
     "devtool",
     "gitignore",
     "lcov",
@@ -19,5 +20,5 @@
     "precommit",
     "prettierrc",
     "readonly"
-  ]
+]
 }

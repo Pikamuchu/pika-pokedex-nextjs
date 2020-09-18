@@ -1,29 +1,37 @@
 import useSWR from 'swr';
 
-import { i18n } from '../i18n';
+import { Router, i18n } from '../i18n';
 import fetcher from '../libs/fetcher';
 import { querySeparator } from '../libs/utils';
 
 export default function usePokemon(query, initialData) {
-  return useSWR(shouldFetch(query) ? createUrl(query) : null, fetcher, { initialData });
+  return useSWR(shouldFetch(query) ? createApiUrl(query) : null, fetcher, { initialData });
 }
 
-export async function fetchPokemon(query) {
-  return fetcher(createUrl(query));
-}
+export const fetchPokemon = async (query) => {
+  return fetcher(createApiUrl(query));
+};
+
+export const routePokemon = (query) => {
+  Router.push(createUrl(query)).then(() => window.scrollTo(0, 0));
+};
 
 const shouldFetch = (query) => {
-  return query && (query.id || query.search);
+  return query && (query.id || query.searchTerm);
+};
+
+const createApiUrl = (query) => {
+  return createUrl({ api: true, ...query });
 };
 
 const createUrl = (query) => {
   const lang = i18n.language ?? 'en';
-  let url = `/${lang}/api/pokemon`;
-  if (query?.id) {
-    url += `/${query.id}`;
+  let url = `/${lang}${query?.api ? '/api' : ''}/pokemon`;
+  if (query?.id || query?.slug) {
+    url += `/${query.id || query?.slug}`;
   }
-  if (query?.search) {
-    url += `?q=${query.search}`;
+  if (query?.searchTerm) {
+    url += `?q=${query.searchTerm}`;
   }
   if (query?.type) {
     url += `${querySeparator(url)}type=${query.type}`;

@@ -1,79 +1,79 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, InputGroup, Form, Button } from 'react-bootstrap';
 import AutoSuggest from 'react-autosuggest';
-import { Router, withTranslation } from '../../i18n';
-import { fetchPokemon } from '../../hooks/usePokemon';
-
-const debounce = require('lodash/debounce');
+import AutosuggestHighlightMatch from 'autosuggest-highlight/match';
+import AutosuggestHighlightParse from 'autosuggest-highlight/parse';
+import { withTranslation } from '../../i18n';
+import useDebounce from '../../hooks/useDebounce';
+import { fetchPokemon, routePokemon } from '../../hooks/usePokemon';
 
 const MIN_SEARCH_TEXT_LENGTH = 3;
 
-const PokemonSearch = ({ t }) => {
-  const [searchText, setSearchText] = useState('');
+const Search = ({ t }) => {
+  const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [validated, setValidated] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const handleLoadSuggestions = ({ value, reason }) => {
     if (reason === 'input-changed' && value?.length >= MIN_SEARCH_TEXT_LENGTH) {
-      setIsLoading(true);
-      fetchPokemon({ search: value, type: 'thumbnail' }).then((pokemons) => {
-        setSuggestions(pokemons);
-        setIsLoading(false);
-      });
+      setSearchTerm(value);
+      setIsSelected(false);
     }
   };
 
-  const handleLoadSuggestionsDebounced = debounce(handleLoadSuggestions, 1000);
-
   const handleClearSuggestions = () => {
     setSuggestions([]);
-    setIsSelected(false);
   };
 
   const handleSelectSuggestion = (event, { suggestionValue }) => {
-    setSearchText(suggestionValue);
     setIsSelected(true);
+    routePokemon({ slug: suggestionValue });
   };
 
   const handleChange = (event, { newValue }) => {
-    setSearchText(newValue);
+    setSearchTerm(newValue);
     setIsSelected(false);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    const form = event.currentTarget;
-    if (form.checkValidity() && searchText?.length >= MIN_SEARCH_TEXT_LENGTH) {
-      setValidated(true);
-      //      if (isSelected) {
-      Router?.push(`/pokemon?q=${searchText}`).then(() => window.scrollTo(0, 0));
-      //      } else {
-      //        Router?.push(`/pokemon/${searchText}`).then(() => window.scrollTo(0, 0));
-      //      }
-    } else {
-      setValidated(false);
+    if (searchTerm?.length >= MIN_SEARCH_TEXT_LENGTH) {
+      routePokemon(isSelected ? { slug: searchTerm } : { searchTerm });
     }
   };
 
+  useEffect(() => {
+    if (debouncedSearchTerm?.length >= MIN_SEARCH_TEXT_LENGTH) {
+      setIsSearching(true);
+      fetchPokemon({ searchTerm: debouncedSearchTerm, type: 'thumbnail' }).then((pokemons) => {
+        setIsSearching(false);
+        setSuggestions(pokemons);
+      });
+    } else {
+      setSuggestions([]);
+    }
+  }, [debouncedSearchTerm]);
+
   return (
-    <Container className="pokemon-search">
-      <Form className="w-100" noValidate validated={validated} onSubmit={handleSubmit}>
+    <Container className="pokedex-search">
+      <Form className="w-100" noValidate onSubmit={handleSubmit}>
         <InputGroup className="flex-nowrap">
           <AutoSuggest
             suggestions={suggestions}
             onSuggestionsClearRequested={handleClearSuggestions}
-            onSuggestionsFetchRequested={handleLoadSuggestionsDebounced}
+            onSuggestionsFetchRequested={handleLoadSuggestions}
             onSuggestionSelected={handleSelectSuggestion}
             getSuggestionValue={(suggestion) => suggestion.name}
             shouldRenderSuggestions={(value) => value?.trim().length >= MIN_SEARCH_TEXT_LENGTH}
             renderSuggestion={Suggestion}
             inputProps={{
               placeholder: t('search-placeholder'),
-              value: searchText,
+              value: searchTerm,
               onChange: handleChange,
             }}
             theme={{
@@ -97,11 +97,13 @@ const PokemonSearch = ({ t }) => {
   );
 };
 
-PokemonSearch.propTypes = {
+Search.propTypes = {
   t: PropTypes.func.isRequired,
 };
 
-const Suggestion = (suggestion) => {
+const Suggestion = (suggestion, { query }) => {
+  const matches = AutosuggestHighlightMatch(suggestion.name, query);
+  const parts = AutosuggestHighlightParse(suggestion.name, matches);
   return (
     <span>
       <img
@@ -113,9 +115,19 @@ const Suggestion = (suggestion) => {
           width: '24px',
         }}
       />
-      <span>{suggestion.slug}</span>
+      <span>
+        {parts.map((part, index) => {
+          const key = part.text + index;
+          const className = part.highlight ? 'react-autosuggest__suggestion-match' : null;
+          return (
+            <span className={className} key={key}>
+              {part.text}
+            </span>
+          );
+        })}
+      </span>
     </span>
   );
 };
 
-export default withTranslation('common')(PokemonSearch);
+export default withTranslation('common')(Search);

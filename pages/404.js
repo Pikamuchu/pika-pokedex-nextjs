@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { Container } from 'react-bootstrap';
 import { Link, withTranslation } from '../src/i18n';
@@ -17,6 +18,11 @@ const Custom404Page = ({ t }) => (
     </Container>
   </>
 );
+
+Custom404Page.propTypes = {
+  i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
+  t: PropTypes.func.isRequired,
+};
 
 Custom404Page.defaultProps = {
   i18nNamespaces: ['common'],

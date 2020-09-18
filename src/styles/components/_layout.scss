@@ -28,11 +28,16 @@ footer {
   margin-bottom: 1.5em;
 }
 
+.header-pokeball-shape {
+  background-color: #000 !important;
+}
+
 .menu-pokeball-shape {
   border: solid !important;
   border-width: 2px 2px 4px 2px !important;
   border-radius: 25px 25px 0 0 !important;
   background-color: #f4dc26 !important;
+  background-clip: padding-box;
 }
 
 .menu-pokebox {
@@ -51,7 +56,7 @@ footer {
   border: solid !important;
   border-radius: 0 0 25px 25px;
   background-color: #fff;
-  border-width: 4px 2px 2px 2px !important;
+  border-width: 4px 0px 2px 0px !important;
 }
 
 .main-pokeball-shape {
@@ -66,4 +71,13 @@ footer {
   border-radius: 0 0 25px 25px;
   background-color: #fff;
   border-width: 0 2px 2px 2px !important;
+}
+
+.pokedex-search {
+  width: 100%;
+}
+
+.react-autosuggest__suggestion-match {
+  color: red;
+  font-weight: bold;
 }
