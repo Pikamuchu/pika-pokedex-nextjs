@@ -1,7 +1,9 @@
-import { Badge, Col, Image, Row } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { Col, Image, Row } from 'react-bootstrap';
 import { Link, withTranslation } from '../../i18n';
+import PokemonTypes from './PokemonTypes';
 
-const PokemonTile = ({ pokemon }) => {
+const PokemonTile = ({ t, pokemon }) => {
   return (
     <Col lg={3} md={4} sm={6} xs={6} className="pokemon-card p-3">
       <Row className="pokemon-image justify-content-center">
@@ -9,13 +11,8 @@ const PokemonTile = ({ pokemon }) => {
           <Image src={pokemon.image} label={pokemon.slug} alt={pokemon.slug} thumbnail />
         </Link>
       </Row>
-      <Row className="justify-content-center">
-        <h5>
-          {pokemon.code}
-          {' '}
-          -
-          {pokemon.name}
-        </h5>
+      <Row className="justify-content-center flex-nowrap">
+        <h5>{`${pokemon.code} - ${pokemon.name}`}</h5>
       </Row>
       <Row className="justify-content-center">
         <PokemonTypes types={pokemon.types} />
@@ -24,16 +21,15 @@ const PokemonTile = ({ pokemon }) => {
   );
 };
 
-const PokemonTypes = ({ types }) => {
-  return (
-    <div className="pokemon-abilities">
-      {types?.map((type) => (
-        <Badge key={type.id} className={`background-color-${type.id}`} pill>
-          {type.name}
-        </Badge>
-      ))}
-    </div>
-  );
+PokemonTile.propTypes = {
+  pokemon: PropTypes.shape({
+    code: PropTypes.string,
+    id: PropTypes.string,
+    image: PropTypes.string,
+    name: PropTypes.string,
+    slug: PropTypes.string,
+    types: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
 };
 
 export default withTranslation('pokemon')(PokemonTile);

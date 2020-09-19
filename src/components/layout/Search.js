@@ -19,9 +19,8 @@ const Search = ({ t }) => {
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const handleLoadSuggestions = ({ value, reason }) => {
-    if (reason === 'input-changed' && value?.length >= MIN_SEARCH_TEXT_LENGTH) {
+    if (value?.length >= MIN_SEARCH_TEXT_LENGTH && !isSelected) {
       setSearchTerm(value);
-      setIsSelected(false);
     }
   };
 
@@ -87,7 +86,7 @@ const Search = ({ t }) => {
             highlightFirstSuggestion
           />
           <InputGroup.Append>
-            <Button variant="outline-secondary" type="submit">
+            <Button variant="primary" type="submit">
               {t('search-submit-button')}
             </Button>
           </InputGroup.Append>

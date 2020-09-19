@@ -33,7 +33,11 @@ export const getListItems = async (params, limit, offset) => {
   const itemList = await P.getPokemonsList({
     limit: limit || SEARCH_LIMIT,
   });
-  const list = getChunk(itemList.results, offset);
+  let list = itemList.results;
+  if (params.type === 'random') {
+    list = getRandomList(list);
+  }
+  list = getChunk(list, offset);
   return getItems(list, params);
 };
 
@@ -48,23 +52,24 @@ export const searchListItems = async (params, limit, offset) => {
 
 export const getDetails = async (id, lang) => {
   const [pokemon, species] = await Promise.all([P.getPokemonByName(id), P.getPokemonSpeciesByName(id)]);
-  return (
-    pokemon && {
-      id: pokemon.name,
-      code: formatCode(pokemon.id),
-      slug: pokemon.name,
-      name: translateName(species.names, lang),
-      types: mapTypes(pokemon.types),
-      color: species.color?.name,
-      evolvesFromId: species.evolves_from_species && species.evolves_from_species.name,
-      abilities: pokemon.abilities && pokemon.abilities.map((item) => item.ability.name),
-      weight: pokemon.weight,
-      height: pokemon.height,
-      stats: mapStats(pokemon.stats),
-      category: '',
-      description: '',
-    }
-  );
+  const code = formatCode(pokemon.id);
+  return {
+    id,
+    code,
+    name: pokemon.name,
+    slug: pokemon.name,
+    types: mapTypes(pokemon.types),
+    image: getPokemonImage(code),
+    tName: translateName(species.names, lang),
+    color: species.color?.name,
+    evolvesFromId: species.evolves_from_species && species.evolves_from_species.name,
+    abilities: pokemon.abilities && pokemon.abilities.map((item) => item.ability.name),
+    weight: pokemon.weight,
+    height: pokemon.height,
+    stats: mapStats(pokemon.stats),
+    category: '',
+    description: '',
+  };
 };
 
 const getItem = async (id) => {
@@ -87,6 +92,10 @@ const getItems = async (list, params) => {
     })
   );
   return items.filter((pokemon) => !pokemon.evolvesFromId);
+};
+
+const getRandomList = (list) => {
+  return list.slice().sort(() => Math.random() - Math.random());
 };
 
 const getChunk = (list, offset) => {

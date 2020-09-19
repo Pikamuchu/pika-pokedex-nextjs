@@ -11,7 +11,7 @@ import PokemonCarousel from '../src/components/pokemon/PokemonCarousel';
 import usePokemon from '../src/hooks/usePokemon';
 
 const HomePage = ({ initialData, t }) => {
-  const { data: popularPokemons } = usePokemon({}, initialData.popularPokemons);
+  const { data: randomPokemons } = usePokemon({}, initialData.randomPokemons);
   return (
     <>
       <Head>
@@ -24,7 +24,7 @@ const HomePage = ({ initialData, t }) => {
         <HomeHello className="border-0" />
       </Container>
       <Container>
-        <PokemonCarousel pokemons={popularPokemons} />
+        <PokemonCarousel pokemons={randomPokemons} />
       </Container>
     </>
   );
@@ -32,7 +32,7 @@ const HomePage = ({ initialData, t }) => {
 
 HomePage.propTypes = {
   initialData: PropTypes.shape({
-    popularPokemons: PropTypes.arrayOf(PropTypes.object),
+    randomPokemons: PropTypes.arrayOf(PropTypes.object),
     query: PropTypes.object,
   }).isRequired,
   i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
@@ -44,11 +44,11 @@ HomePage.defaultProps = {
 };
 
 export const getServerSideProps = async ({ query }) => {
-  const popularPokemons = await getPokemons(query);
+  const randomPokemons = await getPokemons({ type: 'random', ...query});
   return {
     props: {
       initialData: {
-        popularPokemons,
+        randomPokemons,
       },
     },
   };
