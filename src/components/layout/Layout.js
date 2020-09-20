@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 import Head from 'next/head';
-import { Container, Col, Row } from 'react-bootstrap';
+import { Spinner, Container, Col, Row } from 'react-bootstrap';
 import { i18n, Link, withTranslation } from '../../i18n';
 import Header from './Header';
 import Footer from './Footer';
+import Spanner from "./Spanner";
 
 const Layout = ({ children, t }) => (
   <>
@@ -18,10 +19,11 @@ const Layout = ({ children, t }) => (
       <Header />
     </header>
 
-    <main className="main-pokeball-shape pt-5 mt-5">{children}</main>
+    <main className="main-pokeball-shape">{children}</main>
 
     <footer className="footer-pokeball-shape">
       <Footer />
+      <Spanner />
     </footer>
   </>
 );

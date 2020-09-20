@@ -5,7 +5,7 @@ import PokemonTypes from './PokemonTypes';
 
 const PokemonTile = ({ t, pokemon }) => {
   return (
-    <Col lg={3} md={4} sm={6} xs={6} className="pokemon-card p-3">
+    <Col className="pokemon-card p-3">
       <Row className="pokemon-image justify-content-center">
         <Link href={`/pokemon/${pokemon.id}`}>
           <Image src={pokemon.image} label={pokemon.slug} alt={pokemon.slug} thumbnail />

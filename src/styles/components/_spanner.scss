@@ -1,0 +1,20 @@
+.spanner {
+  position: absolute;
+  top: 90%;
+  width: 100%;
+  display: block;
+  color: #000;
+  z-index: 1000;
+  visibility: hidden;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.spinner-box {
+  text-align: center;
+  padding-right: 1em;
+}
+
+.show {
+  visibility: visible;
+}

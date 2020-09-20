@@ -15,15 +15,13 @@ const HomePage = ({ initialData, t }) => {
   return (
     <>
       <Head>
-        <title>
-          Pokedex -
-          {t('home-title')}
-        </title>
+        <title>Pokedex - {t('home-title')}</title>
       </Head>
       <Container>
-        <HomeHello className="border-0" />
+        <HomeHello />
       </Container>
       <Container>
+        <h2>{t('pokemons-you-may-like')}</h2>
         <PokemonCarousel pokemons={randomPokemons} />
       </Container>
     </>
@@ -44,7 +42,7 @@ HomePage.defaultProps = {
 };
 
 export const getServerSideProps = async ({ query }) => {
-  const randomPokemons = await getPokemons({ type: 'random', ...query});
+  const randomPokemons = await getPokemons({ type: 'random', ...query });
   return {
     props: {
       initialData: {
