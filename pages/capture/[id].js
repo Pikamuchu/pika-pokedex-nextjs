@@ -1,28 +1,34 @@
 /* eslint-disable react/forbid-prop-types */
 import PropTypes from 'prop-types';
 import Head from 'next/head';
-import { Container } from 'react-bootstrap';
+import dynamic from 'next/dynamic';
+import { Container, Jumbotron } from 'react-bootstrap';
 
 import { withTranslation } from '../../src/i18n';
 import { getPokemonDetails } from '../../src/models/pokemonModel';
-import PokemonDetails from '../../src/components/pokemon/PokemonDetails';
 import usePokemon from '../../src/hooks/usePokemon';
 
-const PokemonDetailsPage = ({ initialData, t }) => {
+const CapturePokemon = dynamic(
+  () => import('../../src/components/capture/CapturePokemon'),
+  { ssr: false }
+)
+
+const CapturePage = ({ initialData, t }) => {
   const { data: pokemon } = usePokemon({ id: initialData?.query?.id }, initialData?.pokemon);
   return (
     <>
       <Head>
-        <title>{`Pikadex - ${t('pokemon-details-title')} - ${pokemon?.id}`}</title>
+        <title>{`Pikadex - ${t('capture-pokemon-title')} - ${pokemon?.id}`}</title>
       </Head>
-      <Container className="pokemon-details-page-container">
-        <PokemonDetails pokemon={pokemon} />
+      <Container className="capture-pokemon-page-container">
+      <h1>{`${t('capture-pokemon')} ${pokemon.name}`}</h1>
+        <CapturePokemon pokemon={pokemon} />
       </Container>
     </>
   );
 };
 
-PokemonDetailsPage.propTypes = {
+CapturePage.propTypes = {
   initialData: PropTypes.shape({
     pokemon: PropTypes.object,
     query: PropTypes.object,
@@ -31,7 +37,7 @@ PokemonDetailsPage.propTypes = {
   t: PropTypes.func.isRequired,
 };
 
-PokemonDetailsPage.defaultProps = {
+CapturePage.defaultProps = {
   i18nNamespaces: ['common', 'pokemon'],
 };
 
@@ -47,4 +53,4 @@ export const getServerSideProps = async ({ query }) => {
   };
 };
 
-export default withTranslation(['common', 'pokemon'])(PokemonDetailsPage);
+export default withTranslation(['common', 'pokemon'])(CapturePage);

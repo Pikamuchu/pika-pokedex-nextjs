@@ -9,9 +9,7 @@
 #touch-layer,
 #waves,
 #info-screen {
-  position: relative;
-  height: 100%;
-  width: 100%;
+  @extend .fixed-full-width;
 }
 
 #title {
@@ -27,7 +25,6 @@
 #capture-screen,
 #ring-screen {
   @extend .flex-center;
-  position: relative;
 }
 
 /* Accuracy ring */
@@ -131,7 +128,6 @@
   width: 140px;
   height: 140px;
   transform: rotate(-10deg);
-  background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/374756/pkmngo-helix.png');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;

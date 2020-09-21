@@ -15,12 +15,10 @@ const HomePage = ({ initialData, t }) => {
   return (
     <>
       <Head>
-        <title>Pokedex - {t('home-title')}</title>
+        <title>{`Pikadex - ${t('home-title')}`}</title>
       </Head>
-      <Container>
+      <Container className="home-page-container">
         <HomeHello />
-      </Container>
-      <Container>
         <h2>{t('pokemons-you-may-like')}</h2>
         <PokemonCarousel pokemons={randomPokemons} />
       </Container>

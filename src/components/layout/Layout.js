@@ -19,9 +19,9 @@ const Layout = ({ children, t }) => (
       <Header />
     </header>
 
-    <main className="main-pokeball-shape">{children}</main>
+    <main>{children}</main>
 
-    <footer className="footer-pokeball-shape">
+    <footer>
       <Footer />
       <Spanner />
     </footer>

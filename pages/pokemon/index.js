@@ -14,7 +14,7 @@ const PokemonListPage = ({ initialData, t }) => {
       <Head>
         <title>{`Pikadex - ${t('pokemon-list-title')}`}</title>
       </Head>
-      <Container>
+      <Container className="pokemon-list-page-container">
         <PokemonList pokemons={pokemons} />
       </Container>
     </>

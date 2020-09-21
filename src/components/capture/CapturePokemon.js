@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 import anime from 'animejs/lib/anime.es.js';
 import ZingTouch from 'zingtouch';
 
@@ -35,7 +37,7 @@ const CaptureGame = ({ pokemon }) => {
       return document.getElementById(Ball.id);
     },
     resetBall: () => {
-      Ball.moveBall(Screen.width / 2 - Ball.size / 2, Screen.height - (Ball.size + 10));
+      Ball.moveBall(Screen.width / 2 - Ball.size / 2, Screen.height - (Ball.size + 30));
       const BallElement = document.getElementById(Ball.id);
       BallElement.style.transform = '';
       BallElement.style.width = BallElement.style.height = `${Ball.size}px`;
@@ -52,95 +54,12 @@ const CaptureGame = ({ pokemon }) => {
     },
   };
 
-  // Initial Setup
-
-  resetState();
-
-  // Move omanyte
-  anime({
-    targets: ['#target'],
-    rotate: 20,
-    duration: 800,
-    loop: true,
-    easing: 'easeInOutQuad',
-    direction: 'alternate',
-  });
-
   window.onresize = () => {
     Screen.height = window.innerHeight;
     Screen.width = window.innerWidth;
     MAX_VELOCITY = Screen.height * 0.009;
     resetState();
   };
-
-  /* Gesture Bindings */
-  const touchElement = document.getElementById('touch-layer');
-  const touchRegion = new ZingTouch.Region(touchElement);
-  const CustomSwipe = new ZingTouch.Swipe({
-    escapeVelocity: 0.1,
-  });
-
-  const CustomPan = new ZingTouch.Pan();
-  const endPan = CustomPan.end;
-  CustomPan.end = function (inputs) {
-    setTimeout(() => {
-      if (Ball.inMotion === false) {
-        Ball.resetBall();
-      }
-    }, 100);
-    return endPan.call(this, inputs);
-  };
-
-  touchRegion.bind(touchElement, CustomPan, (e) => {
-    Ball.moveBall(e.detail.events[0].x - Ball.size / 2, e.detail.events[0].y - Ball.size / 2);
-  });
-
-  touchRegion.bind(touchElement, CustomSwipe, (e) => {
-    Ball.inMotion = true;
-    const screenEle = document.getElementById('screen');
-    const screenPos = screenEle.getBoundingClientRect();
-    const angle = e.detail.data[0].currentDirection;
-    const rawVelocity = (velocity = e.detail.data[0].velocity);
-    velocity = velocity > MAX_VELOCITY ? MAX_VELOCITY : velocity;
-
-    // Determine the final position.
-    const scalePercent = Math.log(velocity + 1) / Math.log(MAX_VELOCITY + 1);
-    const destinationY = Screen.height - Screen.height * scalePercent + screenPos.top;
-    const movementY = destinationY - e.detail.events[0].y;
-
-    // Determine how far it needs to travel from the current position to the destination.
-    const translateYValue = -0.75 * Screen.height * scalePercent;
-    const translateXValue = 1 * (90 - angle) * -(translateYValue / 100);
-
-    anime.remove('#ring-fill');
-
-    anime({
-      targets: ['#ball'],
-      translateX: {
-        duration: 300,
-        value: translateXValue,
-        easing: 'easeOutSine',
-      },
-      translateY: {
-        value: `${movementY * 1.25}px`,
-        duration: 300,
-        easing: 'easeOutSine',
-      },
-      scale: {
-        value: 1 - 0.5 * scalePercent,
-        easing: 'easeInSine',
-        duration: 300,
-      },
-      complete: () => {
-        if (movementY < 0) {
-          throwBall(movementY, translateXValue, scalePercent);
-        } else {
-          setTimeout(resetState, 400);
-        }
-      },
-    });
-    // End
-  });
 
   function throwBall(movementY, translateXValue, scalePercent) {
     // Treat translations as fixed.
@@ -306,7 +225,7 @@ const CaptureGame = ({ pokemon }) => {
         // Captured
         const captureStatus = document.getElementById('capture-status');
         captureStatus.classList.toggle('hidden');
-        captureStatus.innerHTML = 'You caught Omanyte!';
+        captureStatus.innerHTML = `You caught ${pokemon.name}!`;
         makeItRainConfetti();
 
         anime({
@@ -332,7 +251,7 @@ const CaptureGame = ({ pokemon }) => {
         poofContainer.classList.toggle('hidden');
 
         const captureStatus = document.getElementById('capture-status');
-        captureStatus.innerHTML = 'Omanyte Escaped!';
+        captureStatus.innerHTML = `${pokemon.name} Escaped!`;
         captureStatus.classList.toggle('hidden');
 
         anime({
@@ -433,6 +352,96 @@ const CaptureGame = ({ pokemon }) => {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
+  useEffect(() => {
+    // Initial Setup
+    resetState();
+
+    // Init pokemon
+    const target = document.getElementById('target');
+    target.style.backgroundImage = `url('${pokemon.image}')`;
+    anime({
+      targets: ['#target'],
+      rotate: 20,
+      duration: 800,
+      loop: true,
+      easing: 'easeInOutQuad',
+      direction: 'alternate',
+    });
+
+    // hide footer
+    const footer = document.getElementsByTagName('footer');
+    if (footer) footer[0].classList.add('hide');
+
+    /* Gesture Bindings */
+    const touchElement = document.getElementById('touch-layer');
+    const touchRegion = new ZingTouch.Region(touchElement);
+    const CustomSwipe = new ZingTouch.Swipe({
+      escapeVelocity: 0.1,
+    });
+
+    const CustomPan = new ZingTouch.Pan();
+    const endPan = CustomPan.end;
+    CustomPan.end = function (inputs) {
+      setTimeout(() => {
+        if (Ball.inMotion === false) {
+          Ball.resetBall();
+        }
+      }, 100);
+      return endPan.call(this, inputs);
+    };
+
+    touchRegion.bind(touchElement, CustomPan, (e) => {
+      Ball.moveBall(e.detail.events[0].x - Ball.size / 2, e.detail.events[0].y - Ball.size / 2);
+    });
+
+    touchRegion.bind(touchElement, CustomSwipe, (e) => {
+      Ball.inMotion = true;
+      const screenEle = document.getElementById('screen');
+      const screenPos = screenEle.getBoundingClientRect();
+      const angle = e.detail.data[0].currentDirection;
+      const rawVelocity = (velocity = e.detail.data[0].velocity);
+      velocity = velocity > MAX_VELOCITY ? MAX_VELOCITY : velocity;
+
+      // Determine the final position.
+      const scalePercent = Math.log(velocity + 1) / Math.log(MAX_VELOCITY + 1);
+      const destinationY = Screen.height - Screen.height * scalePercent + screenPos.top;
+      const movementY = destinationY - e.detail.events[0].y;
+
+      // Determine how far it needs to travel from the current position to the destination.
+      const translateYValue = -0.75 * Screen.height * scalePercent;
+      const translateXValue = 1 * (90 - angle) * -(translateYValue / 100);
+
+      anime.remove('#ring-fill');
+
+      anime({
+        targets: ['#ball'],
+        translateX: {
+          duration: 300,
+          value: translateXValue,
+          easing: 'easeOutSine',
+        },
+        translateY: {
+          value: `${movementY * 1.25}px`,
+          duration: 300,
+          easing: 'easeOutSine',
+        },
+        scale: {
+          value: 1 - 0.5 * scalePercent,
+          easing: 'easeInSine',
+          duration: 300,
+        },
+        complete: () => {
+          if (movementY < 0) {
+            throwBall(movementY, translateXValue, scalePercent);
+          } else {
+            setTimeout(resetState, 400);
+          }
+        },
+      });
+      // End
+    });
+  }, [pokemon]);
+
   return (
     <section id="wrapper">
       <div id="title">
@@ -444,10 +453,10 @@ const CaptureGame = ({ pokemon }) => {
       <div id="info-screen" className="hidden">
         <div id="info-shade" />
         <div id="info-text">
-          <h3>Catch Omanyte:</h3>
+          <h3>{`Catch ${pokemon.name}:`}</h3>
           <ul>
-            <li>Swipe the pokeball straight up, with just enough velocity </li>
-            <li>The smaller the green circle, the greater chance in catching omanyte!</li>
+            <li>{`Swipe the pokeball straight up, with just enough velocity`}</li>
+            <li>{`The smaller the green circle, the greater chance in catching ${pokemon.name}!`}</li>
           </ul>
         </div>
       </div>
@@ -470,7 +479,7 @@ const CaptureGame = ({ pokemon }) => {
 
       <div id="capture-screen" className="gradient-background hidden">
         <div id="capture-status" className="hidden">
-          You caught Omanyte!
+          {`You caught ${pokemon.name}!`}
         </div>
         <div id="poof-container" className="hidden">
           <div id="poof" />

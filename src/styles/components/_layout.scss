@@ -1,10 +1,12 @@
 $staticPath: '../../../public/static';
 
-html,
+html {
+  height: 100%;
+}
+
 body,
 #__next {
   min-height: 100%;
-  height: 100%;
   margin: 0 auto;
 }
 
@@ -15,30 +17,27 @@ h2 {
 
 main {
   background: #fff;
-  margin: 0 0 -150px;
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
+  min-height: 100%;
 }
 
 main:before {
   content: '';
   display: block;
-  height: 150px;
+  height: $spacer * 8;
   width: 100%;
 }
 
 main:after {
   content: '';
   display: block;
-  height: 150px;
+  height: $spacer * 4;
   width: 100%;
 }
 
 footer {
+  background-color: #fff;
+  line-height: 1;
   width: 100%;
-  line-height: 1.25;
-  height: 150px;
 }
 
 .list-horizontal li {
@@ -54,7 +53,7 @@ footer {
 .menu-pokeball-shape {
   border: solid !important;
   border-width: 2px 2px 4px 2px !important;
-  border-radius: 25px 25px 0 0 !important;
+  border-radius: 25px 25px 25px 25px !important;
   background-color: #f4dc26 !important;
   background-clip: padding-box;
 }
@@ -73,25 +72,9 @@ footer {
   left: 0%;
   width: 100%;
   border: solid !important;
-  border-radius: 0;
+  border-radius: 50px 50px 50px 50px !important;
+  border-width: 4px 2px 2px 2px !important;
   background-color: #925419;
-  border-width: 4px 0px 2px 0px !important;
-}
-
-.main-pokeball-shape {
-  border: solid !important;
-  border-width: 0 2px 0 2px !important;
-  border-radius: 0 0 0 0 !important;
-  background-color: #fff !important;
-//  padding-top: $spacer * 8 !important;
-}
-
-.footer-pokeball-shape {
-  border: solid !important;
-  border-radius: 0 0 25px 25px;
-  background-color: #fff;
-  border-width: 0 2px 2px 2px !important;
-//  padding-top: $spacer * 4 !important;
 }
 
 .pokedex-search {
@@ -103,6 +86,28 @@ footer {
   font-weight: bold;
 }
 
+.home-page-container {
+  padding-top: $spacer * 2;
+}
+
+.pokemon-list-page-container {
+  padding-top: $spacer * 2;
+}
+
+.pokemon-details-page-container {
+  padding-top: $spacer * 2;
+}
+
+.capture-pokemon-page-container {
+  padding-top: $spacer * 2;
+  padding-bottom: 50vh;
+}
+
+
+.error-page-container {
+  padding-top: $spacer * 2;
+}
+
 .not-found {
   width: 100%;
   background-color: #fdfdec !important;
@@ -111,4 +116,8 @@ footer {
   margin-left: -$grid-gutter-width/2;
   margin-right: -$grid-gutter-width/2;
   margin-top: -$grid-gutter-width/2;
+}
+
+.hide {
+  display: none;
 }
