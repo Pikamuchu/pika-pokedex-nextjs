@@ -7,9 +7,10 @@ import ZingTouch from 'zingtouch';
 // https://s3-us-west-2.amazonaws.com/s.cdpn.io/374756/zingtouch.min.js
 
 const Resources = {
-  pokeball: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/374756/pkmngo-pokeball.png',
-  pokeballActive: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/374756/pkmngo-pokeballactive.png',
-  pokeballClosed: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/374756/pkmngo-pokeballclosed.png',
+  pikaball: '/static/images/pikaball.png',
+  pikaballActive: '/static/images/pikaball-active.png',
+  pikaballOpened: '/static/images/pikaball-opened.png',
+  pikaballClosed: '/static/images/pikaball-closed.png',
 };
 
 const CaptureGame = ({ pokemon }) => {
@@ -41,7 +42,7 @@ const CaptureGame = ({ pokemon }) => {
       const BallElement = document.getElementById(Ball.id);
       BallElement.style.transform = '';
       BallElement.style.width = BallElement.style.height = `${Ball.size}px`;
-      BallElement.style.backgroundImage = `url('${Resources.pokeball}')`;
+      BallElement.style.backgroundImage = `url('${Resources.pikaball}')`;
       Ball.inMotion = false;
     },
     savePosition: () => {
@@ -118,8 +119,8 @@ const CaptureGame = ({ pokemon }) => {
         },
         complete: () => {
           const ball = Ball.getElement();
-          ball.style.backgroundImage = `url('${Resources.pokeballActive}')`;
-          emitParticlesToPokeball();
+          ball.style.backgroundImage = `url('${Resources.pikaballOpened}')`;
+          emitParticlesToPikaball();
         },
       });
     } else {
@@ -127,7 +128,7 @@ const CaptureGame = ({ pokemon }) => {
     }
   }
 
-  function emitParticlesToPokeball() {
+  function emitParticlesToPikaball() {
     let particleLeft;
     let particleRight;
     const particles = [];
@@ -174,7 +175,7 @@ const CaptureGame = ({ pokemon }) => {
     }
     setTimeout(() => {
       const ball = Ball.getElement();
-      ball.style.backgroundImage = `url('${Resources.pokeballClosed}')`;
+      ball.style.backgroundImage = `url('${Resources.pikaballClosed}')`;
       document.getElementById('particles').innerHTML = '';
       Ball.savePosition();
 
@@ -455,7 +456,7 @@ const CaptureGame = ({ pokemon }) => {
         <div id="info-text">
           <h3>{`Catch ${pokemon.name}:`}</h3>
           <ul>
-            <li>{`Swipe the pokeball straight up, with just enough velocity`}</li>
+            <li>{`Swipe the pikaball straight up, with just enough velocity`}</li>
             <li>{`The smaller the green circle, the greater chance in catching ${pokemon.name}!`}</li>
           </ul>
         </div>

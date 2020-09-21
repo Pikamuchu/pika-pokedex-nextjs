@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Col, Image, Row } from 'react-bootstrap';
 import { Link, withTranslation } from '../../i18n';
 import PokemonTypes from './PokemonTypes';
+import PokemonCapture from './PokemonCapture';
 
 const PokemonTile = ({ t, pokemon }) => {
   return (
@@ -10,6 +11,7 @@ const PokemonTile = ({ t, pokemon }) => {
         <Link href={`/pokemon/${pokemon.id}`}>
           <Image src={pokemon.image} label={pokemon.slug} alt={pokemon.slug} thumbnail />
         </Link>
+        <PokemonCapture pokemon={pokemon} t={t} />
       </Row>
       <Row className="justify-content-center flex-nowrap">
         <h5>{`${pokemon.code} - ${pokemon.name}`}</h5>

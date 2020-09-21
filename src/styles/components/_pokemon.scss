@@ -4,6 +4,28 @@
   border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
 }
 
+.pokemon-capture-button {
+  bottom: 5.5rem;
+  right: 0.5rem;
+  position: absolute;
+  border: 0 none;
+  border-radius: 50%;
+  display: flex;
+  height: 32px;
+  width: 32px;
+  overflow: visible;
+  padding: 0;
+  background-image: url(#{$staticPath}/images/pikaball-button.png);
+  background-repeat: no-repeat;
+  background-size: 32px;
+  opacity: 25%;
+}
+
+.pokemon-capture-button.active {
+  background-image: url(#{$staticPath}/images/pikaball-button-active.png);
+  opacity: 100%;
+}
+
 .background-color-bug {
   background: linear-gradient(180deg, #729f3f 50%, #729f3f 0);
   background-color: #729f3f;
