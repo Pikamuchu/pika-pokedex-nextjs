@@ -52,7 +52,7 @@ const PokemonStats = ({ t, stats }) => {
         <div className="pokemon-stats">
           {stats?.map((stat) => (
             <p key={stat.name}>
-              {stat.name}: {stat.value}
+              {`${stat.name}: ${stat.value}`}
             </p>
           ))}
         </div>

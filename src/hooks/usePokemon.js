@@ -5,7 +5,8 @@ import fetcher from '../libs/fetcher';
 import { querySeparator } from '../libs/utils';
 
 export default function usePokemon(query, initialData) {
-  return useSWR(shouldFetch(query) ? createApiUrl(query) : null, fetcher, { initialData });
+  const response = useSWR(shouldFetch(query) ? createApiUrl(query) : null, fetcher, { initialData });
+  return response;
 }
 
 export const fetchPokemon = async (query) => {
@@ -17,7 +18,7 @@ export const routePokemon = (query) => {
 };
 
 const shouldFetch = (query) => {
-  return query && (query.id || query.searchTerm);
+  return query && (query.id || query.searchTerm || query.pageIndex);
 };
 
 const createApiUrl = (query) => {
@@ -31,10 +32,22 @@ const createUrl = (query) => {
     url += `/${query.id || query?.slug}`;
   }
   if (query?.searchTerm) {
-    url += `?q=${query.searchTerm}`;
+    url += `${querySeparator(url)}q=${query.searchTerm}`;
   }
-  if (query?.type) {
-    url += `${querySeparator(url)}type=${query.type}`;
+  if (query?.listType) {
+    url += `${querySeparator(url)}listType=${query.listType}`;
+  }
+  if (query?.limit) {
+    url += `${querySeparator(url)}limit=${query.limit}`;
+  }
+  if (query?.offset) {
+    url += `${querySeparator(url)}offset=${query.offset}`;
+  }
+  if (query?.pageIndex) {
+    url += `${querySeparator(url)}pageIndex=${query.pageIndex}`;
+  }
+  if (query?.pageSize) {
+    url += `${querySeparator(url)}pageSize=${query.pageSize}`;
   }
   return url;
 };

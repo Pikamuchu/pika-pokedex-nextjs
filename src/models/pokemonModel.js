@@ -11,16 +11,16 @@ const P = new Pokedex({
 });
 
 const SEARCH_LIMIT = 893; // Excluding pokemons 100xx (No images available)
-const LIST_MAX_ITEMS = 100;
-const LIST_CHUNK_SIZE = 20;
+const LIST_CHUNK_SIZE = preferences.pageSize;
 const DEFAULT_LANG = 'en';
 
 export const getPokemons = async (query) => {
   let list;
-  if (query?.q) {
-    list = await searchListItems(query, query?.limit, query?.offset);
+  const params = parseParams(query);
+  if (params?.q) {
+    list = await searchListItems(params);
   } else {
-    list = await getListItems(query, query?.limit, query?.offset);
+    list = await getListItems(params);
   }
   return list ?? [];
 };
@@ -29,24 +29,24 @@ export const getPokemonDetails = async (query) => {
   return getDetails(query?.id, query?.lang);
 };
 
-export const getListItems = async (params, limit, offset) => {
+export const getListItems = async (params) => {
   const itemList = await P.getPokemonsList({
-    limit: limit || SEARCH_LIMIT,
+    limit: SEARCH_LIMIT,
   });
   let list = itemList.results;
-  if (params.type === 'random') {
+  if (params.listType === 'random') {
     list = getRandomList(list);
   }
-  list = getChunk(list, offset);
+  list = getChunk(list, params.limit, params.offset);
   return getItems(list, params);
 };
 
 export const searchListItems = async (params, limit, offset) => {
   const itemList = await P.getPokemonsList({
-    limit: limit || SEARCH_LIMIT,
+    limit: SEARCH_LIMIT,
   });
   const results = itemList.results.filter((item) => item.name.includes(params.q));
-  const list = getChunk(results, offset);
+  const list = getChunk(results, params.limit, params.offset);
   return getItems(list, params);
 };
 
@@ -70,6 +70,13 @@ export const getDetails = async (id, lang) => {
     category: '',
     description: '',
   };
+};
+
+const parseParams = (query) => {
+  const params = {...query};
+  params.limit = query.limit ?? query.pageSize ?? LIST_CHUNK_SIZE;
+  params.offset = query.offset ?? (query.pageIndex && (params.limit * (query.pageIndex - 1))) ?? 0;
+  return params;
 };
 
 const getItem = async (id) => {
@@ -98,9 +105,10 @@ const getRandomList = (list) => {
   return list.slice().sort(() => Math.random() - Math.random());
 };
 
-const getChunk = (list, offset) => {
+const getChunk = (list, limit, offset) => {
+  const chunkSize = limit || LIST_CHUNK_SIZE;
   const chunkOffset = offset ?? 0;
-  return list.slice(chunkOffset, LIST_CHUNK_SIZE + chunkOffset);
+  return list.slice(chunkOffset, chunkSize + chunkOffset);
 };
 
 const formatCode = (code) => code && code.toString().padStart(3, '0');

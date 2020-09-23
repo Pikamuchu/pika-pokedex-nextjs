@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import Head from 'next/head';
-import { Spinner, Container, Col, Row } from 'react-bootstrap';
-import { i18n, Link, withTranslation } from '../../i18n';
+import { withTranslation } from '../../i18n';
 import Header from './Header';
 import Footer from './Footer';
 import Spanner from "./Spanner";

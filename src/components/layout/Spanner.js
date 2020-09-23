@@ -6,8 +6,8 @@ const Spanner = ({ t }) => {
   return (
     <div className="spanner d-flex flex-row-reverse">
       <div className="spinner-box">
-      <Spinner animation="grow" />
-      <p>{t('spinner-loading')}</p>
+        <Spinner animation="grow" />
+        <p>{t('spinner-loading')}</p>
       </div>
     </div>
   );

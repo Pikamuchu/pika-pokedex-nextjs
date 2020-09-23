@@ -4,7 +4,7 @@ import { withTranslation } from '../../i18n';
 import PokemonTile from './PokemonTile';
 import NotFound from '../layout/NotFound';
 
-const PokemonList = ({ t, pokemons }) => {
+const PokemonList = ({ pokemons, t }) => {
   return (
     <Row className="pokemons-container justify-content-around">
       {pokemons && pokemons.length ? (
@@ -22,6 +22,7 @@ const PokemonList = ({ t, pokemons }) => {
 
 PokemonList.propTypes = {
   pokemons: PropTypes.arrayOf(PropTypes.object).isRequired,
+  t: PropTypes.func.isRequired,
 };
 
 export default withTranslation('pokemon')(PokemonList);

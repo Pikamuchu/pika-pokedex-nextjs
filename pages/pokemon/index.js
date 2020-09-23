@@ -1,24 +1,51 @@
-// import React, { useState, useCallback, useEffect } from 'react'
-// import useSWR from 'swr'
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable no-plusplus */
+import PropTypes from 'prop-types';
 import Head from 'next/head';
-import { Container } from 'react-bootstrap';
+import { useState } from 'react';
+import { Button, Container, Row } from 'react-bootstrap';
 import { withTranslation } from '../../src/i18n';
 import { getPokemons } from '../../src/models/pokemonModel';
 import PokemonList from '../../src/components/pokemon/PokemonList';
+import PokemonPage from '../../src/components/pokemon/PokemonListPage';
 import usePokemon from '../../src/hooks/usePokemon';
 
 const PokemonListPage = ({ initialData, t }) => {
-  const { data: pokemons } = usePokemon({}, initialData.pokemons);
+  const initialPageIndex = initialData.query?.pageIndex || 1;
+  const [query, setQuery] = useState(initialData.query);
+  const [pageIndex, setPageIndex] = useState(initialPageIndex);
+  const { data: pokemons } = usePokemon(initialData.query, initialData.pokemons);
+
+  const pokemonPages = [];
+  for (let i = initialPageIndex + 1; i < pageIndex; i++) {
+    pokemonPages.push(<PokemonPage key={i} index={i} query={query} />);
+  }
+
   return (
     <>
       <Head>
         <title>{`Pikadex - ${t('pokemon-list-title')}`}</title>
       </Head>
       <Container className="pokemon-list-page-container">
-        <PokemonList pokemons={pokemons} />
+        <PokemonList pokemons={pokemons} t={t} />
+        {pokemonPages}
+        <Row className="justify-content-center">
+          <Button onClick={() => setPageIndex(pageIndex + 1)}>Load More</Button>
+        </Row>
       </Container>
     </>
   );
+};
+
+PokemonListPage.propTypes = {
+  initialData: PropTypes.shape({
+    query: PropTypes.shape({
+      pageIndex: PropTypes.number,
+    }),
+    pokemons: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
+  t: PropTypes.func.isRequired,
+  i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
 };
 
 PokemonListPage.defaultProps = {

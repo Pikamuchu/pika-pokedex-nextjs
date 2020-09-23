@@ -31,8 +31,8 @@ HomePage.propTypes = {
     randomPokemons: PropTypes.arrayOf(PropTypes.object),
     query: PropTypes.object,
   }).isRequired,
-  i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
   t: PropTypes.func.isRequired,
+  i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
 };
 
 HomePage.defaultProps = {
@@ -40,7 +40,7 @@ HomePage.defaultProps = {
 };
 
 export const getServerSideProps = async ({ query }) => {
-  const randomPokemons = await getPokemons({ type: 'random', ...query });
+  const randomPokemons = await getPokemons({ listType: 'random', ...query });
   return {
     props: {
       initialData: {

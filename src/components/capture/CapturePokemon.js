@@ -13,6 +13,10 @@ const Resources = {
   pikaballClosed: '/static/images/pikaball-closed.png',
 };
 
+const INITIAL_BALL_POSITION = 120;
+
+const BALL_LAUNCH_MAX_TIME = 200;
+
 const CaptureGame = ({ pokemon }) => {
   const Screen = {
     height: window.innerHeight,
@@ -38,7 +42,7 @@ const CaptureGame = ({ pokemon }) => {
       return document.getElementById(Ball.id);
     },
     resetBall: () => {
-      Ball.moveBall(Screen.width / 2 - Ball.size / 2, Screen.height - (Ball.size + 30));
+      Ball.moveBall(Screen.width / 2 - Ball.size / 2, Screen.height - (Ball.size + INITIAL_BALL_POSITION));
       const BallElement = document.getElementById(Ball.id);
       BallElement.style.transform = '';
       BallElement.style.width = BallElement.style.height = `${Ball.size}px`;
@@ -137,7 +141,7 @@ const CaptureGame = ({ pokemon }) => {
     const ballRect = ballEle.getBoundingClientRect();
     const palette = ['#E4D3A8', '#6EB8C0', '#FFF', '#2196F3'];
     const particleContainer = document.getElementById('particles');
-    for (const i = 0; i < 50; i++) {
+    for (let i = 0; i < 50; i++) {
       const particleEle = document.createElement('div');
       particleEle.className = 'particle';
       particleEle.setAttribute('id', `particle-${i}`);
@@ -281,14 +285,14 @@ const CaptureGame = ({ pokemon }) => {
   }
 
   function makeItRainConfetti() {
-    for (const i = 0; i < 100; i++) {
+    for (let i = 0; i < 100; i++) {
       const particleContainer = document.getElementById('capture-confetti');
       const particleEle = document.createElement('div');
       particleEle.className = 'particle';
       particleEle.setAttribute('id', `particle-${i}`);
-      particleLeft = window.innerWidth / 2;
+      const particleLeft = window.innerWidth / 2;
       particleEle.style.left = `${particleLeft}px`;
-      particleTop = window.innerHeight / 2;
+      const particleTop = window.innerHeight / 2;
       particleEle.style.top = `${particleTop}px`;
       particleEle.style.backgroundColor = getRandNum(0, 2) ? '#FFF' : '#4aa6fb';
       particleContainer.appendChild(particleEle);
@@ -369,10 +373,6 @@ const CaptureGame = ({ pokemon }) => {
       direction: 'alternate',
     });
 
-    // hide footer
-    const footer = document.getElementsByTagName('footer');
-    if (footer) footer[0].classList.add('hide');
-
     /* Gesture Bindings */
     const touchElement = document.getElementById('touch-layer');
     const touchRegion = new ZingTouch.Region(touchElement);
@@ -387,7 +387,7 @@ const CaptureGame = ({ pokemon }) => {
         if (Ball.inMotion === false) {
           Ball.resetBall();
         }
-      }, 100);
+      }, BALL_LAUNCH_MAX_TIME);
       return endPan.call(this, inputs);
     };
 
@@ -400,8 +400,10 @@ const CaptureGame = ({ pokemon }) => {
       const screenEle = document.getElementById('screen');
       const screenPos = screenEle.getBoundingClientRect();
       const angle = e.detail.data[0].currentDirection;
-      const rawVelocity = (velocity = e.detail.data[0].velocity);
-      velocity = velocity > MAX_VELOCITY ? MAX_VELOCITY : velocity;
+      let velocity = e.detail.data[0].velocity;
+      if (velocity > MAX_VELOCITY) {
+        velocity = MAX_VELOCITY;
+      }
 
       // Determine the final position.
       const scalePercent = Math.log(velocity + 1) / Math.log(MAX_VELOCITY + 1);

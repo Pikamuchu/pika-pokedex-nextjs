@@ -3,6 +3,7 @@ import { Carousel, Row, Spinner } from 'react-bootstrap';
 import { withTranslation } from '../../i18n';
 import { arrayChunk } from '../../libs/utils';
 import PokemonTile from './PokemonTile';
+import NotFound from '../layout/NotFound';
 
 const PokemonCarousel = ({ pokemons }) => {
   return (
