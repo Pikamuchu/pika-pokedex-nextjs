@@ -1,4 +1,7 @@
+/* eslint-disable react/no-danger */
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+
+import { GA_TRACKING_ID } from '../src/libs/gtag';
 
 const APP_NAME = 'Pokedex PWA';
 const APP_DESCRIPTION = 'Pokedex Progressive Web Application using Next.js';
@@ -32,6 +35,22 @@ class MyDocument extends Document {
           <meta name="msapplication-navbutton-color" content={APP_COLOR} />
           <meta name="msapplication-TileColor" content={APP_COLOR} />
           <meta name="msapplication-config" content="/static/icons/browserconfig.xml" />
+
+          {/* Global Site Tag (gtag.js) - Google Analytics */}
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', '${GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `
+            }}
+          />
         </Head>
         <body>
           <Main />

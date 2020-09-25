@@ -19,8 +19,8 @@ const Search = ({ t }) => {
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const handleLoadSuggestions = ({ value, reason }) => {
-    if (value?.length >= MIN_SEARCH_TEXT_LENGTH && !isSelected) {
-      setSearchTerm(value);
+    if (!isSelected && value?.length >= MIN_SEARCH_TEXT_LENGTH) {
+      setSearchTerm(value.toLowerCase());
     }
   };
 
@@ -34,7 +34,7 @@ const Search = ({ t }) => {
   };
 
   const handleChange = (event, { newValue }) => {
-    setSearchTerm(newValue);
+    setSearchTerm(newValue?.toLowerCase());
     setIsSelected(false);
   };
 
@@ -47,7 +47,7 @@ const Search = ({ t }) => {
   };
 
   useEffect(() => {
-    if (debouncedSearchTerm?.length >= MIN_SEARCH_TEXT_LENGTH) {
+    if (!isSelected && debouncedSearchTerm?.length >= MIN_SEARCH_TEXT_LENGTH) {
       setIsSearching(true);
       fetchPokemon({ searchTerm: debouncedSearchTerm, type: 'thumbnail' }).then((pokemons) => {
         setIsSearching(false);
