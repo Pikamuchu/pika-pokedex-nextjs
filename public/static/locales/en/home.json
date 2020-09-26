@@ -1,4 +1,6 @@
 {
-  "hello-title": "Hello to Pikadex!",
-  "hello-description": "This is a simple pokedex with pokemon info."
+  "home-title": "Home",
+  "hello-title": "Welcome to Pikadex!",
+  "hello-description": "Here you can find information about pokemons and even catch them!",
+  "pokemons-you-may-like": "Pokemons you may like:"
 }

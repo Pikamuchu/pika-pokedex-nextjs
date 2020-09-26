@@ -1,4 +1,17 @@
 {
-  "search.placeholder": "Busca a un pokemon",
-  "search-submit-button": "Buscar"
+  "menu-title": "Pikadex",
+  "menu-option-home": "Inicio",
+  "menu-option-pokemon": "Pokemons",
+  "menu-option-about": "Acerca de",
+  "search-placeholder": "Busca un pokemon ...",
+  "search-submit-button": "Buscar",
+  "search-prompt-text": "Escriba para buscar ...",
+  "search-search-text": "Buscando ...",
+  "change-locale": "Cambiar Idioma",
+  "error-with-status": "Se produjo un error de {{statusCode}} en el servidor",
+  "error-without-status": "Se produjo un error en el servidor",
+  "error-500-title": "Error del servidor",
+  "error-404-title": "No encontrado",
+  "back-to-homepage": "Volver a la página de inicio",
+  "spinner-loading": "Cargando ..."
 }

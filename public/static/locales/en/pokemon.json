@@ -1,3 +1,8 @@
 {
-  "stats": "Stats"
+  "capture-pokemon-title": "Catch",
+  "pokemon-details-title": "Details",
+  "pokemon-list-title": "List",
+  "pokemon-stats": "Stats",
+  "pokemon-abilities": "Abilities",
+  "pokemon-not-found": "No Pokemons Found"
 }

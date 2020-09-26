@@ -22,8 +22,9 @@ const Layout = ({ children, t }) => (
 
     <footer>
       <Footer />
-      <Spanner />
     </footer>
+
+    <Spanner />
   </>
 );
 
