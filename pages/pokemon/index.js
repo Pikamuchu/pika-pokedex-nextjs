@@ -7,7 +7,7 @@ import { Button, Container, Row } from 'react-bootstrap';
 import { withTranslation } from '../../src/i18n';
 import { getPokemons } from '../../src/models/pokemonModel';
 import PokemonList from '../../src/components/pokemon/PokemonList';
-import PokemonPage from '../../src/components/pokemon/PokemonListPage';
+import PokemonListLoad from '../../src/components/pokemon/PokemonListLoad';
 import usePokemon from '../../src/hooks/usePokemon';
 
 const PokemonListPage = ({ initialData, t }) => {
@@ -16,9 +16,9 @@ const PokemonListPage = ({ initialData, t }) => {
   const [pageIndex, setPageIndex] = useState(initialPageIndex);
   const { data: pokemons } = usePokemon(initialData.query, initialData.pokemons);
 
-  const pokemonPages = [];
+  const pokemonListLoaded = [];
   for (let i = initialPageIndex + 1; i < pageIndex; i++) {
-    pokemonPages.push(<PokemonPage key={i} index={i} query={query} />);
+    pokemonListLoaded.push(<PokemonListLoad key={i} index={i} query={query} />);
   }
 
   return (
@@ -28,7 +28,7 @@ const PokemonListPage = ({ initialData, t }) => {
       </Head>
       <Container className="pokemon-list-page-container">
         <PokemonList pokemons={pokemons} t={t} />
-        {pokemonPages}
+        {pokemonListLoaded}
         <Row className="justify-content-center">
           <Button onClick={() => setPageIndex(pageIndex + 1)}>Load More</Button>
         </Row>

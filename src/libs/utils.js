@@ -11,3 +11,5 @@ export const arrayChunk = (array, chunk) => {
 export const querySeparator = (url) => {
   return url.includes('?') ? '&' : '?';
 };
+
+export const isBrowser = () => typeof window !== "undefined";

@@ -5,11 +5,12 @@ import useCapture, { routeCapture } from '../../hooks/useCapture';
 
 const PokemonCapture = ({ t, pokemon }) => {
   const [active, setActive] = useState(false);
-  const { data: captures } = useCapture(null, []);
+  const { data: captures, mutate, revalidate } = useCapture({}, []);
 
-  const openCaptureModal = (event) => {
+  const openCapturePage = (event) => {
     setActive(true);
     routeCapture(pokemon);
+
   };
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const PokemonCapture = ({ t, pokemon }) => {
       type="button"
       title={t('capture-pokemon')}
       className={`pokemon-capture-button ${active ? 'active' : ''}`}
-      onClick={openCaptureModal}
+      onClick={openCapturePage}
     />
   );
 };
