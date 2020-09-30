@@ -8,17 +8,21 @@ const key = 'globalState';
 
 if (isBrowser()) {
   const data = localStorage.getItem(key);
-  mutate(key, data ? JSON.parse(data) : [], false);
+  mutateStore(data);
 }
 
 export default function useStore() {
   return useSWR(key, {
     initialData: initialStore,
     onFailure() {
-      localStorage.removeItem(key);
+      if (isBrowser()) localStorage.removeItem(key);
     },
-    onSuccess(user) {
-      localStorage.setItem(key, JSON.stringify(user));
+    onSuccess(store) {
+      if (isBrowser()) localStorage.setItem(key, JSON.stringify(store));
     },
   });
+}
+
+export const mutateStore = (data, revalidate) => {
+  mutate(key, data ? JSON.parse(data) : {}, revalidate || false);
 }

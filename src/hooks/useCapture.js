@@ -3,9 +3,19 @@ import useSWR from 'swr';
 import { Router, i18n } from '../i18n';
 import fetcher from '../libs/fetcher';
 import postData from '../libs/postData';
+import { isBrowser } from '../libs/utils';
 
 export default function useCapture(query) {
-  return useSWR(shouldFetch(query) ? createApiUrl(query) : null, fetcher);
+  const key = shouldFetch(query) ? createApiUrl(query) : null;
+  return useSWR(key, fetcher, {
+    initialData: getInitialData(key),
+    onFailure() {
+      if (isBrowser()) localStorage.removeItem(key);
+    },
+    onSuccess(captures) {
+      if (isBrowser()) localStorage.setItem(key, JSON.stringify(captures));
+    },
+  });
 }
 
 export const fetchCapture = async (query) => {
@@ -22,8 +32,14 @@ export const routeCapture = (query) => {
   Router.push(createUrl(query)).then(() => window.scrollTo(0, 0));
 };
 
+const getInitialData = (key) => {
+  let initialData;
+  if (isBrowser()) initialData = localStorage.getItem(key);
+  return initialData ?? [];
+}
+
 const shouldFetch = (query) => {
-  return query && (query.id || query.searchTerm);
+  return query && (query.id || query.ids);
 };
 
 const createApiUrl = (query) => {

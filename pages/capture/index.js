@@ -9,12 +9,15 @@ import { getPokemons } from '../../src/models/pokemonModel';
 import PokemonList from '../../src/components/pokemon/PokemonList';
 import PokemonListLoad from '../../src/components/pokemon/PokemonListLoad';
 import usePokemon from '../../src/hooks/usePokemon';
+import useCapture from '../../src/hooks/useCapture';
+
 
 const PokemonListPage = ({ initialData, t }) => {
   const initialPageIndex = initialData.query?.pageIndex || 1;
   const [query, setQuery] = useState(initialData.query);
   const [pageIndex, setPageIndex] = useState(initialPageIndex);
-  const { data: pokemons } = usePokemon(query, initialData.pokemons);
+  const { data: ids } = useCapture(query);
+  const { data: pokemons } = usePokemon({...query, ids});
 
   const pokemonListLoaded = [];
   for (let i = initialPageIndex + 1; i < pageIndex; i++) {
@@ -24,7 +27,7 @@ const PokemonListPage = ({ initialData, t }) => {
   return (
     <>
       <Head>
-        <title>{`Pikadex - ${t('pokemon-list-title')}`}</title>
+        <title>{`Pikadex - ${t('capture-list-title')}`}</title>
       </Head>
       <Container className="pokemon-list-page-container">
         <PokemonList pokemons={pokemons} t={t} />
@@ -53,12 +56,10 @@ PokemonListPage.defaultProps = {
 };
 
 export const getServerSideProps = async ({ query }) => {
-  const pokemons = await getPokemons(query);
   return {
     props: {
       initialData: {
         query,
-        pokemons,
       },
     },
   };

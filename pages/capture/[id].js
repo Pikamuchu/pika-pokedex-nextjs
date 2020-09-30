@@ -8,10 +8,7 @@ import { withTranslation } from '../../src/i18n';
 import { getPokemonDetails } from '../../src/models/pokemonModel';
 import usePokemon from '../../src/hooks/usePokemon';
 
-const CapturePokemon = dynamic(
-  () => import('../../src/components/capture/CapturePokemon'),
-  { ssr: false }
-)
+const CapturePokemon = dynamic(() => import('../../src/components/capture/CapturePokemon'), { ssr: false });
 
 const CapturePage = ({ initialData, t }) => {
   const { data: pokemon } = usePokemon({ id: initialData?.query?.id }, initialData?.pokemon);
@@ -21,7 +18,7 @@ const CapturePage = ({ initialData, t }) => {
         <title>{`Pikadex - ${t('capture-pokemon-title')} - ${pokemon?.id}`}</title>
       </Head>
       <Container className="capture-pokemon-page-container">
-      <h1>{`${t('capture-pokemon')} ${pokemon.name}`}</h1>
+        <h1>{`${t('capture-pokemon')} ${pokemon.name}`}</h1>
         <CapturePokemon pokemon={pokemon} />
       </Container>
     </>
@@ -31,14 +28,14 @@ const CapturePage = ({ initialData, t }) => {
 CapturePage.propTypes = {
   initialData: PropTypes.shape({
     pokemon: PropTypes.object,
-    query: PropTypes.object,
+    query: PropTypes.object
   }).isRequired,
   i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
-  t: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 };
 
 CapturePage.defaultProps = {
-  i18nNamespaces: ['common', 'pokemon'],
+  i18nNamespaces: ['common', 'pokemon']
 };
 
 export const getServerSideProps = async ({ query }) => {
@@ -47,9 +44,9 @@ export const getServerSideProps = async ({ query }) => {
     props: {
       initialData: {
         query,
-        pokemon,
-      },
-    },
+        pokemon
+      }
+    }
   };
 };
 
