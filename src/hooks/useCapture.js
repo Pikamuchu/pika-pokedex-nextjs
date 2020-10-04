@@ -23,9 +23,9 @@ export const fetchCapture = async (query) => {
 };
 
 export const postCapture = async (data, mutate, revalidate) => {
-  mutate(data, false) // local mutate without revalidation
-  await postData(createApiUrl(), data) // POST request
-  revalidate() // revalidate
+  mutate(data, false); // local mutate without revalidation
+  await postData(createApiUrl(), data); // POST request
+  revalidate(); // revalidate
 };
 
 export const routeCapture = (query) => {
@@ -36,7 +36,7 @@ const getInitialData = (key) => {
   let initialData;
   if (isBrowser()) initialData = localStorage.getItem(key);
   return initialData ?? [];
-}
+};
 
 const shouldFetch = (query) => {
   return query && (query.id || query.ids);

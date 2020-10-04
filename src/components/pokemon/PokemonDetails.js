@@ -51,9 +51,7 @@ const PokemonStats = ({ t, stats }) => {
       <Row className="justify-content-left">
         <div className="pokemon-stats">
           {stats?.map((stat) => (
-            <p key={stat.name}>
-              {`${stat.name}: ${stat.value}`}
-            </p>
+            <p key={stat.name}>{`${stat.name}: ${stat.value}`}</p>
           ))}
         </div>
       </Row>
@@ -70,9 +68,7 @@ const PokemonAbilities = ({ t, abilities }) => {
       <Row className="justify-content-left">
         <div className="pokemon-abilities">
           {abilities?.map((ability) => (
-            <p key={ability.name}>
-              {ability.name}
-            </p>
+            <p key={ability.name}>{ability.name}</p>
           ))}
         </div>
       </Row>

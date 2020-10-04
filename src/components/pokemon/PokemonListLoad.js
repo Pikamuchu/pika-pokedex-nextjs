@@ -5,7 +5,7 @@ import PokemonList from './PokemonList';
 import usePokemon from '../../hooks/usePokemon';
 
 const PokemonListPage = ({ query, index, t }) => {
-  const { data: pokemons } = usePokemon({...query, pageIndex: index });
+  const { data: pokemons } = usePokemon({ ...query, pageIndex: index });
   return pokemons?.length ? (
     <PokemonList pokemons={pokemons} t={t} />
   ) : (

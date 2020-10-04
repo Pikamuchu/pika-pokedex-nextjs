@@ -1,4 +1,3 @@
-
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-bootstrap';
 import { withTranslation } from '../../i18n';
@@ -10,7 +9,8 @@ const CaptureModal = ({ t, pokemon, showCaptureModal }) => {
 
   return (
     <>
-      <Button onClick={() => setSmShow(true)}>Small modal</Button>{' '}
+      <Button onClick={() => setSmShow(true)}>Small modal</Button>
+      {' '}
       <Button onClick={() => setModalShow(true)}>Large modal</Button>
       <Modal
         size="lg"
@@ -19,15 +19,13 @@ const CaptureModal = ({ t, pokemon, showCaptureModal }) => {
         aria-labelledby="example-modal-sizes-title-lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title id="example-modal-sizes-title-lg">
-            Large Modal
-          </Modal.Title>
+          <Modal.Title id="example-modal-sizes-title-lg">Large Modal</Modal.Title>
         </Modal.Header>
         <Modal.Body>...</Modal.Body>
       </Modal>
     </>
   );
-}
+};
 
 PokemonTile.propTypes = {
   pokemon: PropTypes.shape({

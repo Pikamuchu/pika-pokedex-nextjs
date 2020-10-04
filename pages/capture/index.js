@@ -5,19 +5,17 @@ import Head from 'next/head';
 import { useState } from 'react';
 import { Button, Container, Row } from 'react-bootstrap';
 import { withTranslation } from '../../src/i18n';
-import { getPokemons } from '../../src/models/pokemonModel';
 import PokemonList from '../../src/components/pokemon/PokemonList';
 import PokemonListLoad from '../../src/components/pokemon/PokemonListLoad';
 import usePokemon from '../../src/hooks/usePokemon';
 import useCapture from '../../src/hooks/useCapture';
 
-
-const PokemonListPage = ({ initialData, t }) => {
+const CaptureListPage = ({ initialData, t }) => {
   const initialPageIndex = initialData.query?.pageIndex || 1;
   const [query, setQuery] = useState(initialData.query);
   const [pageIndex, setPageIndex] = useState(initialPageIndex);
   const { data: ids } = useCapture(query);
-  const { data: pokemons } = usePokemon({...query, ids});
+  const { data: pokemons } = usePokemon({ ...query, ids }, []);
 
   const pokemonListLoaded = [];
   for (let i = initialPageIndex + 1; i < pageIndex; i++) {
@@ -40,7 +38,7 @@ const PokemonListPage = ({ initialData, t }) => {
   );
 };
 
-PokemonListPage.propTypes = {
+CaptureListPage.propTypes = {
   initialData: PropTypes.shape({
     query: PropTypes.shape({
       pageIndex: PropTypes.number,
@@ -51,7 +49,7 @@ PokemonListPage.propTypes = {
   i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
 };
 
-PokemonListPage.defaultProps = {
+CaptureListPage.defaultProps = {
   i18nNamespaces: ['common', 'pokemon'],
 };
 
@@ -65,4 +63,4 @@ export const getServerSideProps = async ({ query }) => {
   };
 };
 
-export default withTranslation(['common', 'pokemon'])(PokemonListPage);
+export default withTranslation(['common', 'pokemon'])(CaptureListPage);

@@ -73,9 +73,9 @@ export const getDetails = async (id, lang) => {
 };
 
 const parseParams = (query) => {
-  const params = {...query};
+  const params = { ...query };
   params.limit = query.limit ?? query.pageSize ?? LIST_CHUNK_SIZE;
-  params.offset = query.offset ?? (query.pageIndex && (params.limit * (query.pageIndex - 1))) ?? 0;
+  params.offset = query.offset ?? (query.pageIndex && params.limit * (query.pageIndex - 1)) ?? 0;
   return params;
 };
 

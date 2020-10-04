@@ -400,7 +400,7 @@ const CaptureGame = ({ pokemon }) => {
       const screenEle = document.getElementById('screen');
       const screenPos = screenEle.getBoundingClientRect();
       const angle = e.detail.data[0].currentDirection;
-      let velocity = e.detail.data[0].velocity;
+      let { velocity } = e.detail.data[0];
       if (velocity > MAX_VELOCITY) {
         velocity = MAX_VELOCITY;
       }
@@ -458,7 +458,7 @@ const CaptureGame = ({ pokemon }) => {
         <div id="info-text">
           <h3>{`Catch ${pokemon.name}:`}</h3>
           <ul>
-            <li>{`Swipe the pikaball straight up, with just enough velocity`}</li>
+            <li>Swipe the pikaball straight up, with just enough velocity</li>
             <li>{`The smaller the green circle, the greater chance in catching ${pokemon.name}!`}</li>
           </ul>
         </div>

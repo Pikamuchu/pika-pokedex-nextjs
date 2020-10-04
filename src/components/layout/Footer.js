@@ -29,7 +29,11 @@ const Footer = ({ t }) => {
           </Row>
           <Row className="m-0">
             <p>
-              Developed with <a href="https://pikamachu.github.io/">♥</a> in barcelona.
+              Developed with 
+              {' '}
+              <a href="https://pikamachu.github.io/">♥</a>
+              {' '}
+              in barcelona.
             </p>
           </Row>
         </Col>

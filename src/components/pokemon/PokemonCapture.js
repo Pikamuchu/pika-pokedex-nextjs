@@ -10,7 +10,6 @@ const PokemonCapture = ({ t, pokemon }) => {
   const openCapturePage = (event) => {
     setActive(true);
     routeCapture(pokemon);
-
   };
 
   useEffect(() => {

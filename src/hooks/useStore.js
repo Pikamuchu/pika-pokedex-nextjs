@@ -25,4 +25,4 @@ export default function useStore() {
 
 export const mutateStore = (data, revalidate) => {
   mutate(key, data ? JSON.parse(data) : {}, revalidate || false);
-}
+};
