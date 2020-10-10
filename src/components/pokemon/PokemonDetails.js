@@ -11,9 +11,9 @@ const PokemonDetails = ({ t, pokemon }) => {
         <Col sm={5} xs={12}>
           <Row className="pokemon-image justify-content-center">
             <Link href={`/pokemon/${pokemon.id}`}>
-              <Image src={pokemon.image} label={pokemon.slug} alt={pokemon.slug} thumbnail />
+              <Image src={pokemon.image} label={pokemon.slug} alt={pokemon.slug} thumbnail fluid />
             </Link>
-            <PokemonCapture pokemon={pokemon} t={t} />
+            <PokemonCapture pokemon={pokemon} t={t} size="large" />
           </Row>
           <Row className="justify-content-center">
             <h5 className="pr-1">{`${pokemon.code} - ${pokemon.name}`}</h5>

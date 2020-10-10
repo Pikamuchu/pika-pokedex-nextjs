@@ -4,14 +4,14 @@ import { Link, withTranslation } from '../../i18n';
 import PokemonTypes from './PokemonTypes';
 import PokemonCapture from './PokemonCapture';
 
-const PokemonTile = ({ t, pokemon }) => {
+const PokemonTile = ({ t, pokemon, size }) => {
   return (
     <Col className="pokemon-card p-3">
       <Row className="pokemon-image justify-content-center">
         <Link href={`/pokemon/${pokemon.id}`}>
           <Image src={pokemon.image} label={pokemon.slug} alt={pokemon.slug} thumbnail />
         </Link>
-        <PokemonCapture pokemon={pokemon} t={t} />
+        <PokemonCapture pokemon={pokemon} t={t} size={size} />
       </Row>
       <Row className="justify-content-center flex-nowrap">
         <h5>{`${pokemon.code} - ${pokemon.name}`}</h5>
@@ -32,6 +32,11 @@ PokemonTile.propTypes = {
     slug: PropTypes.string,
     types: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
+  size: PropTypes.string,
+};
+
+PokemonTile.defaultProps = {
+  size: '',
 };
 
 export default withTranslation('pokemon')(PokemonTile);

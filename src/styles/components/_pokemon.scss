@@ -1,7 +1,10 @@
 .pokemon-card img {
-  width: 100%;
   background: #fdfdec;
   border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
+}
+
+.pokemon-image img {
+  width: 100%;
 }
 
 .pokemon-capture-button {
@@ -19,11 +22,20 @@
   background-repeat: no-repeat;
   background-size: 32px;
   opacity: 25%;
-}
+  z-index: 100;
 
-.pokemon-capture-button.active {
-  background-image: url(#{$staticPath}/images/pikaball-button-active.png);
-  opacity: 100%;
+  &.large {
+    bottom: 6rem;
+    right: 1rem;
+    height: 64px;
+    width: 64px;
+    background-size: 64px;
+  }
+
+  &.active {
+    background-image: url(#{$staticPath}/images/pikaball-button-active.png);
+    opacity: 100%;
+  }
 }
 
 .background-color-bug {
