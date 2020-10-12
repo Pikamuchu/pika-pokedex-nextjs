@@ -5,15 +5,14 @@ import useCapture, { routeCapture } from '../../hooks/useCapture';
 
 const PokemonCapture = ({ t, pokemon, size }) => {
   const [active, setActive] = useState(false);
-  const { data: captures, mutate, revalidate } = useCapture({}, []);
+  const { data: captures } = useCapture();
 
   const openCapturePage = (event) => {
-    setActive(true);
     routeCapture(pokemon);
   };
 
   useEffect(() => {
-    setActive(false);
+    setActive(captures && captures.includes(pokemon.id));
   }, [captures]);
 
   return (

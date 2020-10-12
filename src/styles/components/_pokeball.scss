@@ -16,15 +16,19 @@
   z-index: 10;
   box-shadow: 0 0 0 6px black;
   animation: blink 1s alternate infinite;
-  animation-play-state: running;
+  animation-play-state: paused;
+
+  &.active {
+    animation-play-state: running;
+  }
 }
 
 @keyframes blink {
   from {
-    background: #e74c3c;
+    background: #fff;
   }
   to {
-    background: #fff;
+    background: #e74c3c;
   }
 }
 

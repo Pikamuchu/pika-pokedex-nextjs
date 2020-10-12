@@ -5,17 +5,16 @@ import fetcher from '../libs/fetcher';
 import postData from '../libs/postData';
 import { isBrowser } from '../libs/utils';
 
-export default function useCapture(query) {
+export default function useCapture(query = {}) {
   const key = shouldFetch(query) ? createApiUrl(query) : null;
-  return useSWR(key, fetcher, {
+  // TODO: Add fetcher after api capture implementation
+  const response = useSWR(key, {
     initialData: getInitialData(key),
-    onFailure() {
-      if (isBrowser()) localStorage.removeItem(key);
-    },
     onSuccess(captures) {
-      if (isBrowser()) localStorage.setItem(key, JSON.stringify(captures));
+      if (isBrowser() && captures) localStorage.setItem(key, JSON.stringify(captures));
     },
   });
+  return response;
 }
 
 export const fetchCapture = async (query) => {
@@ -24,8 +23,10 @@ export const fetchCapture = async (query) => {
 
 export const postCapture = async (data, mutate, revalidate) => {
   mutate(data, false); // local mutate without revalidation
-  await postData(createApiUrl(), data); // POST request
-  revalidate(); // revalidate
+  // TODO: api POST capture implementation
+  if (isBrowser() && data) localStorage.setItem(createApiUrl(), JSON.stringify(data)); // workaround
+  // await postData(createApiUrl(), data); // POST request
+  // revalidate(); // revalidate
 };
 
 export const routeCapture = (query) => {
@@ -34,12 +35,15 @@ export const routeCapture = (query) => {
 
 const getInitialData = (key) => {
   let initialData;
-  if (isBrowser()) initialData = localStorage.getItem(key);
+  if (isBrowser()) {
+    const value = localStorage.getItem(key);
+    initialData = value && JSON.parse(value);
+  }
   return initialData ?? [];
 };
 
 const shouldFetch = (query) => {
-  return query && (query.id || query.ids);
+  return query;
 };
 
 const createApiUrl = (query) => {

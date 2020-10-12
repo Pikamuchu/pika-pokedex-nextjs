@@ -34,6 +34,10 @@ export const getListItems = async (params) => {
     limit: SEARCH_LIMIT,
   });
   let list = itemList.results;
+  if (params.ids) {
+    const idsArray = params.ids.split(',');
+    list = list.filter(item => idsArray.includes(item.name));
+  }
   if (params.listType === 'random') {
     list = getRandomList(list);
   }

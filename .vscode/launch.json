@@ -24,6 +24,23 @@
     {
       "type": "node",
       "request": "launch",
+      "protocol": "inspector",
+      "name": "Next Node 2",
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/node_modules/next/dist/bin/next",
+      "env": {
+        "NODE_ENV": "development",
+        "NODE_OPTIONS": "--inspect=9230"
+      },
+      "port": 9230,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/src"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Jest Tests",
       "env": {
         "NODE_ENV": "test"

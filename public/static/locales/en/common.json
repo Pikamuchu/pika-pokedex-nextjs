@@ -2,6 +2,7 @@
   "menu-title": "Pikadex",
   "menu-option-home": "Home",
   "menu-option-pokemon": "Pokemons",
+  "menu-option-capture": "Capture",
   "menu-option-about": "About",
   "search-placeholder": "Search for a pokemon...",
   "search-submit-button": "Search",

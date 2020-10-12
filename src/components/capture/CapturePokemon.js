@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import anime from 'animejs/lib/anime.es.js';
 import ZingTouch from 'zingtouch';
 
+import useCapture, { postCapture } from '../../hooks/useCapture';
+
 // https://cdnjs.cloudflare.com/ajax/libs/animejs/1.0.0/anime.min.js
 // https://s3-us-west-2.amazonaws.com/s.cdpn.io/374756/zingtouch.min.js
 
@@ -14,10 +16,12 @@ const Resources = {
 };
 
 const INITIAL_BALL_POSITION = 120;
-
 const BALL_LAUNCH_MAX_TIME = 200;
 
 const CaptureGame = ({ pokemon }) => {
+
+  const { data: captures, mutate, revalidate } = useCapture();
+
   const Screen = {
     height: window.innerHeight,
     width: window.innerWidth,
@@ -228,11 +232,16 @@ const CaptureGame = ({ pokemon }) => {
         buttonContainer.classList.toggle('hidden');
 
         // Captured
+        captures.push(pokemon.id);
+        postCapture(captures, mutate, revalidate)
+
+        // Captured animation
         const captureStatus = document.getElementById('capture-status');
         captureStatus.classList.toggle('hidden');
         captureStatus.innerHTML = `You caught ${pokemon.name}!`;
         makeItRainConfetti();
 
+/*
         anime({
           targets: ['#capture-ball-button-container'],
           opacity: {
@@ -251,6 +260,7 @@ const CaptureGame = ({ pokemon }) => {
             }, 800);
           },
         });
+*/
       } else {
         const poofContainer = document.getElementById('poof-container');
         poofContainer.classList.toggle('hidden');
