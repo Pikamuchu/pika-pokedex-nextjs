@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import { Jumbotron } from 'react-bootstrap';
 import { withTranslation } from '../../i18n';
 
@@ -12,7 +12,7 @@ const HomeHello = ({ t }) => {
 };
 
 HomeHello.propTypes = {
-  t: PropTypes.func.isRequired
-}
+  t: PropTypes.func.isRequired,
+};
 
 export default withTranslation('home')(HomeHello);

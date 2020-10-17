@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Container, Col, Row, DropdownButton, Dropdown, ButtonGroup } from 'react-bootstrap';
@@ -29,7 +30,7 @@ const Footer = ({ t }) => {
           </Row>
           <Row className="m-0">
             <p>
-              Developed with <a href="https://pikamachu.github.io/">♥</a> in barcelona.
+              <a href="https://pikamachu.github.io/">Developed with ♥</a>
             </p>
           </Row>
         </Col>

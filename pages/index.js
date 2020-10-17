@@ -1,9 +1,9 @@
+/* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/forbid-prop-types */
-// import React, { useState, useCallback, useEffect } from 'react'
-// import useSWR from 'swr'
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { Container } from 'react-bootstrap';
+
 import { withTranslation } from '../src/i18n';
 import { getPokemons } from '../src/models/pokemonModel';
 import HomeHello from '../src/components/home/HomeHello';
@@ -50,4 +50,4 @@ export const getServerSideProps = async ({ query }) => {
   };
 };
 
-export default withTranslation(['common', 'home', 'pokemon'])(HomePage);
+export default withTranslation('home')(HomePage);

@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { withTranslation } from '../../i18n';
 import Header from './Header';
 import Footer from './Footer';
-import Spanner from "./Spanner";
+import Spanner from './Spanner';
 
 const Layout = ({ children, t }) => (
   <>
@@ -30,7 +30,7 @@ const Layout = ({ children, t }) => (
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  t: PropTypes.func.isRequired
-}
+  t: PropTypes.func.isRequired,
+};
 
 export default withTranslation('common')(Layout);

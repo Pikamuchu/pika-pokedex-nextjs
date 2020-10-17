@@ -10,10 +10,10 @@ const fetcher = async (...args) => {
     enableSpanner();
     response = await fetch(...args);
     result = await response.json();
-    sendTrackEvent({...args, response, result});
+    sendTrackEvent({ ...args, response, result });
   } catch (error) {
     console.error(error);
-    sendTrackEvent({...args, response, error});
+    sendTrackEvent({ ...args, response, error });
   } finally {
     disableSpanner();
   }

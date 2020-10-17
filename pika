@@ -8,13 +8,17 @@ if [ "$COMMAND" = "install" ]; then
   echo "* Installing node_modules..."
   yarn install
 
+elif [ "$COMMAND" = "build" ]; then
+  echo "* Building..."
+  yarn build
+
+elif [ "$COMMAND" = "start" ]; then
+  echo "* Starting..."
+  yarn start
+
 elif [ "$COMMAND" = "test" ]; then
   echo "* Testing..."
   yarn test
-
-elif [ "$COMMAND" = "coverage" ]; then
-  echo "* Coverage..."
-  yarn coverage
 
 elif [ "$COMMAND" = "format" ]; then
   echo "* Formating..."
@@ -37,8 +41,11 @@ else
   echo "where [command] is one of:"
   echo "   install -> install application dependencies."
   echo "   build -> compile application."
+  echo "   start -> run application in development mode."
   echo "   test -> execute application tests."
   echo "   format -> auto format project code using prettier."
+  echo "   docker build -> create application docker image."
+  echo "   docker start -> run application docker image."
 
   exit 1
 fi

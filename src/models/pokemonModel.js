@@ -34,6 +34,10 @@ export const getListItems = async (params) => {
     limit: SEARCH_LIMIT,
   });
   let list = itemList.results;
+  if (params.ids) {
+    const idsArray = params.ids.split(',');
+    list = list.filter(item => idsArray.includes(item.name));
+  }
   if (params.listType === 'random') {
     list = getRandomList(list);
   }
@@ -73,9 +77,9 @@ export const getDetails = async (id, lang) => {
 };
 
 const parseParams = (query) => {
-  const params = {...query};
+  const params = { ...query };
   params.limit = query.limit ?? query.pageSize ?? LIST_CHUNK_SIZE;
-  params.offset = query.offset ?? (query.pageIndex && (params.limit * (query.pageIndex - 1))) ?? 0;
+  params.offset = query.offset ?? (query.pageIndex && params.limit * (query.pageIndex - 1)) ?? 0;
   return params;
 };
 

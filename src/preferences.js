@@ -1,6 +1,6 @@
 module.exports = {
-  availableLanguages: ['en', 'es','ca'],
+  availableLanguages: ['en', 'es', 'ca'],
   pokemonImageUrlPrefix: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/',
   pokemonImageType: 'png',
-  pageSize: 20
+  pageSize: 20,
 };

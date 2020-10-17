@@ -12,4 +12,4 @@ export const querySeparator = (url) => {
   return url.includes('?') ? '&' : '?';
 };
 
-export const isBrowser = () => typeof window !== "undefined";
+export const isBrowser = () => typeof window !== 'undefined';

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Col, Image, Row } from 'react-bootstrap';
 import { Link, withTranslation } from '../../i18n';
 import PokemonTypes from './PokemonTypes';
-import PokemonCapture from './PokemonCapture';
+import PokemonCaptureButton from './PokemonCaptureButton';
 
 const PokemonDetails = ({ t, pokemon }) => {
   return (
@@ -11,9 +11,9 @@ const PokemonDetails = ({ t, pokemon }) => {
         <Col sm={5} xs={12}>
           <Row className="pokemon-image justify-content-center">
             <Link href={`/pokemon/${pokemon.id}`}>
-              <Image src={pokemon.image} label={pokemon.slug} alt={pokemon.slug} thumbnail />
+              <Image src={pokemon.image} label={pokemon.slug} alt={pokemon.slug} thumbnail fluid />
             </Link>
-            <PokemonCapture pokemon={pokemon} t={t} />
+            <PokemonCaptureButton pokemon={pokemon} size="large" />
           </Row>
           <Row className="justify-content-center">
             <h5 className="pr-1">{`${pokemon.code} - ${pokemon.name}`}</h5>
@@ -51,9 +51,7 @@ const PokemonStats = ({ t, stats }) => {
       <Row className="justify-content-left">
         <div className="pokemon-stats">
           {stats?.map((stat) => (
-            <p key={stat.name}>
-              {`${stat.name}: ${stat.value}`}
-            </p>
+            <p key={stat.name}>{`${stat.name}: ${stat.value}`}</p>
           ))}
         </div>
       </Row>
@@ -70,9 +68,7 @@ const PokemonAbilities = ({ t, abilities }) => {
       <Row className="justify-content-left">
         <div className="pokemon-abilities">
           {abilities?.map((ability) => (
-            <p key={ability.name}>
-              {ability.name}
-            </p>
+            <p key={ability.name}>{ability.name}</p>
           ))}
         </div>
       </Row>

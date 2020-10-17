@@ -2,16 +2,16 @@ import PropTypes from 'prop-types';
 import { Col, Image, Row } from 'react-bootstrap';
 import { Link, withTranslation } from '../../i18n';
 import PokemonTypes from './PokemonTypes';
-import PokemonCapture from './PokemonCapture';
+import PokemonCaptureButton from './PokemonCaptureButton';
 
-const PokemonTile = ({ t, pokemon }) => {
+const PokemonTile = ({ t, pokemon, size }) => {
   return (
     <Col className="pokemon-card p-3">
       <Row className="pokemon-image justify-content-center">
         <Link href={`/pokemon/${pokemon.id}`}>
           <Image src={pokemon.image} label={pokemon.slug} alt={pokemon.slug} thumbnail />
         </Link>
-        <PokemonCapture pokemon={pokemon} t={t} />
+        <PokemonCaptureButton pokemon={pokemon} size={size} />
       </Row>
       <Row className="justify-content-center flex-nowrap">
         <h5>{`${pokemon.code} - ${pokemon.name}`}</h5>
@@ -32,6 +32,11 @@ PokemonTile.propTypes = {
     slug: PropTypes.string,
     types: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
+  size: PropTypes.string,
+};
+
+PokemonTile.defaultProps = {
+  size: '',
 };
 
 export default withTranslation('pokemon')(PokemonTile);

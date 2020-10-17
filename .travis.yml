@@ -9,6 +9,6 @@ cache:
 install:
   - bash pika install
 script:
-  - bash pika test
+  - bash pika build
 after_success:
-  - bash pika coverage
+  - bash pika test

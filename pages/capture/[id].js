@@ -1,17 +1,15 @@
+/* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/forbid-prop-types */
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import { Container, Jumbotron } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import { withTranslation } from '../../src/i18n';
 import { getPokemonDetails } from '../../src/models/pokemonModel';
 import usePokemon from '../../src/hooks/usePokemon';
 
-const CapturePokemon = dynamic(
-  () => import('../../src/components/capture/CapturePokemon'),
-  { ssr: false }
-)
+const CapturePokemon = dynamic(() => import('../../src/components/capture/CapturePokemon'), { ssr: false });
 
 const CapturePage = ({ initialData, t }) => {
   const { data: pokemon } = usePokemon({ id: initialData?.query?.id }, initialData?.pokemon);
@@ -21,7 +19,7 @@ const CapturePage = ({ initialData, t }) => {
         <title>{`Pikadex - ${t('capture-pokemon-title')} - ${pokemon?.id}`}</title>
       </Head>
       <Container className="capture-pokemon-page-container">
-      <h1>{`${t('capture-pokemon')} ${pokemon.name}`}</h1>
+        <h1>{`${t('capture-pokemon')} ${pokemon.name}`}</h1>
         <CapturePokemon pokemon={pokemon} />
       </Container>
     </>
@@ -53,4 +51,4 @@ export const getServerSideProps = async ({ query }) => {
   };
 };
 
-export default withTranslation(['common', 'pokemon'])(CapturePage);
+export default withTranslation('pokemon')(CapturePage);

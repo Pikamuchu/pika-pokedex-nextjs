@@ -14,7 +14,7 @@ const PokemonListPage = ({ initialData, t }) => {
   const initialPageIndex = initialData.query?.pageIndex || 1;
   const [query, setQuery] = useState(initialData.query);
   const [pageIndex, setPageIndex] = useState(initialPageIndex);
-  const { data: pokemons } = usePokemon(initialData.query, initialData.pokemons);
+  const { data: pokemons } = usePokemon(query, initialData.pokemons);
 
   const pokemonListLoaded = [];
   for (let i = initialPageIndex + 1; i < pageIndex; i++) {
@@ -27,7 +27,7 @@ const PokemonListPage = ({ initialData, t }) => {
         <title>{`Pikadex - ${t('pokemon-list-title')}`}</title>
       </Head>
       <Container className="pokemon-list-page-container">
-        <PokemonList pokemons={pokemons} t={t} />
+        <PokemonList pokemons={pokemons} />
         {pokemonListLoaded}
         <Row className="justify-content-center">
           <Button onClick={() => setPageIndex(pageIndex + 1)}>Load More</Button>
@@ -64,4 +64,4 @@ export const getServerSideProps = async ({ query }) => {
   };
 };
 
-export default withTranslation(['common', 'pokemon'])(PokemonListPage);
+export default withTranslation('pokemon')(PokemonListPage);

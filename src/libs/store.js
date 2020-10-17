@@ -1,6 +1,6 @@
 const initialStore = {
-    loading: false,
-    capturedPokemons: []
+  loading: false,
+  capturedPokemons: [],
 };
 
 export default initialStore;

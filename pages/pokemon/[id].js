@@ -47,4 +47,4 @@ export const getServerSideProps = async ({ query }) => {
   };
 };
 
-export default withTranslation(['common', 'pokemon'])(PokemonDetailsPage);
+export default withTranslation('pokemon')(PokemonDetailsPage);

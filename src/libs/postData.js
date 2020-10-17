@@ -11,16 +11,16 @@ const postData = async (url, data) => {
     response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
     result = await response.json();
-    sendTrackEvent({url, data, response, result});
+    sendTrackEvent({ url, data, response, result });
   } catch (error) {
     console.error(error);
-    sendTrackEvent({url, data, response, error});
+    sendTrackEvent({ url, data, response, error });
   } finally {
     disableSpanner();
   }

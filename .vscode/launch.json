@@ -11,8 +11,21 @@
     {
       "type": "node",
       "request": "launch",
-      "protocol": "inspector",
       "name": "Next Node",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "args": ["--inspect=9230", "${workspaceRoot}/node_modules/next/dist/bin/next"],
+      "port": 9230,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "sourceMaps": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "protocol": "inspector",
+      "name": "Next Node 2",
       "cwd": "${workspaceFolder}",
       "program": "${workspaceFolder}/node_modules/next/dist/bin/next",
       "env": {
@@ -28,10 +41,12 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Mocha Tests",
-      "cwd": "${workspaceFolder}",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": ["--require", "@babel/register", "--timeout", "999999", "--colors", "${workspaceFolder}/test/**/*.js"],
+      "name": "Jest Tests",
+      "env": {
+        "NODE_ENV": "test"
+      },
+      "args": ["--inspect=9231", "${workspaceRoot}/node_modules/jest/bin/jest", "--runInBand"],
+      "port": 9231,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "sourceMaps": true

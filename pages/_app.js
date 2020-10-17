@@ -36,7 +36,7 @@ const MyApp = ({ Component, pageProps }) => {
 
 MyApp.propTypes = {
   Component: PropTypes.any.isRequired,
-  pageProps: PropTypes.any.isRequired
+  pageProps: PropTypes.any.isRequired,
 };
 
 MyApp.getInitialProps = async (appContext) => {
@@ -45,8 +45,8 @@ MyApp.getInitialProps = async (appContext) => {
   return {
     ...appProps,
     pageProps: {
-      namespacesRequired: [...(appProps.pageProps.namespacesRequired || []), ...(defaultProps?.i18nNamespaces || [])]
-    }
+      namespacesRequired: [...(appProps.pageProps.namespacesRequired || []), ...(defaultProps?.i18nNamespaces || [])],
+    },
   };
 };
 
