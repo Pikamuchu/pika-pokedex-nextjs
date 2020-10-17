@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { withTranslation } from '../../i18n';
 import useCapture, { routeCapture } from '../../hooks/useCapture';
 
-const PokemonCapture = ({ t, pokemon, size }) => {
+const PokemonCaptureButton = ({ t, pokemon, size }) => {
   const [active, setActive] = useState(false);
   const { data: captures } = useCapture();
 
@@ -25,7 +25,7 @@ const PokemonCapture = ({ t, pokemon, size }) => {
   );
 };
 
-PokemonCapture.propTypes = {
+PokemonCaptureButton.propTypes = {
   pokemon: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
@@ -34,8 +34,8 @@ PokemonCapture.propTypes = {
   size: PropTypes.string,
 };
 
-PokemonCapture.defaultProps = {
+PokemonCaptureButton.defaultProps = {
   size: '',
 };
 
-export default withTranslation('pokemon')(PokemonCapture);
+export default withTranslation('pokemon')(PokemonCaptureButton);

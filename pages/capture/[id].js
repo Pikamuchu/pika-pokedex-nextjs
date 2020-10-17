@@ -1,8 +1,9 @@
+/* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/forbid-prop-types */
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import { Container, Jumbotron } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import { withTranslation } from '../../src/i18n';
 import { getPokemonDetails } from '../../src/models/pokemonModel';
@@ -50,4 +51,4 @@ export const getServerSideProps = async ({ query }) => {
   };
 };
 
-export default withTranslation(['common', 'pokemon'])(CapturePage);
+export default withTranslation('pokemon')(CapturePage);

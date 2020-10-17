@@ -14,7 +14,7 @@ const PokemonList = ({ pokemons, t }) => {
           </Col>
         ))
       ) : (
-        <NotFound message="{ t('pokemon-not-found')}" />
+        <NotFound message={t('pokemon-not-found')} />
       )}
     </Row>
   );

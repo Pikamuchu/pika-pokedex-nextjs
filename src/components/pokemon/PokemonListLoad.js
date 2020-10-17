@@ -7,7 +7,7 @@ import usePokemon from '../../hooks/usePokemon';
 const PokemonListPage = ({ query, index, t }) => {
   const { data: pokemons } = usePokemon({ ...query, pageIndex: index });
   return pokemons?.length ? (
-    <PokemonList pokemons={pokemons} t={t} />
+    <PokemonList pokemons={pokemons} />
   ) : (
     <Row className="justify-content-center p-3">
       <Spinner animation="grow" />
@@ -20,4 +20,4 @@ PokemonListPage.propTypes = {
   t: PropTypes.func.isRequired,
 };
 
-export default withTranslation(['pokemon'])(PokemonListPage);
+export default withTranslation('pokemon')(PokemonListPage);

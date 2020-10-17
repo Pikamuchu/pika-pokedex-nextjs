@@ -50,11 +50,11 @@ const PokeballButton = () => {
   }, [captures]);
 
   return (
-    <div className={`pokeball-button ${active ? 'active' : ''}`}>
-      <Link href="/capture">
-        <a></a>
-      </Link>
-    </div>
+    <Link href="/capture">
+      <a>
+        <div className={`pokeball-button ${active ? 'active' : ''}`} />
+      </a>
+    </Link>
   );
 };
 

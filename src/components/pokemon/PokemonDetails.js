@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Col, Image, Row } from 'react-bootstrap';
 import { Link, withTranslation } from '../../i18n';
 import PokemonTypes from './PokemonTypes';
-import PokemonCapture from './PokemonCapture';
+import PokemonCaptureButton from './PokemonCaptureButton';
 
 const PokemonDetails = ({ t, pokemon }) => {
   return (
@@ -13,7 +13,7 @@ const PokemonDetails = ({ t, pokemon }) => {
             <Link href={`/pokemon/${pokemon.id}`}>
               <Image src={pokemon.image} label={pokemon.slug} alt={pokemon.slug} thumbnail fluid />
             </Link>
-            <PokemonCapture pokemon={pokemon} t={t} size="large" />
+            <PokemonCaptureButton pokemon={pokemon} size="large" />
           </Row>
           <Row className="justify-content-center">
             <h5 className="pr-1">{`${pokemon.code} - ${pokemon.name}`}</h5>

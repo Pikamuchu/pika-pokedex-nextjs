@@ -66,4 +66,4 @@ export const getServerSideProps = async ({ query }) => {
   };
 };
 
-export default withTranslation(['common', 'about'])(About);
+export default withTranslation('about')(About);

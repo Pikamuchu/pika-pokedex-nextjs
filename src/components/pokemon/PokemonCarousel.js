@@ -12,7 +12,7 @@ const PokemonCarousel = ({ t, pokemons }) => {
         pokemons.map((pokemon) => (
           <Carousel.Item key={pokemon.id} className="col-sm-6 col-md-4 col-lg-3">
             <Row className="pokemons-container justify-content-around">
-              <PokemonTile key={pokemon.id} pokemon={pokemon} t={t} size="large" />
+              <PokemonTile key={pokemon.id} pokemon={pokemon} size="large" />
             </Row>
           </Carousel.Item>
         ))
