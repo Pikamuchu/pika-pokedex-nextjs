@@ -1,7 +1,7 @@
 # Pikadex
 
 [![Build Status](https://travis-ci.org/pikamachu/pika-pokedex-nextjs.svg?branch=master)](https://travis-ci.org/pikamachu/pika-pokedex-nextjs)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7a5d465f487e4f55a8e50e8201cc69b1)](https://www.codacy.com/project/antonio.marin.jimenez/pika-pokedex-nextjs/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pikamachu/pika-pokedex-nextjs&amp;utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/4c9d6e8bd4ca4064b09326eb48ab416a)](https://www.codacy.com/gh/pikamachu/pika-pokedex-nextjs/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pikamachu/pika-pokedex-nextjs&amp;utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/pikamachu/pika-pokedex-nextjs/branch/master/graph/badge.svg)](https://codecov.io/gh/pikamachu/pika-pokedex-nextjs)
 
 ## Introduction
