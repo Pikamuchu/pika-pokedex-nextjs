@@ -358,15 +358,10 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     direction: 'alternate',
   });
 
-  /* Gesture Bindings */
+  // Gesture Bindings
   const touchElement = document.getElementById('touch-layer');
 
 /*
-  const touchRegion = new ZingTouch.Region(touchElement);
-  const CustomSwipe = new ZingTouch.Swipe({
-    escapeVelocity: 0.1,
-  });
-
   const CustomPan = new ZingTouch.Pan();
   const endPan = CustomPan.end;
   CustomPan.end = function (inputs) {
@@ -384,29 +379,10 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   const Swipe = new Hammer.Swipe();
   manager.add(Swipe);
 
-/*
-  // Declare global variables to swiped correct distance
-  var deltaX = 0;
-  var deltaY = 0;
-
-  // Subscribe to a desired event
-  manager.on('swipe', function(e) {
-    deltaX = deltaX + e.deltaX;
-    var direction = e.offsetDirection;
-    var translate3d = 'translate3d(' + deltaX + 'px, 0, 0)';
-
-    if (direction === 4 || direction === 2) {
-      e.target.innerText = deltaX;
-      e.target.style.transform = translate3d;
-    }
-  });
-*/
-
 //  touchRegion.bind(touchElement, CustomPan, (e) => {
 //    Ball.moveBall(e.detail.events[0].x - Ball.size / 2, e.detail.events[0].y - Ball.size / 2);
 //  });
 
-//  touchRegion.bind(touchElement, CustomSwipe, (e) => {
   manager.on('swipe', (event) => {
     Ball.inMotion = true;
     const screenEle = document.getElementById('screen');
@@ -418,18 +394,13 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       velocity = maxVelocity;
     }
 
-    console.log(`Swipe event angle ${angle} deltaY ${deltaY} velocity ${velocity}`);
-
     // Determine the final position.
     const scalePercent = Math.log(velocity + 1) / Math.log(maxVelocity + 1);
-    //const destinationY = Screen.height - Screen.height * scalePercent + screenPos.top;
-    const movementY = deltaY;// destinationY - e.detail.events[0].y;
+    const movementY = deltaY;
 
     // Determine how far it needs to travel from the current position to the destination.
     const translateYValue = -0.75 * Screen.height * scalePercent;
     const translateXValue = -1 * (angle + 90) * (translateYValue / 100);
-
-    console.log(`translateYValue ${translateYValue} translateXValue ${translateXValue}`);
 
     anime.remove('#ring-fill');
 
