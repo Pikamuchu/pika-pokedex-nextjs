@@ -39,6 +39,7 @@
     "autosuggest-highlight": "^3.1.1",
     "bootstrap": "^4.5.2",
     "bootswatch": "^4.5.2",
+    "hammerjs": "^2.0.8",
     "i18next": "^14.0.1",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^9.5.2",
@@ -52,8 +53,7 @@
     "react-dom": "^16.13.1",
     "react-i18next": "^11.7.2",
     "sass": "^1.26.10",
-    "swr": "^0.1.18",
-    "zingtouch": "^1.0.6"
+    "swr": "^0.1.18"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",

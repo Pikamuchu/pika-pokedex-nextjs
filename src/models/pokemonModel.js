@@ -57,16 +57,16 @@ export const searchListItems = async (params, limit, offset) => {
 export const getDetails = async (id, lang) => {
   const [pokemon, species] = await Promise.all([P.getPokemonByName(id), P.getPokemonSpeciesByName(id)]);
   const code = formatCode(pokemon.id);
-  return {
+  return pokemon && {
     id,
     code,
     name: pokemon.name,
     slug: pokemon.name,
     types: mapTypes(pokemon.types),
     image: getPokemonImage(code),
-    tName: translateName(species.names, lang),
-    color: species.color?.name,
-    evolvesFromId: species.evolves_from_species && species.evolves_from_species.name,
+    tName: species && translateName(species.names, lang),
+    color: species?.color?.name,
+    evolvesFromId: species?.evolves_from_species && species?.evolves_from_species.name,
     abilities: pokemon.abilities && pokemon.abilities.map((item) => item.ability.name),
     weight: pokemon.weight,
     height: pokemon.height,
@@ -119,7 +119,7 @@ const formatCode = (code) => code && code.toString().padStart(3, '0');
 
 const translateName = (translations, lang) => {
   const translation = translations && translations.filter((item) => item.language && item.language.name === lang);
-  return translation && translation[0] && translation[0].name;
+  return translation && translation.length > 0 ? translation[0].name : null;
 };
 
 const mapTypes = (types) => {

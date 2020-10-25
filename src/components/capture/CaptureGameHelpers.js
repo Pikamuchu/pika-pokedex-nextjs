@@ -1,7 +1,7 @@
 /* eslint-disable func-names */
 /* eslint-disable no-plusplus */
 import anime from 'animejs/lib/anime.es.js';
-import ZingTouch from 'zingtouch';
+import * as Hammer from 'hammerjs';
 
 const Resources = {
   pikaball: '/static/images/pikaball.png',
@@ -30,7 +30,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
 
   const Ball = {
     id: 'ball',
-    size: 50,
+    size: 60,
     x: 0,
     y: 0,
     inMotion: false,
@@ -360,6 +360,8 @@ export default function captureGame(pokemon, captureSuccessCallback) {
 
   /* Gesture Bindings */
   const touchElement = document.getElementById('touch-layer');
+
+/*
   const touchRegion = new ZingTouch.Region(touchElement);
   const CustomSwipe = new ZingTouch.Swipe({
     escapeVelocity: 0.1,
@@ -375,29 +377,59 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     }, BALL_LAUNCH_MAX_TIME);
     return endPan.call(this, inputs);
   };
+*/
 
-  touchRegion.bind(touchElement, CustomPan, (e) => {
-    Ball.moveBall(e.detail.events[0].x - Ball.size / 2, e.detail.events[0].y - Ball.size / 2);
+  // Create a manager to manager the element
+  const manager = new Hammer.Manager(touchElement);
+  const Swipe = new Hammer.Swipe();
+  manager.add(Swipe);
+
+/*
+  // Declare global variables to swiped correct distance
+  var deltaX = 0;
+  var deltaY = 0;
+
+  // Subscribe to a desired event
+  manager.on('swipe', function(e) {
+    deltaX = deltaX + e.deltaX;
+    var direction = e.offsetDirection;
+    var translate3d = 'translate3d(' + deltaX + 'px, 0, 0)';
+
+    if (direction === 4 || direction === 2) {
+      e.target.innerText = deltaX;
+      e.target.style.transform = translate3d;
+    }
   });
+*/
 
-  touchRegion.bind(touchElement, CustomSwipe, (e) => {
+//  touchRegion.bind(touchElement, CustomPan, (e) => {
+//    Ball.moveBall(e.detail.events[0].x - Ball.size / 2, e.detail.events[0].y - Ball.size / 2);
+//  });
+
+//  touchRegion.bind(touchElement, CustomSwipe, (e) => {
+  manager.on('swipe', (event) => {
     Ball.inMotion = true;
     const screenEle = document.getElementById('screen');
     const screenPos = screenEle.getBoundingClientRect();
-    const angle = e.detail.data[0].currentDirection;
-    let { velocity } = e.detail.data[0];
+
+    const { angle, deltaY } = event;
+    let velocity = Math.abs(event.velocity);
     if (velocity > maxVelocity) {
       velocity = maxVelocity;
     }
 
+    console.log(`Swipe event angle ${angle} deltaY ${deltaY} velocity ${velocity}`);
+
     // Determine the final position.
     const scalePercent = Math.log(velocity + 1) / Math.log(maxVelocity + 1);
-    const destinationY = Screen.height - Screen.height * scalePercent + screenPos.top;
-    const movementY = destinationY - e.detail.events[0].y;
+    //const destinationY = Screen.height - Screen.height * scalePercent + screenPos.top;
+    const movementY = deltaY;// destinationY - e.detail.events[0].y;
 
     // Determine how far it needs to travel from the current position to the destination.
     const translateYValue = -0.75 * Screen.height * scalePercent;
-    const translateXValue = 1 * (90 - angle) * -(translateYValue / 100);
+    const translateXValue = -1 * (angle + 90) * (translateYValue / 100);
+
+    console.log(`translateYValue ${translateYValue} translateXValue ${translateXValue}`);
 
     anime.remove('#ring-fill');
 

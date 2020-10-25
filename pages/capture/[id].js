@@ -19,7 +19,6 @@ const CapturePage = ({ initialData, t }) => {
         <title>{`Pikadex - ${t('capture-pokemon-title')} - ${pokemon?.id}`}</title>
       </Head>
       <Container className="capture-pokemon-page-container">
-        <h1>{`${t('capture-pokemon')} ${pokemon.name}`}</h1>
         <CapturePokemon pokemon={pokemon} />
       </Container>
     </>

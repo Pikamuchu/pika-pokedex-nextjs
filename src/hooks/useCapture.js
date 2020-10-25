@@ -30,7 +30,7 @@ export const postCapture = async (data, mutate, revalidate) => {
 };
 
 export const routeCapture = (query) => {
-  Router.push(createUrl(query)).then(() => window.scrollTo(0, 0));
+  return Router.push(createUrl(query));
 };
 
 const getInitialData = (key) => {
