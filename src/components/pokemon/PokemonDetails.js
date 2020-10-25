@@ -39,6 +39,7 @@ PokemonDetails.propTypes = {
     name: PropTypes.string,
     slug: PropTypes.string,
     types: PropTypes.arrayOf(PropTypes.object),
+    abilities: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
 };
 

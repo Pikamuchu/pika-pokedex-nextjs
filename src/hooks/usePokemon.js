@@ -14,7 +14,7 @@ export const fetchPokemon = async (query) => {
 };
 
 export const routePokemon = (query) => {
-  Router.push(createUrl(query)).then(() => window.scrollTo(0, 0));
+  return Router.push(createUrl(query));
 };
 
 const shouldFetch = (query) => {

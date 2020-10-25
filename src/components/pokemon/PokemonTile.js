@@ -4,7 +4,7 @@ import { Link, withTranslation } from '../../i18n';
 import PokemonTypes from './PokemonTypes';
 import PokemonCaptureButton from './PokemonCaptureButton';
 
-const PokemonTile = ({ t, pokemon, size }) => {
+const PokemonTile = ({ pokemon, size, t }) => {
   return (
     <Col className="pokemon-card p-3">
       <Row className="pokemon-image justify-content-center">

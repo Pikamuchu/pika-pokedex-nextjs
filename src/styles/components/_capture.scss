@@ -48,7 +48,7 @@
 }
 
 #ring-active {
-  border: 2px solid #64dd17;
+  border: 2px solid red;
   border-radius: 100px;
 }
 
@@ -91,8 +91,8 @@
 
 #capture-ball {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
   background-image: url(#{$staticPath}/images/pikaball.png);
   background-repeat: no-repeat;
   background-position: center center;
@@ -134,8 +134,8 @@
 
 #ball {
   position: fixed;
-  height: 50px;
-  width: 50px;
+  height: 100px;
+  width: 100px;
   border-radius: 25px;
   bottom: 10%;
   background-image: url(#{$staticPath}/images/pikaball.png);
@@ -155,13 +155,11 @@
 
 #capture-status {
   position: absolute;
-  font-size: 1.5em;
-  top: 0;
+  top: 150px;
   left: 0;
   width: 100%;
   text-align: center;
-  padding: 1em 0.2em;
-  color: #fff;
+  z-index: 11;
 }
 
 #particles {
@@ -193,43 +191,6 @@
   width: 10px;
   opacity: 0.9;
   background-color: #4aa6fb;
-}
-
-/*Info screen*/
-
-#info-button {
-  @extend .flex-center;
-  position: fixed;
-  top: 5px;
-  right: 5px;
-  z-index: 15;
-  color: button;
-  width: 30px;
-  height: 30px;
-  color: #fff;
-  border: 2px solid #fff;
-  border-radius: 15px;
-  cursor: pointer;
-}
-
-#info-screen {
-  @extend .fixed-full-width;
-  z-index: 14;
-}
-
-#info-shade {
-  @extend .fixed-full-width;
-  background-color: #222;
-  opacity: 0.89;
-}
-
-#info-text {
-  @extend .fixed-full-width;
-  display: flex;
-  flex-direction: column;
-  padding: 1em;
-  font-size: 0.9em;
-  color: white;
 }
 
 .flex-center {

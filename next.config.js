@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
 const withPWA = require('next-pwa');
 const { nextI18NextRewrites } = require('next-i18next/rewrites');
@@ -7,6 +8,8 @@ const localeSubpaths = {
   es: 'es',
   ca: 'ca',
 };
+
+console.log(`Using env config ${process.env.NODE_ENV}`);
 
 module.exports = withPWA({
   target: 'serverless',

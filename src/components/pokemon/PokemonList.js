@@ -1,10 +1,12 @@
+/* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-bootstrap';
 import { withTranslation } from '../../i18n';
 import PokemonTile from './PokemonTile';
 import NotFound from '../layout/NotFound';
 
-const PokemonList = ({ pokemons, t }) => {
+const PokemonList = ({ pokemons, showNotFound, t }) => {
+  const notFoundMessage = showNotFound ? <NotFound message={t('pokemon-not-found')} /> : '';
   return (
     <Row className="pokemons-container justify-content-around">
       {pokemons && pokemons.length ? (
@@ -14,7 +16,7 @@ const PokemonList = ({ pokemons, t }) => {
           </Col>
         ))
       ) : (
-        <NotFound message={t('pokemon-not-found')} />
+        notFoundMessage
       )}
     </Row>
   );
@@ -22,7 +24,12 @@ const PokemonList = ({ pokemons, t }) => {
 
 PokemonList.propTypes = {
   pokemons: PropTypes.arrayOf(PropTypes.object).isRequired,
+  showNotFound: PropTypes.bool,
   t: PropTypes.func.isRequired,
+};
+
+PokemonList.defaultProps = {
+  showNotFound: true,
 };
 
 export default withTranslation('pokemon')(PokemonList);

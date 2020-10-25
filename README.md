@@ -41,7 +41,7 @@ You can preview source code using [codesandbox](https://codesandbox.io/s/github/
 * [i18next](https://www.i18next.com/)
 * [PokeAPI](https://pokeapi.co/)
 * [SWR](https://swr.vercel.app/)
-* [Zingtouch]()
+* [Hammer.js](https://hammerjs.github.io/)
 
 ### Folder structure
 

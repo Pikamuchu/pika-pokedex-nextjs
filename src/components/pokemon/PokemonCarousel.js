@@ -25,18 +25,6 @@ const PokemonCarousel = ({ t, pokemons }) => {
   );
 };
 
-/*
-        arrayChunk(pokemons, 4).map((pokemonChunk) => (
-          <Carousel.Item key={pokemonChunk[0].id} className="pl-3 pr-3">
-            <Row className="pokemons-container justify-content-around">
-              {pokemonChunk.map((pokemon) => (
-                <PokemonTile key={pokemon.id} pokemon={pokemon} />
-              ))}
-            </Row>
-          </Carousel.Item>
-        ))
-*/
-
 PokemonCarousel.propTypes = {
   pokemons: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
