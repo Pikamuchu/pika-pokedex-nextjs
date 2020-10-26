@@ -14,7 +14,7 @@ const CaptureGame = ({ pokemon, t }) => {
       postCapture(captures, mutate, revalidate);
       setTimeout(() => {
         routeCapture({});
-      }, 800);
+      }, 2000);
     });
   }, [pokemon]);
 

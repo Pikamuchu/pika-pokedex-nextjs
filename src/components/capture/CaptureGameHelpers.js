@@ -54,7 +54,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       Ball.inMotion = false;
     },
     savePosition: () => {
-      const ballEle = document.getElementById('ball');
+      const ballEle = document.getElementById(Ball.id);
       const ballRect = ballEle.getBoundingClientRect();
       ballEle.style.transform = '';
       ballEle.style.top = `${ballRect.top}px`;
@@ -203,6 +203,9 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     const ballContainer = document.getElementById('capture-screen');
     ballContainer.classList.toggle('hidden');
 
+    const buttonContainer = document.getElementById('capture-ball-button-container');
+    buttonContainer.classList.toggle('hidden');
+
     const duration = 500;
     anime({
       targets: ['#capture-ball'],
@@ -229,8 +232,8 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   };
 
   const showCaptureSuccess = () => {
-    const buttonContainer = document.getElementById('capture-ball-button-container');
-    buttonContainer.classList.toggle('hidden');
+    const captureBallButton = document.getElementById('capture-ball-button');
+    captureBallButton.classList.toggle('active');
 
     const captureStatus = document.getElementById('capture-status');
     captureStatus.classList.toggle('hidden');
@@ -238,45 +241,27 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     makeItRainConfetti();
 
     captureSuccessCallback();
-
-  /*
-    const captureBall = document.getElementById('capture-ball');
-    anime({
-      targets: ['#capture-ball-button-container'],
-      opacity: {
-        value: 0,
-        duration: 800,
-        easing: 'easeInSine',
-      },
-      complete: () => {
-        setTimeout(() => {
-          const ballContainer = document.getElementById('capture-screen');
-          ballContainer.classList.toggle('hidden');
-          const buttonContainer = document.getElementById('capture-ball-button-container');
-          buttonContainer.classList.toggle('hidden');
-          buttonContainer.style.opacity = '';
-          document.getElementById('capture-status').classList.toggle('hidden');
-        }, 800);
-      },
-    });
-  */
   };
 
   function showEscapeAnimationAndContinue() {
+    const buttonContainer = document.getElementById('capture-ball-button-container');
+    buttonContainer.classList.toggle('hidden');
+
     const poofContainer = document.getElementById('poof-container');
     poofContainer.classList.toggle('hidden');
-    const captureStatus = document.getElementById('capture-status');
-    captureStatus.classList.toggle('hidden');
+
     anime({
       targets: ['#poof'],
       scale: {
         value: 20,
-        delay: 400,
+        delay: 0,
         easing: 'linear',
-        duration: 600,
+        duration: 500,
       },
       complete: () => {
-        hideEscapeAnimation();
+        setTimeout(() => {
+          hideEscapeAnimation();
+        }, 500);
       },
     });
   }
@@ -360,28 +345,25 @@ export default function captureGame(pokemon, captureSuccessCallback) {
 
   // Gesture Bindings
   const touchElement = document.getElementById('touch-layer');
+  const ballElement = document.getElementById(Ball.id);
 
-/*
-  const CustomPan = new ZingTouch.Pan();
-  const endPan = CustomPan.end;
-  CustomPan.end = function (inputs) {
-    setTimeout(() => {
-      if (Ball.inMotion === false) {
-        Ball.resetBall();
-      }
-    }, BALL_LAUNCH_MAX_TIME);
-    return endPan.call(this, inputs);
-  };
-*/
+  // create a simple instance to manage Ball
+  const mc = new Hammer(ballElement);
+  mc.add(new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 0 }));
+  mc.on('pan', (event) => {
+    Ball.moveBall(Ball.x + event.deltaX - (Ball.size / 2), Ball.y + event.deltaY - (Ball.size / 2));
+    if (event.isFinal) {
+      setTimeout(() => {
+        if (Ball.inMotion === false) {
+          Ball.resetBall();
+        }
+      }, BALL_LAUNCH_MAX_TIME);
+    }
+  });
 
-  // Create a manager to manager the element
+  // Create a manager to manage the touch area
   const manager = new Hammer.Manager(touchElement);
-  const Swipe = new Hammer.Swipe();
-  manager.add(Swipe);
-
-//  touchRegion.bind(touchElement, CustomPan, (e) => {
-//    Ball.moveBall(e.detail.events[0].x - Ball.size / 2, e.detail.events[0].y - Ball.size / 2);
-//  });
+  manager.add(new Hammer.Swipe());
 
   manager.on('swipe', (event) => {
     Ball.inMotion = true;
