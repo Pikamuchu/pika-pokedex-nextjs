@@ -101,6 +101,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       ballCoords.y > targetCoords.y - radius &&
       ballCoords.y < targetCoords.y + radius
     ) {
+      targetMotion.pause();
       Ball.savePosition();
       const ballOrientation = ballCoords.x < targetCoords.x ? -1 : 1;
       anime({
@@ -326,22 +327,30 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       loop: true,
       easing: 'linear',
     });
+    targetMotion.play();
   };
-
-  // Initial Setup
-  resetState();
 
   // Init pokemon
   const target = document.getElementById('target');
   target.style.backgroundImage = `url('${pokemon.image}')`;
-  anime({
-    targets: ['#target'],
+
+  // Move pokemon through path
+  const path = anime.path('#motion-path path');
+
+  const targetMotion = anime({
+    targets: '#target',
+    translateX: path('x'),
+    translateY: path('y'),
     rotate: 20,
-    duration: 800,
-    loop: true,
     easing: 'easeInOutQuad',
+    duration: 10000,
+    loop: true,
     direction: 'alternate',
+    autoplay: false
   });
+
+  // Start animation at center
+  targetMotion.play();
 
   // Gesture Bindings
   const touchElement = document.getElementById('touch-layer');
@@ -412,6 +421,9 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       },
     });
   });
+
+  // Initial Setup
+  resetState();
 }
 
 const getCenterCoords = (elementId) => {

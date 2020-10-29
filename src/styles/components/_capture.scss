@@ -21,20 +21,11 @@
 }
 
 #screen,
-#capture-screen,
-#ring-screen {
+#capture-screen {
   @extend .flex-center;
 }
 
 /* Accuracy ring */
-
-#ring-screen {
-  @extend .flex-center;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  z-index: 3;
-}
 
 #ring {
   display: flex;
@@ -123,12 +114,10 @@
   }
 }
 
-#target-container {
-  @extend .flex-center;
-  position: relative;
-}
-
 #target {
+  position: relative;
+  top: -70px;
+  left: 0px;
   width: 140px;
   height: 140px;
   transform: rotate(-10deg);
@@ -136,6 +125,14 @@
   background-position: center center;
   background-size: cover;
   z-index: 2;
+}
+
+#motion-path {
+  @extend .flex-center;
+}
+
+#motion-path path {
+  visibility: hidden;
 }
 
 #ball {
@@ -216,3 +213,4 @@
 .hidden {
   display: none !important;
 }
+
