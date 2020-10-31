@@ -37,16 +37,16 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     moveBall: (x, y) => {
       Ball.x = x;
       Ball.y = y;
-      const BallElement = document.getElementById(Ball.id);
+      const BallElement = getElement(Ball.id);
       BallElement.style.top = `${Ball.y}px`;
       BallElement.style.left = `${Ball.x}px`;
     },
     getElement: () => {
-      return document.getElementById(Ball.id);
+      return getElement(Ball.id);
     },
     resetBall: () => {
       Ball.moveBall(Screen.width / 2 - Ball.size / 2, Screen.height - (Ball.size + INITIAL_BALL_POSITION));
-      const BallElement = document.getElementById(Ball.id);
+      const BallElement = getElement(Ball.id);
       BallElement.style.transform = '';
       BallElement.style.height = `${Ball.size}px`;
       BallElement.style.width = `${Ball.size}px`;
@@ -54,7 +54,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       Ball.inMotion = false;
     },
     savePosition: () => {
-      const ballEle = document.getElementById(Ball.id);
+      const ballEle = getElement(Ball.id);
       const ballRect = ballEle.getBoundingClientRect();
       ballEle.style.transform = '';
       ballEle.style.top = `${ballRect.top}px`;
@@ -68,7 +68,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     // Treat translations as fixed.
     Ball.savePosition();
     anime({
-      targets: ['#ball'],
+      targets: ['.ball'],
       translateY: {
         value: `${movementY * -0.5}px`,
         duration: 400,
@@ -94,7 +94,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     const ballCoords = getCenterCoords('ball');
 
     // Determine if the ball is touching the target.
-    const radius = document.getElementById('target').getBoundingClientRect().width / 2;
+    const radius = getElement('target').getBoundingClientRect().width / 2;
     if (
       ballCoords.x > targetCoords.x - radius &&
       ballCoords.x < targetCoords.x + radius &&
@@ -105,7 +105,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       Ball.savePosition();
       const ballOrientation = ballCoords.x < targetCoords.x ? -1 : 1;
       anime({
-        targets: ['#ball'],
+        targets: ['.ball'],
         translateY: {
           value: -1.15 * radius,
           duration: 200,
@@ -138,7 +138,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     const ballEle = Ball.getElement();
     const ballRect = ballEle.getBoundingClientRect();
     const palette = ['#E4D3A8', '#6EB8C0', '#FFF', '#2196F3'];
-    const particleContainer = document.getElementById('particles');
+    const particleContainer = getElement('particles');
     for (let i = 0; i < 50; i++) {
       const particleEle = document.createElement('div');
       particleEle.className = 'particle';
@@ -167,7 +167,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
         },
       });
       anime({
-        targets: ['#target'],
+        targets: ['.target'],
         opacity: {
           value: 0,
           delay: 200,
@@ -178,11 +178,11 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     setTimeout(() => {
       const ball = Ball.getElement();
       ball.style.backgroundImage = `url('${Resources.pikaballClosed}')`;
-      document.getElementById('particles').innerHTML = '';
+      getElement('particles').innerHTML = '';
       Ball.savePosition();
 
       anime({
-        targets: ['#ball'],
+        targets: ['.ball'],
         translateY: {
           value: '200px',
           delay: 400,
@@ -201,15 +201,15 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   };
 
   const animateCaptureState = () => {
-    const ballContainer = document.getElementById('capture-screen');
+    const ballContainer = getElement('capture-screen');
     ballContainer.classList.toggle('hidden');
 
-    const buttonContainer = document.getElementById('capture-ball-button-container');
+    const buttonContainer = getElement('capture-ball-button-container');
     buttonContainer.classList.toggle('hidden');
 
     const duration = 500;
     anime({
-      targets: ['#capture-ball'],
+      targets: ['.capture-ball'],
       rotate: 40,
       duration,
       easing: 'easeInOutBack',
@@ -217,11 +217,11 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       direction: 'alternate',
     });
 
-    const ringRect = document.getElementById('ring-active').getBoundingClientRect();
+    const ringRect = getElement('ring-active').getBoundingClientRect();
     const successRate = ((150 - ringRect.width) / 150) * 100;
     const seed = getRandNum(0, 100);
     setTimeout(() => {
-      anime.remove('#capture-ball');
+      anime.remove('.capture-ball');
 
       if (seed < Math.floor(successRate)) {
         showCaptureSuccess();
@@ -233,10 +233,10 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   };
 
   const showCaptureSuccess = () => {
-    const captureBallButton = document.getElementById('capture-ball-button');
+    const captureBallButton = getElement('capture-ball-button');
     captureBallButton.classList.toggle('active');
 
-    const captureStatus = document.getElementById('capture-status');
+    const captureStatus = getElement('capture-status');
     captureStatus.classList.toggle('hidden');
 
     makeItRainConfetti();
@@ -245,14 +245,14 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   };
 
   function showEscapeAnimationAndContinue() {
-    const buttonContainer = document.getElementById('capture-ball-button-container');
+    const buttonContainer = getElement('capture-ball-button-container');
     buttonContainer.classList.toggle('hidden');
 
-    const poofContainer = document.getElementById('poof-container');
+    const poofContainer = getElement('poof-container');
     poofContainer.classList.toggle('hidden');
 
     anime({
-      targets: ['#poof'],
+      targets: ['.poof'],
       scale: {
         value: 20,
         delay: 0,
@@ -269,7 +269,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
 
   const makeItRainConfetti = () => {
     for (let i = 0; i < 100; i++) {
-      const particleContainer = document.getElementById('capture-confetti');
+      const particleContainer = getElement('capture-confetti');
       const particleEle = document.createElement('div');
       particleEle.className = 'particle';
       particleEle.setAttribute('id', `particle-${i}`);
@@ -295,32 +295,32 @@ export default function captureGame(pokemon, captureSuccessCallback) {
           easing: 'easeInSine',
         },
         complete: () => {
-          document.getElementById('capture-confetti').innerHTML = '';
+          getElement('capture-confetti').innerHTML = '';
         },
       });
     }
   };
 
   const hideEscapeAnimation = () => {
-    const ballContainer = document.getElementById('capture-screen');
+    const ballContainer = getElement('capture-screen');
     ballContainer.classList.toggle('hidden');
-    const poofEle = document.getElementById('poof');
+    const poofEle = getElement('poof');
     poofEle.style.transform = '';
-    const poofContainer = document.getElementById('poof-container');
+    const poofContainer = getElement('poof-container');
     poofContainer.classList.toggle('hidden');
-    const captureStatus = document.getElementById('capture-status');
+    const captureStatus = getElement('capture-status');
     captureStatus.classList.toggle('hidden');
   }
 
   const resetState = () => {
     Ball.resetBall();
-    document.getElementById('target').style.opacity = 1;
+    getElement('target').style.opacity = 1;
     // Adjust Ring
-    const ring = document.getElementById('ring-fill');
+    const ring = getElement('ring-fill');
     ring.style.height = '150px';
     ring.style.width = '150px';
     anime({
-      targets: ['#ring-fill'],
+      targets: ['.ring-fill'],
       height: '5px',
       width: '5px',
       duration: 3000,
@@ -331,14 +331,14 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   };
 
   // Init pokemon
-  const target = document.getElementById('target');
+  const target = getElement('target');
   target.style.backgroundImage = `url('${pokemon.image}')`;
 
   // Move pokemon through path
-  const path = anime.path('#motion-path path');
+  const path = anime.path('.motion-path path');
 
   const targetMotion = anime({
-    targets: '#target',
+    targets: '.target',
     translateX: path('x'),
     translateY: path('y'),
     rotate: 20,
@@ -353,8 +353,8 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   targetMotion.play();
 
   // Gesture Bindings
-  const touchElement = document.getElementById('touch-layer');
-  const ballElement = document.getElementById(Ball.id);
+  const touchElement = getElement('touch-layer');
+  const ballElement = getElement(Ball.id);
 
   // create a simple instance to manage Ball
   const mc = new Hammer(ballElement);
@@ -376,7 +376,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
 
   manager.on('swipe', (event) => {
     Ball.inMotion = true;
-    const screenEle = document.getElementById('screen');
+    const screenEle = getElement('screen');
     const screenPos = screenEle.getBoundingClientRect();
 
     const { angle, deltaY } = event;
@@ -393,10 +393,10 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     const translateYValue = -0.75 * Screen.height * scalePercent;
     const translateXValue = -1 * (angle + 90) * (translateYValue / 100);
 
-    anime.remove('#ring-fill');
+    anime.remove('.ring-fill');
 
     anime({
-      targets: ['#ball'],
+      targets: ['.ball'],
       translateX: {
         duration: 300,
         value: translateXValue,
@@ -426,8 +426,10 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   resetState();
 }
 
+const getElement = (className) => document.getElementsByClassName(className)[0];
+
 const getCenterCoords = (elementId) => {
-  const rect = document.getElementById(elementId).getBoundingClientRect();
+  const rect = getElement(elementId).getBoundingClientRect();
   return {
     x: rect.left + rect.width / 2,
     y: rect.top + rect.height / 2,

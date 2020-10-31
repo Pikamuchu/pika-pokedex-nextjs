@@ -1,18 +1,17 @@
 .gradient-background {
-  background: #00c6ff;
+  background: .00c6ff;
   background: -webkit-linear-gradient(top, #f4dc26 0%, #fafa75 25%, #f8f8b0 55%, #fdfdec 100%);
   background: linear-gradient(to bottom, #f4dc26 0%, #fafa75 25%, #f8f8b0 55%, #fdfdec 100%);
 }
 
-#screen,
-#wrapper,
-#touch-layer,
-#waves,
-#info-screen {
+.screen,
+.wrapper,
+.touch-layer,
+.waves {
   @extend .fixed-full-width;
 }
 
-#title {
+.title {
   padding-top: 150px;
   position: fixed;
   text-align: center;
@@ -20,14 +19,14 @@
   z-index: 11;
 }
 
-#screen,
-#capture-screen {
+.screen,
+.capture-screen {
   @extend .flex-center;
 }
 
 /* Accuracy ring */
 
-#ring {
+.ring {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -38,29 +37,29 @@
   border-radius: 100px;
 }
 
-#ring-active {
+.ring-active {
   border: 2px solid red;
   border-radius: 100px;
 }
 
-#ring-fill {
+.ring-fill {
   width: 150px;
   height: 150px;
 }
 
 /* Capture Screen */
 
-#capture-screen {
+.capture-screen {
   display: flex;
   @extend .fixed-full-width;
 
   flex-direction: column;
-  background-color: #222;
+  background-color: .222;
 
   z-index: 12;
 }
 
-#poof-container {
+.poof-container {
   @extend .flex-center;
   position: fixed;
   z-index: 10;
@@ -70,7 +69,7 @@
   left: 0;
 }
 
-#poof {
+.poof {
   width: 100%;
   height: 20px;
   opacity: 0.8;
@@ -80,7 +79,7 @@
   background-size: contain;
 }
 
-#capture-ball {
+.capture-ball {
   position: relative;
   width: 300px;
   height: 300px;
@@ -90,7 +89,7 @@
   background-size: cover;
 }
 
-#capture-ball-button-container {
+.capture-ball-button-container {
   @extend .flex-center;
   position: fixed;
   top: 0;
@@ -100,7 +99,7 @@
   z-index: 5;
 }
 
-#capture-ball-button {
+.capture-ball-button {
   width: 30px;
   height: 30px;
   border-radius: 20px;
@@ -114,7 +113,7 @@
   }
 }
 
-#target {
+.target {
   position: relative;
   top: -70px;
   left: 0px;
@@ -127,16 +126,16 @@
   z-index: 2;
 }
 
-#motion-path {
+.motion-path {
   @extend .flex-center;
   width: 100%;
 }
 
-#motion-path path {
+.motion-path path {
   visibility: hidden;
 }
 
-#ball {
+.ball {
   position: fixed;
   height: 100px;
   width: 100px;
@@ -149,7 +148,7 @@
   z-index: 30;
 }
 
-#touch-layer {
+.touch-layer {
   position: fixed;
   top: 0;
   left: 0;
@@ -157,7 +156,7 @@
   z-index: 10;
 }
 
-#capture-status {
+.capture-status {
   position: absolute;
   top: 150px;
   left: 0;
@@ -166,7 +165,7 @@
   z-index: 11;
 }
 
-#particles {
+.particles {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -183,18 +182,18 @@
   z-index: 1;
 }
 
-#capture-confetti {
+.capture-confetti {
   position: fixed;
   width: 100%;
   height: 100%;
   z-index: 60;
 }
 
-#capture-confetti > div.particle {
+.capture-confetti > div.particle {
   height: 10px;
   width: 10px;
   opacity: 0.9;
-  background-color: #4aa6fb;
+  background-color: .4aa6fb;
 }
 
 .flex-center {

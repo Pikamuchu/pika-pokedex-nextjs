@@ -19,20 +19,20 @@ const CaptureGame = ({ pokemon, t }) => {
   }, [pokemon]);
 
   return (
-    <section id="wrapper">
-      <div id="title">
+    <section className="wrapper">
+      <div className="title">
         <h1>{`Catch ${pokemon?.name}!`}</h1>
       </div>
-      <div id="touch-layer" />
-      <div id="particles" />
-      <div id="screen" className="gradient-background">
-        <div id="ball" />
-        <div id="output" />
-        <div id="motion-path">
-          <div id="target">
-            <div id="ring">
-              <div id="ring-active">
-                <div id="ring-fill" />
+      <div className="touch-layer" />
+      <div className="particles" />
+      <div className="screen gradient-background">
+        <div className="ball" />
+        <div className="output" />
+        <div className="motion-path">
+          <div className="target">
+            <div className="ring">
+              <div className="ring-active">
+                <div className="ring-fill" />
               </div>
             </div>
           </div>
@@ -45,17 +45,17 @@ const CaptureGame = ({ pokemon, t }) => {
           </svg>
         </div>
       </div>
-      <div id="capture-screen" className="gradient-background hidden">
-        <div id="capture-status" className="hidden">
+      <div className="capture-screen gradient-background hidden">
+        <div className="capture-status hidden">
           <h1>{`You caught ${pokemon.name}!`}</h1>
         </div>
-        <div id="poof-container" className="hidden">
-          <div id="poof" />
+        <div className="poof-container hidden">
+          <div className="poof" />
         </div>
-        <div id="capture-confetti" />
-        <div id="capture-ball" />
-        <div id="capture-ball-button-container" className="hidden">
-          <div id="capture-ball-button" />
+        <div className="capture-confetti" />
+        <div className="capture-ball" />
+        <div className="capture-ball-button-container hidden">
+          <div className="capture-ball-button" />
         </div>
       </div>
     </section>
