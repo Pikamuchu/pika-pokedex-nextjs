@@ -36,7 +36,7 @@ const CaptureGame = ({ pokemon, t }) => {
               </div>
             </div>
           </div>
-          <svg width="80%" height="40%" viewBox="0 0 256 112">
+          <svg width="100%" height="100%" viewBox="0 0 256 112">
             <path
               fill="none"
               stroke="#FFF"
