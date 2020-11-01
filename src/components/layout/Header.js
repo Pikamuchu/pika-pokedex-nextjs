@@ -11,10 +11,10 @@ import Search from './Search';
 const Header = ({ t }) => (
   <Navbar collapseOnSelect bg="light" expand="lg" fixed="top" className="menu-pokeball-shape">
     <Container>
+      <Navbar.Toggle aria-controls="collapsible-nav-dropdown" className="border-0" />
       <Link href="/" passHref>
         <Navbar.Brand>{t('menu-title')}</Navbar.Brand>
       </Link>
-      <Navbar.Toggle aria-controls="collapsible-nav-dropdown" />
       <Navbar.Collapse id="collapsible-nav-dropdown">
         <Nav className="mr-auto">
           <Link href="/" passHref>
