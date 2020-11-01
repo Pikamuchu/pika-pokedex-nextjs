@@ -308,8 +308,6 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     poofEle.style.transform = '';
     const poofContainer = getElement('poof-container');
     poofContainer.classList.toggle('hidden');
-    const captureStatus = getElement('capture-status');
-    captureStatus.classList.toggle('hidden');
   }
 
   const resetState = () => {
