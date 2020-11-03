@@ -1,0 +1,195 @@
+[
+  {
+    "id": "bulbasaur",
+    "code": "001",
+    "name": "bulbasaur",
+    "slug": "bulbasaur",
+    "types": [
+      { "id": "grass", "name": "grass" },
+      { "id": "poison", "name": "poison" }
+    ],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//001.png"
+  },
+  {
+    "id": "ivysaur",
+    "code": "002",
+    "name": "ivysaur",
+    "slug": "ivysaur",
+    "types": [
+      { "id": "grass", "name": "grass" },
+      { "id": "poison", "name": "poison" }
+    ],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//002.png"
+  },
+  {
+    "id": "venusaur",
+    "code": "003",
+    "name": "venusaur",
+    "slug": "venusaur",
+    "types": [
+      { "id": "grass", "name": "grass" },
+      { "id": "poison", "name": "poison" }
+    ],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//003.png"
+  },
+  {
+    "id": "charmander",
+    "code": "004",
+    "name": "charmander",
+    "slug": "charmander",
+    "types": [{ "id": "fire", "name": "fire" }],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//004.png"
+  },
+  {
+    "id": "charmeleon",
+    "code": "005",
+    "name": "charmeleon",
+    "slug": "charmeleon",
+    "types": [{ "id": "fire", "name": "fire" }],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//005.png"
+  },
+  {
+    "id": "charizard",
+    "code": "006",
+    "name": "charizard",
+    "slug": "charizard",
+    "types": [
+      { "id": "fire", "name": "fire" },
+      { "id": "flying", "name": "flying" }
+    ],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//006.png"
+  },
+  {
+    "id": "squirtle",
+    "code": "007",
+    "name": "squirtle",
+    "slug": "squirtle",
+    "types": [{ "id": "water", "name": "water" }],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//007.png"
+  },
+  {
+    "id": "wartortle",
+    "code": "008",
+    "name": "wartortle",
+    "slug": "wartortle",
+    "types": [{ "id": "water", "name": "water" }],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//008.png"
+  },
+  {
+    "id": "blastoise",
+    "code": "009",
+    "name": "blastoise",
+    "slug": "blastoise",
+    "types": [{ "id": "water", "name": "water" }],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//009.png"
+  },
+  {
+    "id": "caterpie",
+    "code": "010",
+    "name": "caterpie",
+    "slug": "caterpie",
+    "types": [{ "id": "bug", "name": "bug" }],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//010.png"
+  },
+  {
+    "id": "metapod",
+    "code": "011",
+    "name": "metapod",
+    "slug": "metapod",
+    "types": [{ "id": "bug", "name": "bug" }],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//011.png"
+  },
+  {
+    "id": "butterfree",
+    "code": "012",
+    "name": "butterfree",
+    "slug": "butterfree",
+    "types": [
+      { "id": "bug", "name": "bug" },
+      { "id": "flying", "name": "flying" }
+    ],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//012.png"
+  },
+  {
+    "id": "weedle",
+    "code": "013",
+    "name": "weedle",
+    "slug": "weedle",
+    "types": [
+      { "id": "bug", "name": "bug" },
+      { "id": "poison", "name": "poison" }
+    ],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//013.png"
+  },
+  {
+    "id": "kakuna",
+    "code": "014",
+    "name": "kakuna",
+    "slug": "kakuna",
+    "types": [
+      { "id": "bug", "name": "bug" },
+      { "id": "poison", "name": "poison" }
+    ],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//014.png"
+  },
+  {
+    "id": "beedrill",
+    "code": "015",
+    "name": "beedrill",
+    "slug": "beedrill",
+    "types": [
+      { "id": "bug", "name": "bug" },
+      { "id": "poison", "name": "poison" }
+    ],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//015.png"
+  },
+  {
+    "id": "pidgey",
+    "code": "016",
+    "name": "pidgey",
+    "slug": "pidgey",
+    "types": [
+      { "id": "normal", "name": "normal" },
+      { "id": "flying", "name": "flying" }
+    ],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//016.png"
+  },
+  {
+    "id": "pidgeotto",
+    "code": "017",
+    "name": "pidgeotto",
+    "slug": "pidgeotto",
+    "types": [
+      { "id": "normal", "name": "normal" },
+      { "id": "flying", "name": "flying" }
+    ],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//017.png"
+  },
+  {
+    "id": "pidgeot",
+    "code": "018",
+    "name": "pidgeot",
+    "slug": "pidgeot",
+    "types": [
+      { "id": "normal", "name": "normal" },
+      { "id": "flying", "name": "flying" }
+    ],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//018.png"
+  },
+  {
+    "id": "rattata",
+    "code": "019",
+    "name": "rattata",
+    "slug": "rattata",
+    "types": [{ "id": "normal", "name": "normal" }],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//019.png"
+  },
+  {
+    "id": "raticate",
+    "code": "020",
+    "name": "raticate",
+    "slug": "raticate",
+    "types": [{ "id": "normal", "name": "normal" }],
+    "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail//020.png"
+  }
+]
