@@ -1,3 +1,6 @@
+$spinnerOffset: 187;
+$spinnerDuration: 1.4s;
+
 .spanner {
   position: fixed;
   bottom: 0;
@@ -13,6 +16,80 @@
 .spinner-box {
   text-align: center;
   padding-right: 1em;
+}
+
+.spinner {
+  animation: rotator $spinnerDuration linear infinite;
+}
+
+@keyframes rotator {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(270deg);
+  }
+}
+
+.spinner-path {
+  stroke-dasharray: $spinnerOffset;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  animation: dash $spinnerDuration ease-in-out infinite, path-colors ($spinnerDuration * 4) ease-in-out infinite;
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: $spinnerOffset;
+  }
+  50% {
+    stroke-dashoffset: $spinnerOffset/4;
+    transform: rotate(135deg);
+  }
+  100% {
+    stroke-dashoffset: $spinnerOffset;
+    transform: rotate(450deg);
+  }
+}
+
+@keyframes path-colors {
+  0% {
+    stroke: #000000;
+  }
+  25% {
+    stroke: #FAD61D;
+  }
+  50% {
+    stroke: #E19720;
+  }
+  75% {
+    stroke: #F62D14;
+  }
+  100% {
+    stroke: #811E09;
+  }
+}
+
+.spinner-text {
+  animation: text-colors ($spinnerDuration * 4) infinite;
+}
+
+@keyframes text-colors {
+  0% {
+    color: #000000;
+  }
+  25% {
+    color: #FAD61D;
+  }
+  50% {
+    color: #E19720;
+  }
+  75% {
+    color: #F62D14;
+  }
+  100% {
+    color: #811E09;
+  }
 }
 
 .show {
