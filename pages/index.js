@@ -2,13 +2,11 @@
 /* eslint-disable react/forbid-prop-types */
 import PropTypes from 'prop-types';
 import Head from 'next/head';
-import dynamic from 'next/dynamic';
 import { Container } from 'react-bootstrap';
 
 import { withTranslation } from '../src/i18n';
 import HomeHello from '../src/components/home/HomeHello';
-
-const HomeCarousel = dynamic(() => import('../../src/components/home/HomeCarousel'), { ssr: false });
+import HomeCarousel from '../src/components/home/HomeCarousel';
 
 const HomePage = ({ initialData, t }) => {
   return (

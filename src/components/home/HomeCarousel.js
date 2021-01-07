@@ -2,13 +2,12 @@
 /* eslint-disable react/forbid-prop-types */
 import PropTypes from 'prop-types';
 
-import { withTranslation } from '../src/i18n';
-import { getPokemons } from '../src/models/pokemonModel';
-import PokemonCarousel from '../src/components/pokemon/PokemonCarousel';
-import usePokemon from '../src/hooks/usePokemon';
+import { withTranslation } from '../../i18n';
+import PokemonCarousel from '../../components/pokemon/PokemonCarousel';
+import usePokemon from '../../hooks/usePokemon';
 
-const HomePage = ({ initialData, t }) => {
-  const { data: randomPokemons } = usePokemon({}, initialData.randomPokemons);
+const HomeCarousel = ({ t }) => {
+  const { data: randomPokemons } = usePokemon({ listType: 'random' }, initialData.randomPokemons);
   return (
     <>
       <h2>{t('pokemons-you-may-like')}</h2>
@@ -17,29 +16,13 @@ const HomePage = ({ initialData, t }) => {
   );
 };
 
-HomePage.propTypes = {
-  initialData: PropTypes.shape({
-    randomPokemons: PropTypes.arrayOf(PropTypes.object),
-    query: PropTypes.object
-  }).isRequired,
+HomeCarousel.propTypes = {
   t: PropTypes.func.isRequired,
   i18nNamespaces: PropTypes.arrayOf(PropTypes.string)
 };
 
-HomePage.defaultProps = {
+HomeCarousel.defaultProps = {
   i18nNamespaces: ['common', 'home', 'pokemon']
 };
 
-export const getServerSideProps = async ({ query }) => {
-  const randomPokemons = await getPokemons({ listType: 'random', ...query });
-  return {
-    props: {
-      initialData: {
-        randomPokemons,
-        query
-      }
-    }
-  };
-};
-
-export default withTranslation('home')(HomePage);
+export default withTranslation('home')(HomeCarousel);
