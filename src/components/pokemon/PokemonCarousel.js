@@ -17,16 +17,14 @@ const PokemonCarousel = ({ t, pokemons }) => {
           </Carousel.Item>
         ))
       ) : (
-        <Carousel.Item>
-          <NotFound message="" />
-        </Carousel.Item>
+        <Carousel.Item />
       )}
     </Carousel>
   );
 };
 
 PokemonCarousel.propTypes = {
-  pokemons: PropTypes.arrayOf(PropTypes.object).isRequired,
+  pokemons: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default withTranslation('pokemon')(PokemonCarousel);

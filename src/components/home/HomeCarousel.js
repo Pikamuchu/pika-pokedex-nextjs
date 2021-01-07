@@ -7,7 +7,7 @@ import PokemonCarousel from '../../components/pokemon/PokemonCarousel';
 import usePokemon from '../../hooks/usePokemon';
 
 const HomeCarousel = ({ t }) => {
-  const { data: randomPokemons } = usePokemon({ listType: 'random' }, initialData.randomPokemons);
+  const { data: randomPokemons } = usePokemon({ listType: 'random' });
   return (
     <>
       <h2>{t('pokemons-you-may-like')}</h2>
