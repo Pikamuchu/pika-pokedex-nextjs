@@ -18,7 +18,7 @@ export const routePokemon = (query) => {
 };
 
 const shouldFetch = (query) => {
-  return query && (query.id || query.ids?.length || query.searchTerm || query.pageIndex);
+  return query && (query.id || query.ids?.length || query.searchTerm || query.pageIndex || query.listType);
 };
 
 const createApiUrl = (query) => {
