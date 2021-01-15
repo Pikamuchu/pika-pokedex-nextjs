@@ -13,7 +13,7 @@ const Header = ({ t }) => (
     <Container>
       <Navbar.Toggle aria-controls="collapsible-nav-dropdown" className="border-0" />
       <Link href="/" passHref>
-        <Navbar.Brand>{t('menu-title')}</Navbar.Brand>
+        <Navbar.Brand className="font-weight-bold">{t('menu-title')}</Navbar.Brand>
       </Link>
       <Navbar.Collapse id="collapsible-nav-dropdown">
         <Nav className="mr-auto">
@@ -59,7 +59,7 @@ const PokeballButton = () => {
 };
 
 Header.propTypes = {
-  t: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 };
 
 export default withTranslation('common')(Header);
