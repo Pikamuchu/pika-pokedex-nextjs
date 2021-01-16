@@ -58,12 +58,13 @@ const CaptureGame = ({ pokemon, t }) => {
           <div className="capture-ball-button" />
         </div>
       </div>
+      {pokemon.audio ? <audio id="game-music" src={pokemon.audio} muted></audio> : ''}
     </section>
   );
 };
 
 CaptureGame.propTypes = {
-  t: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 };
 
 export default withTranslation('capture')(CaptureGame);

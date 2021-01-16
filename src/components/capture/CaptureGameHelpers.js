@@ -7,7 +7,7 @@ const Resources = {
   pikaball: '/static/images/pikaball.png',
   pikaballActive: '/static/images/pikaball-active.png',
   pikaballOpened: '/static/images/pikaball-opened.png',
-  pikaballClosed: '/static/images/pikaball-closed.png',
+  pikaballClosed: '/static/images/pikaball-closed.png'
 };
 
 const INITIAL_BALL_POSITION = 120;
@@ -16,7 +16,7 @@ const BALL_LAUNCH_MAX_TIME = 200;
 export default function captureGame(pokemon, captureSuccessCallback) {
   const Screen = {
     height: window.innerHeight,
-    width: window.innerWidth,
+    width: window.innerWidth
   };
 
   let maxVelocity = Screen.height * 0.009;
@@ -59,9 +59,9 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       ballEle.style.transform = '';
       ballEle.style.top = `${ballRect.top}px`;
       ballEle.style.left = `${ballRect.left}px`;
-      ballEle.style.height = `${ballRect.width}px`
+      ballEle.style.height = `${ballRect.width}px`;
       ballEle.style.width = `${ballRect.width}px`;
-    },
+    }
   };
 
   const throwBall = (movementY, translateXValue, scalePercent) => {
@@ -72,19 +72,19 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       translateY: {
         value: `${movementY * -0.5}px`,
         duration: 400,
-        easing: 'easeInOutSine',
+        easing: 'easeInOutSine'
       },
       translateX: {
         value: -translateXValue * 0.25,
         duration: 400,
-        easing: 'linear',
+        easing: 'linear'
       },
       scale: {
         value: 1 - 0.25 * scalePercent,
         easing: 'easeInSine',
-        duration: 400,
+        duration: 400
       },
-      complete: determineThrowResult,
+      complete: determineThrowResult
     });
   };
 
@@ -109,22 +109,22 @@ export default function captureGame(pokemon, captureSuccessCallback) {
         translateY: {
           value: -1.15 * radius,
           duration: 200,
-          easing: 'linear',
+          easing: 'linear'
         },
         translateX: {
           value: 1.15 * radius * ballOrientation,
           duration: 200,
-          easing: 'linear',
+          easing: 'linear'
         },
         scaleX: {
           value: ballOrientation,
-          duration: 200,
+          duration: 200
         },
         complete: () => {
           const ball = Ball.getElement();
           ball.style.backgroundImage = `url('${Resources.pikaballOpened}')`;
           emitParticlesToPikaball();
-        },
+        }
       });
     } else {
       setTimeout(resetState, 400);
@@ -153,26 +153,26 @@ export default function captureGame(pokemon, captureSuccessCallback) {
         targets: [`#particle-${i}`],
         translateX: {
           value: ballRect.left - particleLeft,
-          delay: 100 + i * 10,
+          delay: 100 + i * 10
         },
         translateY: {
           value: ballRect.top + Ball.size / 2 - particleRight,
-          delay: 100 + i * 10,
+          delay: 100 + i * 10
         },
         opacity: {
           value: 0,
           delay: 100 + i * 10,
           duration: 800,
-          easing: 'easeInSine',
-        },
+          easing: 'easeInSine'
+        }
       });
       anime({
         targets: ['.target'],
         opacity: {
           value: 0,
           delay: 200,
-          easing: 'easeInSine',
-        },
+          easing: 'easeInSine'
+        }
       });
     }
     setTimeout(() => {
@@ -187,11 +187,11 @@ export default function captureGame(pokemon, captureSuccessCallback) {
           value: '200px',
           delay: 400,
           duration: 400,
-          easing: 'linear',
+          easing: 'linear'
         },
         complete: () => {
           Ball.resetBall();
-        },
+        }
       });
       setTimeout(() => {
         animateCaptureState();
@@ -214,7 +214,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       duration,
       easing: 'easeInOutBack',
       loop: true,
-      direction: 'alternate',
+      direction: 'alternate'
     });
 
     const ringRect = getElement('ring-active').getBoundingClientRect();
@@ -225,7 +225,6 @@ export default function captureGame(pokemon, captureSuccessCallback) {
 
       if (seed < Math.floor(successRate)) {
         showCaptureSuccess();
-
       } else {
         showEscapeAnimationAndContinue();
       }
@@ -257,13 +256,13 @@ export default function captureGame(pokemon, captureSuccessCallback) {
         value: 20,
         delay: 0,
         easing: 'linear',
-        duration: 500,
+        duration: 500
       },
       complete: () => {
         setTimeout(() => {
           hideEscapeAnimation();
         }, 500);
-      },
+      }
     });
   }
 
@@ -283,20 +282,20 @@ export default function captureGame(pokemon, captureSuccessCallback) {
         targets: [`#particle-${i}`],
         translateX: {
           value: (getRandNum(0, 2) ? -1 : 1) * getRandNum(0, window.innerWidth / 2),
-          delay: 100,
+          delay: 100
         },
         translateY: {
           value: (getRandNum(0, 2) ? -1 : 1) * getRandNum(0, window.innerHeight / 2),
-          delay: 100,
+          delay: 100
         },
         opacity: {
           value: 0,
           duration: 800,
-          easing: 'easeInSine',
+          easing: 'easeInSine'
         },
         complete: () => {
           getElement('capture-confetti').innerHTML = '';
-        },
+        }
       });
     }
   };
@@ -308,7 +307,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     poofEle.style.transform = '';
     const poofContainer = getElement('poof-container');
     poofContainer.classList.toggle('hidden');
-  }
+  };
 
   const resetState = () => {
     Ball.resetBall();
@@ -323,9 +322,16 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       width: '5px',
       duration: 3000,
       loop: true,
-      easing: 'linear',
+      easing: 'linear'
     });
     targetMotion.play();
+    // Fix audio play
+    console.log(pokemon.audio);
+    var gameAudio = document.getElementById('game-music');
+    if (gameAudio) {
+      gameAudio.muted = false;
+      gameAudio.play();
+    }
   };
 
   // Init pokemon
@@ -358,7 +364,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   const mc = new Hammer(ballElement);
   mc.add(new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 0 }));
   mc.on('pan', (event) => {
-    Ball.moveBall(Ball.x + event.deltaX - (Ball.size / 2), Ball.y + event.deltaY - (Ball.size / 2));
+    Ball.moveBall(Ball.x + event.deltaX - Ball.size / 2, Ball.y + event.deltaY - Ball.size / 2);
     if (event.isFinal) {
       setTimeout(() => {
         if (Ball.inMotion === false) {
@@ -398,17 +404,17 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       translateX: {
         duration: 300,
         value: translateXValue,
-        easing: 'easeOutSine',
+        easing: 'easeOutSine'
       },
       translateY: {
         value: `${movementY * 1.25}px`,
         duration: 300,
-        easing: 'easeOutSine',
+        easing: 'easeOutSine'
       },
       scale: {
         value: 1 - 0.5 * scalePercent,
         easing: 'easeInSine',
-        duration: 300,
+        duration: 300
       },
       complete: () => {
         if (movementY < 0) {
@@ -416,7 +422,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
         } else {
           setTimeout(resetState, 400);
         }
-      },
+      }
     });
   });
 
@@ -430,7 +436,7 @@ const getCenterCoords = (elementId) => {
   const rect = getElement(elementId).getBoundingClientRect();
   return {
     x: rect.left + rect.width / 2,
-    y: rect.top + rect.height / 2,
+    y: rect.top + rect.height / 2
   };
 };
 

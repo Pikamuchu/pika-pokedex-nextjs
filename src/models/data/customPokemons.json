@@ -4,17 +4,21 @@
     "code": "UND",
     "name": "sans",
     "slug": "sans",
+    "height": 3,
+    "weight": 20,
     "types": [
       {
-        "id": "undertale",
-        "name": "undertale"
+        "type": {
+          "name": "undertale"
+        }
       }
     ],
     "image": "https://assets.stickpng.com/images/58a20c6dc8dd3432c6fa8224.png",
+    "audio": "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=Undertale+-+Megalovania&filename=24/246940-9197049f-e352-4a71-bdea-9303e664c54d.mp3",
     "abilities": [
       {
         "ability": {
-          "name": "bones"
+          "name": "Bones"
         }
       },
       {
@@ -72,6 +76,19 @@
           "url": "https://pokeapi.co/api/v2/stat/6/"
         }
       }
-    ]
+    ],
+    "names": [
+      {
+        "language": {
+          "name": "en",
+          "url": "https://pokeapi.co/api/v2/language/9/"
+        },
+        "name": "Sans"
+      }
+    ],
+    "color": {
+      "name": "white"
+    },
+    "evolves_from_species": null
   }
 ]
