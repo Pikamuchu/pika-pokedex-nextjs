@@ -54,7 +54,6 @@ export const searchListItems = async (params, limit, offset) => {
 export const getDetails = async (id, lang) => {
   const [pokemon, species] = await Promise.all([getPokemonByName(id), getPokemonSpeciesByName(id)]);
   const code = formatCode(pokemon.id);
-  console.log(pokemon.audio);
   return (
     pokemon && {
       id,

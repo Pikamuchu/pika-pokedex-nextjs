@@ -11,7 +11,7 @@ const HomeHello = ({ t }) => {
         <Card.Text>{t('hello-description')}</Card.Text>
       </Card.Body>
       <Image
-        className="card-img-bottom"
+        className="card-image card-img-bottom"
         src="/static/images/home-hello.jpg"
         alt="Home hello"
         width={590}
