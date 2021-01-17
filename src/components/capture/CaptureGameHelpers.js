@@ -41,6 +41,16 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       BallElement.style.top = `${Ball.y}px`;
       BallElement.style.left = `${Ball.x}px`;
     },
+    moveBallDelta: (deltaX, deltaY) => {
+      const x = Ball.x + deltaX;
+      const y = Ball.y + deltaY;
+      Ball.moveBall(x, y);
+    },
+    moveBallPointer: (centerX, centerY) => {
+      const x = centerX - Ball.size / 2;
+      const y = centerY - Ball.size / 2;
+      Ball.moveBall(x, y);
+    },
     getElement: () => {
       return getElement(Ball.id);
     },
@@ -360,11 +370,21 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   const touchElement = getElement('touch-layer');
   const ballElement = getElement(Ball.id);
 
-  // create a simple instance to manage Ball
-  const mc = new Hammer(ballElement);
-  mc.add(new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 0 }));
-  mc.on('pan', (event) => {
-    Ball.moveBall(Ball.x + event.deltaX - Ball.size / 2, Ball.y + event.deltaY - Ball.size / 2);
+  // Create a manager to manage the touch area
+  const manager = new Hammer.Manager(touchElement);
+
+  const pan = new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 0 });
+  const swipe = new Hammer.Swipe();
+
+  swipe.recognizeWith(pan);
+
+  // Ball pan events
+  manager.add(pan);
+  manager.on('pan', (event) => {
+    console.log('pan');
+    if (event.center) {
+      Ball.moveBallPointer(event.center.x, event.center.y);
+    }
     if (event.isFinal) {
       setTimeout(() => {
         if (Ball.inMotion === false) {
@@ -374,11 +394,10 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     }
   });
 
-  // Create a manager to manage the touch area
-  const manager = new Hammer.Manager(touchElement);
-  manager.add(new Hammer.Swipe());
-
+  // Ball swipe events
+  manager.add(swipe);
   manager.on('swipe', (event) => {
+    console.log('swipe');
     Ball.inMotion = true;
     const screenEle = getElement('screen');
     const screenPos = screenEle.getBoundingClientRect();
