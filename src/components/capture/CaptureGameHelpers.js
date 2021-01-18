@@ -379,8 +379,9 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     if (targetMotion) {
       targetMotion.play();
     }
-    if (gameAudio.music) {
+    if (gameAudio.music && gameAudio.music.paused) {
       gameAudio.music.muted = false;
+      gameAudio.music.loop = true;
       gameAudio.music.play();
     }
   };
