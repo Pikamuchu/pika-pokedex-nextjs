@@ -1,18 +1,29 @@
 import PropTypes from 'prop-types';
-import { Jumbotron } from 'react-bootstrap';
+import Image from 'next/image';
+import { Card } from 'react-bootstrap';
 import { withTranslation } from '../../i18n';
 
 const HomeHello = ({ t }) => {
   return (
-    <Jumbotron className="home-hello">
-      <h1>{t('hello-title')}</h1>
-      <p>{t('hello-description')}</p>
-    </Jumbotron>
+    <Card className="home-hello">
+      <Card.Body>
+        <h1>{t('hello-title')}</h1>
+        <Card.Text>{t('hello-description')}</Card.Text>
+      </Card.Body>
+      <Image
+        className="card-image card-img-bottom"
+        src="/static/images/home-hello.jpg"
+        alt="Home hello"
+        width={590}
+        height={350}
+        layout="responsive"
+      />
+    </Card>
   );
 };
 
 HomeHello.propTypes = {
-  t: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 };
 
 export default withTranslation('home')(HomeHello);

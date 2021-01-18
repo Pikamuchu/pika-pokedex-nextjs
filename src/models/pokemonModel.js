@@ -7,12 +7,14 @@ const P = new Pokedex({
   hostName: 'pokeapi.co',
   versionPath: '/api/v2/',
   cacheLimit: 100 * 1000, // 100s
-  timeout: 5 * 1000, // 5s
+  timeout: 5 * 1000 // 5s
 });
 
 const SEARCH_LIMIT = 893; // Excluding pokemons 100xx (No images available)
 const LIST_CHUNK_SIZE = preferences.pageSize;
 const DEFAULT_LANG = 'en';
+
+const customPokemonsList = require('./data/customPokemons.json');
 
 export const getPokemons = async (query) => {
   let list;
@@ -30,13 +32,10 @@ export const getPokemonDetails = async (query) => {
 };
 
 export const getListItems = async (params) => {
-  const itemList = await P.getPokemonsList({
-    limit: SEARCH_LIMIT,
-  });
-  let list = itemList.results;
+  let list = await getPokemonsList();
   if (params.ids) {
     const idsArray = params.ids.split(',');
-    list = list.filter(item => idsArray.includes(item.name));
+    list = list.filter((item) => idsArray.includes(item.name));
   }
   if (params.listType === 'random') {
     list = getRandomList(list);
@@ -46,34 +45,63 @@ export const getListItems = async (params) => {
 };
 
 export const searchListItems = async (params, limit, offset) => {
-  const itemList = await P.getPokemonsList({
-    limit: SEARCH_LIMIT,
-  });
-  const results = itemList.results.filter((item) => item.name.includes(params.q));
+  const itemList = await getPokemonsList();
+  const results = itemList.filter((item) => item.name.includes(params.q));
   const list = getChunk(results, params.limit, params.offset);
   return getItems(list, params);
 };
 
 export const getDetails = async (id, lang) => {
-  const [pokemon, species] = await Promise.all([P.getPokemonByName(id), P.getPokemonSpeciesByName(id)]);
+  const [pokemon, species] = await Promise.all([getPokemonByName(id), getPokemonSpeciesByName(id)]);
   const code = formatCode(pokemon.id);
-  return pokemon && {
-    id,
-    code,
-    name: pokemon.name,
-    slug: pokemon.name,
-    types: mapTypes(pokemon.types),
-    image: getPokemonImage(code),
-    tName: species && translateName(species.names, lang),
-    color: species?.color?.name,
-    evolvesFromId: species?.evolves_from_species && species?.evolves_from_species.name,
-    abilities: pokemon.abilities && pokemon.abilities.map((item) => item.ability.name),
-    weight: pokemon.weight,
-    height: pokemon.height,
-    stats: mapStats(pokemon.stats),
-    category: '',
-    description: '',
-  };
+  return (
+    pokemon && {
+      id,
+      code,
+      name: pokemon.name,
+      slug: pokemon.name,
+      types: pokemon.types && mapTypes(pokemon.types),
+      image: getPokemonImage(pokemon, code),
+      imageRatio: pokemon.image_ratio || 1,
+      tName: species?.names && translateName(species.names, lang),
+      color: species?.color?.name,
+      evolvesFromId: species?.evolves_from_species && species?.evolves_from_species.name,
+      abilities: pokemon.abilities && pokemon.abilities.map((item) => item.ability.name),
+      weight: pokemon.weight,
+      height: pokemon.height,
+      stats: pokemon.stats && mapStats(pokemon.stats),
+      category: '',
+      description: '',
+      audio: pokemon.audio || null
+    }
+  );
+};
+
+const getPokemonsList = async () => {
+  const pokemonsList = await P.getPokemonsList({
+    limit: SEARCH_LIMIT
+  });
+  return [...pokemonsList.results, ...customPokemonsList];
+};
+
+const getPokemonByName = async (name) => {
+  let pokemon = getCustomPokemonByName(name);
+  if (!pokemon) {
+    pokemon = await P.getPokemonByName(name);
+  }
+  return pokemon;
+};
+
+const getPokemonSpeciesByName = async (name) => {
+  let pokemonSpecies = getCustomPokemonByName(name);
+  if (!pokemonSpecies) {
+    pokemonSpecies = await P.getPokemonSpeciesByName(name);
+  }
+  return pokemonSpecies;
+};
+
+const getCustomPokemonByName = (name) => {
+  return customPokemonsList.find((item) => item.name === name);
 };
 
 const parseParams = (query) => {
@@ -84,7 +112,7 @@ const parseParams = (query) => {
 };
 
 const getItem = async (id) => {
-  const pokemon = await P.getPokemonByName(id);
+  const pokemon = await getPokemonByName(id);
   const code = formatCode(pokemon.id);
   return {
     id,
@@ -92,7 +120,7 @@ const getItem = async (id) => {
     name: pokemon.name,
     slug: pokemon.name,
     types: mapTypes(pokemon.types),
-    image: getPokemonImage(code),
+    image: getPokemonImage(pokemon, code)
   };
 };
 
@@ -123,21 +151,17 @@ const translateName = (translations, lang) => {
 };
 
 const mapTypes = (types) => {
-  return (
-    types &&
-    types.map((item) => {
-      return { id: item.type.name, name: item.type.name };
-    })
-  );
+  return types?.map((item) => {
+    return item && { id: item.type?.name, name: item.type?.name };
+  });
 };
 
 const mapStats = (stats) => {
-  return (
-    stats &&
-    stats.map((item) => {
-      return { name: item.stat.name, value: item.base_stat };
-    })
-  );
+  return stats?.map((item) => {
+    return item && { name: item.stat?.name, value: item.base_stat };
+  });
 };
 
-const getPokemonImage = (code) => `${preferences.pokemonImageUrlPrefix}/${code}.${preferences.pokemonImageType}`;
+const getPokemonImage = (pokemon, code) => {
+  return pokemon?.image ? pokemon.image : `${preferences.pokemonImageUrlPrefix}${code}.${preferences.pokemonImageType}`;
+};
