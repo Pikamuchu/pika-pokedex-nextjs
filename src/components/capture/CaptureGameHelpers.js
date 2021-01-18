@@ -334,14 +334,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       loop: true,
       easing: 'linear'
     });
-    targetMotion.play();
-    // Fix audio play
-    console.log(pokemon.audio);
-    var gameAudio = document.getElementById('game-music');
-    if (gameAudio) {
-      gameAudio.muted = false;
-      gameAudio.play();
-    }
+    startGame();
   };
 
   // Init pokemon
@@ -363,12 +356,46 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     autoplay: false
   });
 
-  // Start animation at center
-  targetMotion.play();
+  // Audio elements
+  var gameAudio = {
+    music: document.getElementById('game-music')
+  };
+
+  // Game start and pause function
+  const pauseGame = () => {
+    if (targetMotion) {
+      targetMotion.pause();
+    }
+    if (gameAudio.music) {
+      gameAudio.music.pause();
+    }
+  };
+
+  const startGame = () => {
+    if (targetMotion) {
+      targetMotion.play();
+    }
+    if (gameAudio.music) {
+      gameAudio.music.muted = false;
+      gameAudio.music.play();
+    }
+  };
+
+  // Page visibility events
+  document.addEventListener(
+    'visibilitychange',
+    () => {
+      if (document.hidden) {
+        pauseGame();
+      } else {
+        startGame();
+      }
+    },
+    false
+  );
 
   // Gesture Bindings
   const touchElement = getElement('touch-layer');
-  const ballElement = getElement(Ball.id);
 
   // Create a manager to manage the touch area
   const manager = new Hammer.Manager(touchElement);
