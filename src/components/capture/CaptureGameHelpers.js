@@ -12,6 +12,7 @@ const Resources = {
 
 const INITIAL_BALL_POSITION = 120;
 const BALL_LAUNCH_MAX_TIME = 200;
+const TARGET_DEFAULT_SIZE = 140;
 
 export default function captureGame(pokemon, captureSuccessCallback) {
   const Screen = {
@@ -341,9 +342,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   const target = getElement('target');
   target.style.backgroundImage = `url('${pokemon.image}')`;
   if (pokemon.imageRatio > 1) {
-    console.log(target.style.height);
-    target.style.height = `${140 * pokemon.imageRatio}px`;
-    console.log(target.style.height);
+    target.style.height = `${TARGET_DEFAULT_SIZE * pokemon.imageRatio}px`;
   }
 
   // Move pokemon through path
