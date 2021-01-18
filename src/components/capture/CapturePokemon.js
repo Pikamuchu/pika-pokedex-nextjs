@@ -58,7 +58,7 @@ const CaptureGame = ({ pokemon, t }) => {
           <div className="capture-ball-button" />
         </div>
       </div>
-      {pokemon.audio ? <audio id="game-music" src={pokemon.audio} muted></audio> : ''}
+      {pokemon.audio ? <audio id="game-music" src={pokemon.audio} muted /> : ''}
     </section>
   );
 };

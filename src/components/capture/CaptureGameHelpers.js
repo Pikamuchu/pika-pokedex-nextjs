@@ -340,6 +340,11 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   // Init pokemon
   const target = getElement('target');
   target.style.backgroundImage = `url('${pokemon.image}')`;
+  if (pokemon.imageRatio > 1) {
+    console.log(target.style.height);
+    target.style.height = `${140 * pokemon.imageRatio}px`;
+    console.log(target.style.height);
+  }
 
   // Move pokemon through path
   const path = anime.path('.motion-path path');
@@ -357,7 +362,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   });
 
   // Audio elements
-  var gameAudio = {
+  const gameAudio = {
     music: document.getElementById('game-music')
   };
 
@@ -408,7 +413,6 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   // Ball pan events
   manager.add(pan);
   manager.on('pan', (event) => {
-    console.log('pan');
     if (event.center) {
       Ball.moveBallPointer(event.center.x, event.center.y);
     }
@@ -424,7 +428,6 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   // Ball swipe events
   manager.add(swipe);
   manager.on('swipe', (event) => {
-    console.log('swipe');
     Ball.inMotion = true;
     const screenEle = getElement('screen');
     const screenPos = screenEle.getBoundingClientRect();

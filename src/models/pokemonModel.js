@@ -62,6 +62,7 @@ export const getDetails = async (id, lang) => {
       slug: pokemon.name,
       types: pokemon.types && mapTypes(pokemon.types),
       image: getPokemonImage(pokemon, code),
+      imageRatio: pokemon.image_ratio || 1,
       tName: species?.names && translateName(species.names, lang),
       color: species?.color?.name,
       evolvesFromId: species?.evolves_from_species && species?.evolves_from_species.name,
