@@ -26,10 +26,10 @@ const CaptureGame = ({ pokemon, t }) => {
       <div className="touch-layer" />
       <div className="particles" />
       <div className="screen gradient-background">
-        <div className="ball" />
+        <div id="ball" className="ball" />
         <div className="output" />
         <div className="motion-path">
-          <div className="target">
+          <div id="target" className="target">
             <div className="ring">
               <div className="ring-active">
                 <div className="ring-fill" />

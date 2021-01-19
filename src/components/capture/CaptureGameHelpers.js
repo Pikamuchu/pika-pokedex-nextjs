@@ -38,7 +38,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     moveBall: (x, y) => {
       Ball.x = x;
       Ball.y = y;
-      const BallElement = getElement(Ball.id);
+      const BallElement = getElementById(Ball.id);
       BallElement.style.top = `${Ball.y}px`;
       BallElement.style.left = `${Ball.x}px`;
     },
@@ -53,11 +53,11 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       Ball.moveBall(x, y);
     },
     getElement: () => {
-      return getElement(Ball.id);
+      return getElementById(Ball.id);
     },
     resetBall: () => {
       Ball.moveBall(Screen.width / 2 - Ball.size / 2, Screen.height - (Ball.size + INITIAL_BALL_POSITION));
-      const BallElement = getElement(Ball.id);
+      const BallElement = getElementById(Ball.id);
       BallElement.style.transform = '';
       BallElement.style.height = `${Ball.size}px`;
       BallElement.style.width = `${Ball.size}px`;
@@ -65,7 +65,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       Ball.inMotion = false;
     },
     savePosition: () => {
-      const ballEle = getElement(Ball.id);
+      const ballEle = getElementById(Ball.id);
       const ballRect = ballEle.getBoundingClientRect();
       ballEle.style.transform = '';
       ballEle.style.top = `${ballRect.top}px`;
@@ -105,7 +105,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     const ballCoords = getCenterCoords('ball');
 
     // Determine if the ball is touching the target.
-    const radius = getElement('target').getBoundingClientRect().width / 2;
+    const radius = getElementById('target').getBoundingClientRect().width / 2;
     if (
       ballCoords.x > targetCoords.x - radius &&
       ballCoords.x < targetCoords.x + radius &&
@@ -149,7 +149,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     const ballEle = Ball.getElement();
     const ballRect = ballEle.getBoundingClientRect();
     const palette = ['#E4D3A8', '#6EB8C0', '#FFF', '#2196F3'];
-    const particleContainer = getElement('particles');
+    const particleContainer = getFirstElement('particles');
     for (let i = 0; i < 50; i++) {
       const particleEle = document.createElement('div');
       particleEle.className = 'particle';
@@ -189,7 +189,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     setTimeout(() => {
       const ball = Ball.getElement();
       ball.style.backgroundImage = `url('${Resources.pikaballClosed}')`;
-      getElement('particles').innerHTML = '';
+      getFirstElement('particles').innerHTML = '';
       Ball.savePosition();
 
       anime({
@@ -212,10 +212,10 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   };
 
   const animateCaptureState = () => {
-    const ballContainer = getElement('capture-screen');
+    const ballContainer = getFirstElement('capture-screen');
     ballContainer.classList.toggle('hidden');
 
-    const buttonContainer = getElement('capture-ball-button-container');
+    const buttonContainer = getFirstElement('capture-ball-button-container');
     buttonContainer.classList.toggle('hidden');
 
     const duration = 500;
@@ -228,7 +228,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       direction: 'alternate'
     });
 
-    const ringRect = getElement('ring-active').getBoundingClientRect();
+    const ringRect = getFirstElement('ring-active').getBoundingClientRect();
     const successRate = ((150 - ringRect.width) / 150) * 100;
     const seed = getRandNum(0, 100);
     setTimeout(() => {
@@ -243,10 +243,10 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   };
 
   const showCaptureSuccess = () => {
-    const captureBallButton = getElement('capture-ball-button');
+    const captureBallButton = getFirstElement('capture-ball-button');
     captureBallButton.classList.toggle('active');
 
-    const captureStatus = getElement('capture-status');
+    const captureStatus = getFirstElement('capture-status');
     captureStatus.classList.toggle('hidden');
 
     makeItRainConfetti();
@@ -255,10 +255,10 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   };
 
   function showEscapeAnimationAndContinue() {
-    const buttonContainer = getElement('capture-ball-button-container');
+    const buttonContainer = getFirstElement('capture-ball-button-container');
     buttonContainer.classList.toggle('hidden');
 
-    const poofContainer = getElement('poof-container');
+    const poofContainer = getFirstElement('poof-container');
     poofContainer.classList.toggle('hidden');
 
     anime({
@@ -279,7 +279,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
 
   const makeItRainConfetti = () => {
     for (let i = 0; i < 100; i++) {
-      const particleContainer = getElement('capture-confetti');
+      const particleContainer = getFirstElement('capture-confetti');
       const particleEle = document.createElement('div');
       particleEle.className = 'particle';
       particleEle.setAttribute('id', `particle-${i}`);
@@ -305,26 +305,26 @@ export default function captureGame(pokemon, captureSuccessCallback) {
           easing: 'easeInSine'
         },
         complete: () => {
-          getElement('capture-confetti').innerHTML = '';
+          getFirstElement('capture-confetti').innerHTML = '';
         }
       });
     }
   };
 
   const hideEscapeAnimation = () => {
-    const ballContainer = getElement('capture-screen');
+    const ballContainer = getFirstElement('capture-screen');
     ballContainer.classList.toggle('hidden');
-    const poofEle = getElement('poof');
+    const poofEle = getFirstElement('poof');
     poofEle.style.transform = '';
-    const poofContainer = getElement('poof-container');
+    const poofContainer = getFirstElement('poof-container');
     poofContainer.classList.toggle('hidden');
   };
 
   const resetState = () => {
     Ball.resetBall();
-    getElement('target').style.opacity = 1;
+    getElementById('target').style.opacity = 1;
     // Adjust Ring
-    const ring = getElement('ring-fill');
+    const ring = getFirstElement('ring-fill');
     ring.style.height = '150px';
     ring.style.width = '150px';
     anime({
@@ -339,7 +339,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   };
 
   // Init pokemon
-  const target = getElement('target');
+  const target = getElementById('target');
   target.style.backgroundImage = `url('${pokemon.image}')`;
   if (pokemon.imageRatio > 1) {
     target.style.height = `${TARGET_DEFAULT_SIZE * pokemon.imageRatio}px`;
@@ -400,7 +400,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   );
 
   // Gesture Bindings
-  const touchElement = getElement('touch-layer');
+  const touchElement = getFirstElement('touch-layer');
 
   // Create a manager to manage the touch area
   const manager = new Hammer.Manager(touchElement);
@@ -429,7 +429,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   manager.add(swipe);
   manager.on('swipe', (event) => {
     Ball.inMotion = true;
-    const screenEle = getElement('screen');
+    const screenEle = getFirstElement('screen');
     const screenPos = screenEle.getBoundingClientRect();
 
     const { angle, deltaY } = event;
@@ -475,14 +475,30 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     });
   });
 
+  // Ball colision logic
+  function ballColisions() {
+    const elements = document.elementsFromPoint(Ball.x, Ball.y);
+    elements.forEach((element) => {
+      if (isTransformableElement(element)) {
+        randomTransform(element);
+      }
+    });
+    setTimeout(function () {
+      ballColisions();
+    }, 1000);
+  }
+  ballColisions();
+
   // Initial Setup
   resetState();
 }
 
-const getElement = (className) => document.getElementsByClassName(className)[0];
+const getElementById = (id) => document.getElementById(id);
+
+const getFirstElement = (className) => document.getElementsByClassName(className)[0];
 
 const getCenterCoords = (elementId) => {
-  const rect = getElement(elementId).getBoundingClientRect();
+  const rect = getElementById(elementId).getBoundingClientRect();
   return {
     x: rect.left + rect.width / 2,
     y: rect.top + rect.height / 2
@@ -491,4 +507,31 @@ const getCenterCoords = (elementId) => {
 
 const getRandNum = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
+};
+
+const randomTransform = (element) => {
+  const rotation = getRandomNumber(-30, 30);
+  const scale = 1;
+  const skewX = getRandomNumber(0, 30);
+  const skewY = getRandomNumber(0, 30);
+  setTransform(element, rotation, scale, skewX, skewY);
+};
+
+const setTransform = (element, rotation, scale, skewX, skewY) => {
+  const transformString = `rotate(${rotation}deg ) scale(${scale}) skewX(${skewX}deg ) skewY(${skewY}deg )`;
+  element.style.webkitTransform = transformString;
+  element.style.MozTransform = transformString;
+  element.style.msTransform = transformString;
+  element.style.OTransform = transformString;
+  element.style.transform = transformString;
+};
+
+const getRandomNumber = (min, max) => {
+  return Math.random() * (max - min) + min;
+};
+
+const isTransformableElement = (element) => {
+  const id = element?.id;
+  console.log('tranform ' + id);
+  return !['__next'].includes(id);
 };
