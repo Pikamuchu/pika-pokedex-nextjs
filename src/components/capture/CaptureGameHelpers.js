@@ -39,8 +39,10 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       Ball.x = x;
       Ball.y = y;
       const BallElement = getElementById(Ball.id);
-      BallElement.style.top = `${Ball.y}px`;
-      BallElement.style.left = `${Ball.x}px`;
+      if (BallElement) {
+        BallElement.style.top = `${Ball.y}px`;
+        BallElement.style.left = `${Ball.x}px`;
+      }
     },
     moveBallDelta: (deltaX, deltaY) => {
       const x = Ball.x + deltaX;
@@ -58,20 +60,24 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     resetBall: () => {
       Ball.moveBall(Screen.width / 2 - Ball.size / 2, Screen.height - (Ball.size + INITIAL_BALL_POSITION));
       const BallElement = getElementById(Ball.id);
-      BallElement.style.transform = '';
-      BallElement.style.height = `${Ball.size}px`;
-      BallElement.style.width = `${Ball.size}px`;
-      BallElement.style.backgroundImage = `url('${Resources.pikaball}')`;
+      if (BallElement) {
+        BallElement.style.transform = '';
+        BallElement.style.height = `${Ball.size}px`;
+        BallElement.style.width = `${Ball.size}px`;
+        BallElement.style.backgroundImage = `url('${Resources.pikaball}')`;
+      }
       Ball.inMotion = false;
     },
     savePosition: () => {
       const ballEle = getElementById(Ball.id);
-      const ballRect = ballEle.getBoundingClientRect();
-      ballEle.style.transform = '';
-      ballEle.style.top = `${ballRect.top}px`;
-      ballEle.style.left = `${ballRect.left}px`;
-      ballEle.style.height = `${ballRect.width}px`;
-      ballEle.style.width = `${ballRect.width}px`;
+      if (ballEle) {
+        const ballRect = ballEle.getBoundingClientRect();
+        ballEle.style.transform = '';
+        ballEle.style.top = `${ballRect.top}px`;
+        ballEle.style.left = `${ballRect.left}px`;
+        ballEle.style.height = `${ballRect.width}px`;
+        ballEle.style.width = `${ballRect.width}px`;
+      }
     }
   };
 
@@ -365,8 +371,11 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     music: document.getElementById('game-music')
   };
 
+  let gameRunning = 0;
+
   // Game start and pause function
   const pauseGame = () => {
+    gameRunning = 0;
     if (targetMotion) {
       targetMotion.pause();
     }
@@ -376,6 +385,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   };
 
   const startGame = () => {
+    gameRunning = 1;
     if (targetMotion) {
       targetMotion.play();
     }
@@ -384,7 +394,11 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       gameAudio.music.loop = true;
       gameAudio.music.play();
     }
+    ballColisions();
   };
+
+  const isGameRunning = () => !!gameRunning;
+  const isGameVisible = () => getElementById('target');
 
   // Page visibility events
   document.addEventListener(
@@ -483,11 +497,12 @@ export default function captureGame(pokemon, captureSuccessCallback) {
         randomTransform(element);
       }
     });
-    setTimeout(function () {
-      ballColisions();
-    }, 1000);
+    if (isGameRunning() && isGameVisible()) {
+      setTimeout(function () {
+        ballColisions();
+      }, 1000);
+    }
   }
-  ballColisions();
 
   // Initial Setup
   resetState();
@@ -510,10 +525,10 @@ const getRandNum = (min, max) => {
 };
 
 const randomTransform = (element) => {
-  const rotation = getRandomNumber(-30, 30);
+  const rotation = getRandomNumber(-2, 2);
   const scale = 1;
-  const skewX = getRandomNumber(0, 30);
-  const skewY = getRandomNumber(0, 30);
+  const skewX = getRandomNumber(-2, 2);
+  const skewY = getRandomNumber(-2, 2);
   setTransform(element, rotation, scale, skewX, skewY);
 };
 
@@ -530,8 +545,27 @@ const getRandomNumber = (min, max) => {
   return Math.random() * (max - min) + min;
 };
 
+const NO_TRANSFORMABLE_ELEMENTS = [
+  '__next',
+  'particles',
+  'motion-path',
+  'wrapper',
+  'container',
+  'touch-layer',
+  'screen',
+  'target',
+  'ring',
+  'ring-active',
+  'ring-fill',
+  'html',
+  'main',
+  'body',
+  'section',
+  'footer',
+  'svg'
+];
+
 const isTransformableElement = (element) => {
-  const id = element?.id;
-  console.log('tranform ' + id);
-  return !['__next'].includes(id);
+  const elementValues = [element.nodeName?.toLowerCase(), element.id, ...element.className?.toString().split(' ')];
+  return !NO_TRANSFORMABLE_ELEMENTS.some((v) => elementValues.indexOf(v) >= 0);
 };
