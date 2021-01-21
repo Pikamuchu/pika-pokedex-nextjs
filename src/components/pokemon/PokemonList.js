@@ -9,27 +9,26 @@ const PokemonList = ({ pokemons, showNotFound, t }) => {
   const notFoundMessage = showNotFound ? <NotFound message={t('pokemon-not-found')} /> : '';
   return (
     <Row className="pokemons-container justify-content-around">
-      {pokemons && pokemons.length ? (
-        pokemons.map((pokemon) => (
-          <Col key={pokemon.id} lg={3} md={4} sm={6} xs={6}>
-            <PokemonTile key={pokemon.id} pokemon={pokemon} />
-          </Col>
-        ))
-      ) : (
-        notFoundMessage
-      )}
+      {pokemons && pokemons.length
+        ? pokemons.map((pokemon) => (
+            <Col key={pokemon.id} lg={3} md={4} sm={6} xs={6}>
+              <PokemonTile key={pokemon.id} pokemon={pokemon} />
+            </Col>
+          ))
+        : notFoundMessage}
     </Row>
   );
 };
 
 PokemonList.propTypes = {
-  pokemons: PropTypes.arrayOf(PropTypes.object).isRequired,
+  pokemons: PropTypes.arrayOf(PropTypes.object),
   showNotFound: PropTypes.bool,
-  t: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 };
 
 PokemonList.defaultProps = {
-  showNotFound: true,
+  pokemons: null,
+  showNotFound: true
 };
 
 export default withTranslation('pokemon')(PokemonList);

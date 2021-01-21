@@ -2,17 +2,10 @@
 /* eslint-disable no-plusplus */
 import anime from 'animejs/lib/anime.es.js';
 import * as Hammer from 'hammerjs';
-
-const Resources = {
-  pikaball: '/static/images/pikaball.png',
-  pikaballActive: '/static/images/pikaball-active.png',
-  pikaballOpened: '/static/images/pikaball-opened.png',
-  pikaballClosed: '/static/images/pikaball-closed.png'
-};
-
-const INITIAL_BALL_POSITION = 120;
-const BALL_LAUNCH_MAX_TIME = 200;
-const TARGET_DEFAULT_SIZE = 140;
+import { Resources } from './game/GameResourcesHelpers';
+import { createBall, createTarget, getElementById, getFirstElement, getCenterCoords } from './game/GameElementsHelpers';
+import { getRandomNumber, randomTransform, isTransformableElement } from './game/GameTransformsHelpers';
+import { createTouchManager } from './game/GameTouchHelpers';
 
 export default function captureGame(pokemon, captureSuccessCallback) {
   const Screen = {
@@ -20,66 +13,13 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     width: window.innerWidth
   };
 
-  let maxVelocity = Screen.height * 0.009;
-
   window.onresize = () => {
     Screen.height = window.innerHeight;
     Screen.width = window.innerWidth;
-    maxVelocity = Screen.height * 0.009;
     resetState();
   };
 
-  const Ball = {
-    id: 'ball',
-    size: 60,
-    x: 0,
-    y: 0,
-    inMotion: false,
-    moveBall: (x, y) => {
-      Ball.x = x;
-      Ball.y = y;
-      const BallElement = getElementById(Ball.id);
-      if (BallElement) {
-        BallElement.style.top = `${Ball.y}px`;
-        BallElement.style.left = `${Ball.x}px`;
-      }
-    },
-    moveBallDelta: (deltaX, deltaY) => {
-      const x = Ball.x + deltaX;
-      const y = Ball.y + deltaY;
-      Ball.moveBall(x, y);
-    },
-    moveBallPointer: (centerX, centerY) => {
-      const x = centerX - Ball.size / 2;
-      const y = centerY - Ball.size / 2;
-      Ball.moveBall(x, y);
-    },
-    getElement: () => {
-      return getElementById(Ball.id);
-    },
-    resetBall: () => {
-      Ball.moveBall(Screen.width / 2 - Ball.size / 2, Screen.height - (Ball.size + INITIAL_BALL_POSITION));
-      const BallElement = getElementById(Ball.id);
-      if (BallElement) {
-        BallElement.style.transform = '';
-        BallElement.style.height = `${Ball.size}px`;
-        BallElement.style.width = `${Ball.size}px`;
-        BallElement.style.backgroundImage = `url('${Resources.pikaball}')`;
-      }
-      Ball.inMotion = false;
-    },
-    savePosition: () => {
-      const ballEle = getElementById(Ball.id);
-      if (ballEle) {
-        const ballRect = ballEle.getBoundingClientRect();
-        ballEle.style.transform = '';
-        ballEle.style.top = `${ballRect.top}px`;
-        ballEle.style.left = `${ballRect.left}px`;
-        ballEle.style.height = `${ballRect.width}px`;
-        ballEle.style.width = `${ballRect.width}px`;
-      }
-    }
-  };
+  const Ball = createBall(Screen);
 
   const throwBall = (movementY, translateXValue, scalePercent) => {
     // Treat translations as fixed.
@@ -160,11 +100,11 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       const particleEle = document.createElement('div');
       particleEle.className = 'particle';
       particleEle.setAttribute('id', `particle-${i}`);
-      particleLeft = getRandNum(-60, 60) + targetEle.x;
+      particleLeft = getRandomNumber(-60, 60) + targetEle.x;
       particleEle.style.left = `${particleLeft}px`;
-      particleRight = getRandNum(-60, 60) + targetEle.y;
+      particleRight = getRandomNumber(-60, 60) + targetEle.y;
       particleEle.style.top = `${particleRight}px`;
-      particleEle.style.backgroundColor = palette[getRandNum(0, palette.length)];
+      particleEle.style.backgroundColor = palette[getRandomNumber(0, palette.length)];
       particleContainer.appendChild(particleEle);
       anime({
         targets: [`#particle-${i}`],
@@ -236,7 +176,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
 
     const ringRect = getFirstElement('ring-active').getBoundingClientRect();
     const successRate = ((150 - ringRect.width) / 150) * 100;
-    const seed = getRandNum(0, 100);
+    const seed = getRandomNumber(0, 100);
     setTimeout(() => {
       anime.remove('.capture-ball');
 
@@ -293,16 +233,16 @@ export default function captureGame(pokemon, captureSuccessCallback) {
       particleEle.style.left = `${particleLeft}px`;
       const particleTop = window.innerHeight / 2;
       particleEle.style.top = `${particleTop}px`;
-      particleEle.style.backgroundColor = getRandNum(0, 2) ? '#FFF' : '#4aa6fb';
+      particleEle.style.backgroundColor = getRandomNumber(0, 2) ? '#FFF' : '#4aa6fb';
       particleContainer.appendChild(particleEle);
       anime({
         targets: [`#particle-${i}`],
         translateX: {
-          value: (getRandNum(0, 2) ? -1 : 1) * getRandNum(0, window.innerWidth / 2),
+          value: (getRandomNumber(0, 2) ? -1 : 1) * getRandomNumber(0, window.innerWidth / 2),
           delay: 100
         },
         translateY: {
-          value: (getRandNum(0, 2) ? -1 : 1) * getRandNum(0, window.innerHeight / 2),
+          value: (getRandomNumber(0, 2) ? -1 : 1) * getRandomNumber(0, window.innerHeight / 2),
           delay: 100
         },
         opacity: {
@@ -326,6 +266,71 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     poofContainer.classList.toggle('hidden');
   };
 
+  // Ball colision logic
+  function ballColisions() {
+    const elements = document.elementsFromPoint(Ball.x, Ball.y);
+    elements.forEach((element) => {
+      if (isTransformableElement(element)) {
+        randomTransform(element);
+      }
+    });
+    if (isGameRunning() && isGameVisible()) {
+      setTimeout(function () {
+        ballColisions();
+      }, 500);
+    }
+  }
+
+  // Page visibility events
+  document.addEventListener(
+    'visibilitychange',
+    () => {
+      if (document.hidden) {
+        pauseGame();
+      } else {
+        startGame();
+      }
+    },
+    false
+  );
+
+  // Init pokemon
+  const target = createTarget(anime, pokemon);
+
+  // Audio elements
+  const gameAudio = {
+    music: document.getElementById('game-music')
+  };
+
+  let gameRunning = 0;
+
+  const isGameRunning = () => !!gameRunning;
+  const isGameVisible = () => getElementById('target');
+
+  const startGame = () => {
+    gameRunning = 1;
+    if (target.motion) {
+      target.motion.play();
+    }
+    if (gameAudio.music && gameAudio.music.paused) {
+      gameAudio.music.muted = false;
+      gameAudio.music.loop = true;
+      gameAudio.music.play();
+    }
+    ballColisions();
+  };
+
+  // Game start and pause function
+  const pauseGame = () => {
+    gameRunning = 0;
+    if (target.motion) {
+      target.motion.pause();
+    }
+    if (gameAudio.music) {
+      gameAudio.music.pause();
+    }
+  };
+
   const resetState = () => {
     Ball.resetBall();
     getElementById('target').style.opacity = 1;
@@ -344,228 +349,9 @@ export default function captureGame(pokemon, captureSuccessCallback) {
     startGame();
   };
 
-  // Init pokemon
-  const target = getElementById('target');
-  target.style.backgroundImage = `url('${pokemon.image}')`;
-  if (pokemon.imageRatio > 1) {
-    target.style.height = `${TARGET_DEFAULT_SIZE * pokemon.imageRatio}px`;
-  }
-
-  // Move pokemon through path
-  const path = anime.path('.motion-path path');
-
-  const targetMotion = anime({
-    targets: '.target',
-    translateX: path('x'),
-    translateY: path('y'),
-    rotate: 20,
-    easing: 'easeInOutQuad',
-    duration: 10000,
-    loop: true,
-    direction: 'alternate',
-    autoplay: false
-  });
-
-  // Audio elements
-  const gameAudio = {
-    music: document.getElementById('game-music')
-  };
-
-  let gameRunning = 0;
-
-  // Game start and pause function
-  const pauseGame = () => {
-    gameRunning = 0;
-    if (targetMotion) {
-      targetMotion.pause();
-    }
-    if (gameAudio.music) {
-      gameAudio.music.pause();
-    }
-  };
-
-  const startGame = () => {
-    gameRunning = 1;
-    if (targetMotion) {
-      targetMotion.play();
-    }
-    if (gameAudio.music && gameAudio.music.paused) {
-      gameAudio.music.muted = false;
-      gameAudio.music.loop = true;
-      gameAudio.music.play();
-    }
-    ballColisions();
-  };
-
-  const isGameRunning = () => !!gameRunning;
-  const isGameVisible = () => getElementById('target');
-
-  // Page visibility events
-  document.addEventListener(
-    'visibilitychange',
-    () => {
-      if (document.hidden) {
-        pauseGame();
-      } else {
-        startGame();
-      }
-    },
-    false
-  );
-
   // Gesture Bindings
-  const touchElement = getFirstElement('touch-layer');
-
-  // Create a manager to manage the touch area
-  const manager = new Hammer.Manager(touchElement);
-
-  const pan = new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 0 });
-  const swipe = new Hammer.Swipe();
-
-  swipe.recognizeWith(pan);
-
-  // Ball pan events
-  manager.add(pan);
-  manager.on('pan', (event) => {
-    if (event.center) {
-      Ball.moveBallPointer(event.center.x, event.center.y);
-    }
-    if (event.isFinal) {
-      setTimeout(() => {
-        if (Ball.inMotion === false) {
-          Ball.resetBall();
-        }
-      }, BALL_LAUNCH_MAX_TIME);
-    }
-  });
-
-  // Ball swipe events
-  manager.add(swipe);
-  manager.on('swipe', (event) => {
-    Ball.inMotion = true;
-    const screenEle = getFirstElement('screen');
-    const screenPos = screenEle.getBoundingClientRect();
-
-    const { angle, deltaY } = event;
-    let velocity = Math.abs(event.velocity);
-    if (velocity > maxVelocity) {
-      velocity = maxVelocity;
-    }
-
-    // Determine the final position.
-    const scalePercent = Math.log(velocity + 1) / Math.log(maxVelocity + 1);
-    const movementY = deltaY;
-
-    // Determine how far it needs to travel from the current position to the destination.
-    const translateYValue = -0.75 * Screen.height * scalePercent;
-    const translateXValue = -1 * (angle + 90) * (translateYValue / 100);
-
-    anime.remove('.ring-fill');
-
-    anime({
-      targets: ['.ball'],
-      translateX: {
-        duration: 300,
-        value: translateXValue,
-        easing: 'easeOutSine'
-      },
-      translateY: {
-        value: `${movementY * 1.25}px`,
-        duration: 300,
-        easing: 'easeOutSine'
-      },
-      scale: {
-        value: 1 - 0.5 * scalePercent,
-        easing: 'easeInSine',
-        duration: 300
-      },
-      complete: () => {
-        if (movementY < 0) {
-          throwBall(movementY, translateXValue, scalePercent);
-        } else {
-          setTimeout(resetState, 400);
-        }
-      }
-    });
-  });
-
-  // Ball colision logic
-  function ballColisions() {
-    const elements = document.elementsFromPoint(Ball.x, Ball.y);
-    elements.forEach((element) => {
-      if (isTransformableElement(element)) {
-        randomTransform(element);
-      }
-    });
-    if (isGameRunning() && isGameVisible()) {
-      setTimeout(function () {
-        ballColisions();
-      }, 1000);
-    }
-  }
+  createTouchManager(Hammer, anime, Ball, Screen, throwBall, resetState);
 
   // Initial Setup
   resetState();
 }
-
-const getElementById = (id) => document.getElementById(id);
-
-const getFirstElement = (className) => document.getElementsByClassName(className)[0];
-
-const getCenterCoords = (elementId) => {
-  const rect = getElementById(elementId).getBoundingClientRect();
-  return {
-    x: rect.left + rect.width / 2,
-    y: rect.top + rect.height / 2
-  };
-};
-
-const getRandNum = (min, max) => {
-  return Math.floor(Math.random() * (max - min)) + min;
-};
-
-const randomTransform = (element) => {
-  const rotation = getRandomNumber(-2, 2);
-  const scale = 1;
-  const skewX = getRandomNumber(-2, 2);
-  const skewY = getRandomNumber(-2, 2);
-  setTransform(element, rotation, scale, skewX, skewY);
-};
-
-const setTransform = (element, rotation, scale, skewX, skewY) => {
-  const transformString = `rotate(${rotation}deg ) scale(${scale}) skewX(${skewX}deg ) skewY(${skewY}deg )`;
-  element.style.webkitTransform = transformString;
-  element.style.MozTransform = transformString;
-  element.style.msTransform = transformString;
-  element.style.OTransform = transformString;
-  element.style.transform = transformString;
-};
-
-const getRandomNumber = (min, max) => {
-  return Math.random() * (max - min) + min;
-};
-
-const NO_TRANSFORMABLE_ELEMENTS = [
-  '__next',
-  'particles',
-  'motion-path',
-  'wrapper',
-  'container',
-  'touch-layer',
-  'screen',
-  'target',
-  'ring',
-  'ring-active',
-  'ring-fill',
-  'html',
-  'main',
-  'body',
-  'section',
-  'footer',
-  'svg'
-];
-
-const isTransformableElement = (element) => {
-  const elementValues = [element.nodeName?.toLowerCase(), element.id, ...element.className?.toString().split(' ')];
-  return !NO_TRANSFORMABLE_ELEMENTS.some((v) => elementValues.indexOf(v) >= 0);
-};
