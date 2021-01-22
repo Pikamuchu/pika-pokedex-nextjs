@@ -24,6 +24,12 @@ export const createBall = (Screen) => {
     x: 0,
     y: 0,
     inMotion: false,
+    getElement: () => {
+      return getElementById(ball.id);
+    },
+    getCenterCoords: () => {
+      return getCenterCoords(ball.id);
+    },
     moveBall: (x, y) => {
       ball.x = x;
       ball.y = y;
@@ -42,9 +48,6 @@ export const createBall = (Screen) => {
       const x = centerX - ball.size / 2;
       const y = centerY - ball.size / 2;
       ball.moveBall(x, y);
-    },
-    getElement: () => {
-      return getElementById(ball.id);
     },
     resetBall: () => {
       ball.moveBall(Screen.width / 2 - ball.size / 2, Screen.height - (ball.size + BALL_INITIAL_POSITION));
@@ -78,6 +81,12 @@ export const createTarget = (anime, pokemon) => {
     size: TARGET_DEFAULT_SIZE,
     getElement: () => {
       return getElementById(target.id);
+    },
+    getCenterCoords: () => {
+      return getCenterCoords(target.id);
+    },
+    getRadius: () => {
+      return getElementById(target.id).getBoundingClientRect().width / 2;
     }
   };
   const targetElement = target.getElement();
@@ -105,10 +114,14 @@ export const getElementById = (id) => document.getElementById(id);
 
 export const getFirstElement = (className) => document.getElementsByClassName(className)[0];
 
-export const getCenterCoords = (elementId) => {
-  const rect = getElementById(elementId).getBoundingClientRect();
-  return {
-    x: rect.left + rect.width / 2,
-    y: rect.top + rect.height / 2
-  };
+export const getCenterCoords = (element) => {
+  const rect = element?.getBoundingClientRect
+    ? element.getBoundingClientRect()
+    : getElementById(element)?.getBoundingClientRect();
+  return (
+    rect && {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2
+    }
+  );
 };

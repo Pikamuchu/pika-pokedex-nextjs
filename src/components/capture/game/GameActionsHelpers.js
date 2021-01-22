@@ -1,6 +1,6 @@
 import { Resources } from './GameResourcesHelpers';
-import { getElementById, getFirstElement, getCenterCoords } from './GameElementsHelpers';
-import { getRandomNumber } from './GameTransformsHelpers';
+import { getFirstElement } from './GameElementsHelpers';
+import { getRandomNumber } from './GameEffectsHelpers';
 
 export const createGameActions = (anime, ball, target, screen, state, captureSuccessCallback) => {
   const throwBall = (movementY, translateXValue, scalePercent) => {
@@ -29,11 +29,11 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
 
   const determineThrowResult = () => {
     // Determine hit-region
-    const targetCoords = getCenterCoords('target');
-    const ballCoords = getCenterCoords('ball');
+    const targetCoords = target.getCenterCoords();
+    const ballCoords = ball.getCenterCoords();
 
     // Determine if the ball is touching the target.
-    const radius = getElementById('target').getBoundingClientRect().width / 2;
+    const radius = target.getRadius();
     if (
       ballCoords.x > targetCoords.x - radius &&
       ballCoords.x < targetCoords.x + radius &&
@@ -64,7 +64,7 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
         complete: () => {
           const ballElement = ball.getElement();
           ballElement.style.backgroundImage = `url('${Resources.pikaballOpened}')`;
-          emitParticlesToPikaball();
+          emitTargetParticlesToBall();
         }
       });
     } else {
@@ -72,14 +72,14 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
     }
   };
 
-  const emitParticlesToPikaball = () => {
+  const emitTargetParticlesToBall = () => {
     let particleLeft;
     let particleRight;
-    const targetCoords = getCenterCoords('target');
+    const targetCoords = target.getCenterCoords();
     const ballElement = ball.getElement();
     const ballRect = ballElement.getBoundingClientRect();
     const palette = ['#E4D3A8', '#6EB8C0', '#FFF', '#2196F3'];
-    const particleContainer = getFirstElement('particles');
+    const particleContainer = getFirstElement('particle-container');
     for (let i = 0; i < 50; i++) {
       const particleElement = document.createElement('div');
       particleElement.className = 'particle';
@@ -119,7 +119,7 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
     setTimeout(() => {
       const ballElement = ball.getElement();
       ballElement.style.backgroundImage = `url('${Resources.pikaballClosed}')`;
-      getFirstElement('particles').innerHTML = '';
+      getFirstElement('particle-container').innerHTML = '';
       ball.savePosition();
 
       anime({

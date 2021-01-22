@@ -1,7 +1,7 @@
 import { getElementById, getFirstElement } from './GameElementsHelpers';
-import { isTransformableElement, randomTransform } from './GameTransformsHelpers';
+import { isTransformableElement, randomTransform, emitBallColisionParticles } from './GameEffectsHelpers';
 
-export function createGameState(anime, ball, target, screen, audio) {
+export function createGameState(anime, ball, target, screen, audio, actions) {
   let gameRunning = 0;
   const isGameRunning = () => !!gameRunning;
   const isGameVisible = () => !!getElementById('target');
@@ -73,6 +73,7 @@ export function createGameState(anime, ball, target, screen, audio) {
     elements.forEach((element) => {
       if (isTransformableElement(element)) {
         randomTransform(element);
+        emitBallColisionParticles(anime, ball, element);
       }
     });
     if (isGameRunning() && isGameVisible()) {

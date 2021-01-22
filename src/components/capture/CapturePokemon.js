@@ -24,7 +24,7 @@ const CaptureGame = ({ pokemon, t }) => {
         <h1>{`Catch ${pokemon?.name}!`}</h1>
       </div>
       <div className="touch-layer" />
-      <div className="particles" />
+      <div className="particle-container" />
       <div className="screen gradient-background">
         <div id="ball" className="ball" />
         <div className="output" />
