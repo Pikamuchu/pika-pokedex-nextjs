@@ -1,72 +1,93 @@
 import { Resources } from './GameResourcesHelpers';
 
-const INITIAL_BALL_POSITION = 120;
+const BALL_DEFAULT_SIZE = 60;
+const BALL_INITIAL_POSITION = 120;
 const TARGET_DEFAULT_SIZE = 140;
 
+export const createScreen = () => {
+  return {
+    height: window.innerHeight,
+    width: window.innerWidth
+  };
+};
+
+export const createAudio = () => {
+  return {
+    music: document.getElementById('game-music')
+  };
+};
+
 export const createBall = (Screen) => {
-  const Ball = {
+  const ball = {
     id: 'ball',
-    size: 60,
+    size: BALL_DEFAULT_SIZE,
     x: 0,
     y: 0,
     inMotion: false,
     moveBall: (x, y) => {
-      Ball.x = x;
-      Ball.y = y;
-      const BallElement = getElementById(Ball.id);
-      if (BallElement) {
-        BallElement.style.top = `${Ball.y}px`;
-        BallElement.style.left = `${Ball.x}px`;
+      ball.x = x;
+      ball.y = y;
+      const ballElement = getElementById(ball.id);
+      if (ballElement) {
+        ballElement.style.top = `${ball.y}px`;
+        ballElement.style.left = `${ball.x}px`;
       }
     },
     moveBallDelta: (deltaX, deltaY) => {
-      const x = Ball.x + deltaX;
-      const y = Ball.y + deltaY;
-      Ball.moveBall(x, y);
+      const x = ball.x + deltaX;
+      const y = ball.y + deltaY;
+      ball.moveBall(x, y);
     },
     moveBallPointer: (centerX, centerY) => {
-      const x = centerX - Ball.size / 2;
-      const y = centerY - Ball.size / 2;
-      Ball.moveBall(x, y);
+      const x = centerX - ball.size / 2;
+      const y = centerY - ball.size / 2;
+      ball.moveBall(x, y);
     },
     getElement: () => {
-      return getElementById(Ball.id);
+      return getElementById(ball.id);
     },
     resetBall: () => {
-      Ball.moveBall(Screen.width / 2 - Ball.size / 2, Screen.height - (Ball.size + INITIAL_BALL_POSITION));
-      const BallElement = getElementById(Ball.id);
-      if (BallElement) {
-        BallElement.style.transform = '';
-        BallElement.style.height = `${Ball.size}px`;
-        BallElement.style.width = `${Ball.size}px`;
-        BallElement.style.backgroundImage = `url('${Resources.pikaball}')`;
+      ball.moveBall(Screen.width / 2 - ball.size / 2, Screen.height - (ball.size + BALL_INITIAL_POSITION));
+      const ballElement = getElementById(ball.id);
+      if (ballElement) {
+        ballElement.style.transform = '';
+        ballElement.style.height = `${ball.size}px`;
+        ballElement.style.width = `${ball.size}px`;
+        ballElement.style.backgroundImage = `url('${Resources.pikaball}')`;
       }
-      Ball.inMotion = false;
+      ball.inMotion = false;
     },
     savePosition: () => {
-      const ballEle = getElementById(Ball.id);
-      if (ballEle) {
-        const ballRect = ballEle.getBoundingClientRect();
-        ballEle.style.transform = '';
-        ballEle.style.top = `${ballRect.top}px`;
-        ballEle.style.left = `${ballRect.left}px`;
-        ballEle.style.height = `${ballRect.width}px`;
-        ballEle.style.width = `${ballRect.width}px`;
+      const ballElement = getElementById(ball.id);
+      if (ballElement) {
+        const ballRect = ballElement.getBoundingClientRect();
+        ballElement.style.transform = '';
+        ballElement.style.top = `${ballRect.top}px`;
+        ballElement.style.left = `${ballRect.left}px`;
+        ballElement.style.height = `${ballRect.width}px`;
+        ballElement.style.width = `${ballRect.width}px`;
       }
     }
   };
-  return Ball;
+  return ball;
 };
 
 export const createTarget = (anime, pokemon) => {
-  const target = getElementById('target');
-  target.style.backgroundImage = `url('${pokemon.image}')`;
+  const target = {
+    id: 'target',
+    size: TARGET_DEFAULT_SIZE,
+    getElement: () => {
+      return getElementById(target.id);
+    }
+  };
+  const targetElement = target.getElement();
+  targetElement.style.backgroundImage = `url('${pokemon.image}')`;
   if (pokemon.imageRatio > 1) {
-    target.style.height = `${TARGET_DEFAULT_SIZE * pokemon.imageRatio}px`;
+    targetElement.style.height = `${target.size * pokemon.imageRatio}px`;
   }
   // Move pokemon through path
   const path = anime.path('.motion-path path');
-  const motion = anime({
+  target.motion = anime({
     targets: '.target',
     translateX: path('x'),
     translateY: path('y'),
@@ -77,9 +98,7 @@ export const createTarget = (anime, pokemon) => {
     direction: 'alternate',
     autoplay: false
   });
-  return {
-    motion
-  };
+  return target;
 };
 
 export const getElementById = (id) => document.getElementById(id);
