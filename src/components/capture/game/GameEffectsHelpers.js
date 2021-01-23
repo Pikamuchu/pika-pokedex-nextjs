@@ -59,7 +59,12 @@ export const isTransformableElement = (element) => {
 export const emitBallColisionParticles = (anime, ball, element) => {
   let particleLeft;
   let particleRight;
-  const colisionCoords = getCenterCoords(element);
+  const elementCoords = getCenterCoords(element);
+  const ballCoords = ball.getCenterCoords();
+  const colisionCoords = {
+    x: ballCoords.x,
+    y: ballCoords.y
+  };
   const ballElement = ball.getElement();
   const ballRect = ballElement.getBoundingClientRect();
   const palette = ['#000000', '#FAD61D', '#E19720', '#F62D14', '#811E09'];

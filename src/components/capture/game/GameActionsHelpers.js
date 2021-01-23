@@ -3,7 +3,63 @@ import { getFirstElement } from './GameElementsHelpers';
 import { getRandomNumber } from './GameEffectsHelpers';
 
 export const createGameActions = (anime, ball, target, screen, state, captureSuccessCallback) => {
-  const throwBall = (movementY, translateXValue, scalePercent) => {
+  const BALL_THROW_MAX_TIME = 200;
+
+  function moveBall(coords, final) {
+    if (coords) {
+      ball.moveBallPointer(coords.x, coords.y);
+    }
+    if (final) {
+      setTimeout(() => {
+        if (ball.inMotion === false) {
+          ball.resetBall();
+        }
+      }, BALL_THROW_MAX_TIME);
+    }
+  }
+
+  function throwBall(angle, deltaY, velocity) {
+    ball.inMotion = true;
+    let maxVelocity = screen.height * 0.009;
+    velocity = Math.abs(velocity);
+    if (velocity > maxVelocity) {
+      velocity = maxVelocity;
+    }
+    // Determine the final position.
+    const scalePercent = Math.log(velocity + 1) / Math.log(maxVelocity + 1);
+    const movementY = deltaY;
+    // Determine how far it needs to travel from the current position to the destination.
+    const translateYValue = -0.75 * screen.height * scalePercent;
+    const translateXValue = -1 * (angle + 90) * (translateYValue / 100);
+    anime.remove('.ring-fill');
+    anime({
+      targets: ['.ball'],
+      translateX: {
+        duration: 300,
+        value: translateXValue,
+        easing: 'easeOutSine'
+      },
+      translateY: {
+        value: `${movementY * 1.25}px`,
+        duration: 300,
+        easing: 'easeOutSine'
+      },
+      scale: {
+        value: 1 - 0.5 * scalePercent,
+        easing: 'easeInSine',
+        duration: 300
+      },
+      complete: () => {
+        if (movementY < 0) {
+          throwBall2(movementY, translateXValue, scalePercent);
+        } else {
+          setTimeout(state.resetState, 400);
+        }
+      }
+    });
+  }
+
+  const throwBall2 = (movementY, translateXValue, scalePercent) => {
     // Treat translations as fixed.
     ball.savePosition();
     anime({
@@ -251,6 +307,7 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
   };
 
   return {
+    moveBall,
     throwBall
   };
 };
