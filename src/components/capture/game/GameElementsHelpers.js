@@ -13,11 +13,11 @@ export const createScreen = () => {
 
 export const createAudio = () => {
   return {
-    music: document.getElementById('game-music')
+    music: getElementById('game-music')
   };
 };
 
-export const createBall = (Screen) => {
+export const createBall = (screen) => {
   const ball = {
     id: 'ball',
     size: BALL_DEFAULT_SIZE,
@@ -50,7 +50,7 @@ export const createBall = (Screen) => {
       ball.moveBall(x, y);
     },
     resetBall: () => {
-      ball.moveBall(Screen.width / 2 - ball.size / 2, Screen.height - (ball.size + BALL_INITIAL_POSITION));
+      ball.moveBall(screen.width / 2 - ball.size / 2, screen.height - (ball.size + BALL_INITIAL_POSITION));
       const ballElement = getElementById(ball.id);
       if (ballElement) {
         ballElement.style.transform = '';
@@ -87,14 +87,32 @@ export const createTarget = (anime, pokemon) => {
     },
     getRadius: () => {
       return getElementById(target.id).getBoundingClientRect().width / 2;
+    },
+    resetTarget: () => {
+      // Show target
+      const targetElement = target.getElement();
+      targetElement.style.opacity = 1;
+      // Adjust Ring
+      const ring = getFirstElement('ring-fill');
+      ring.style.height = '150px';
+      ring.style.width = '150px';
+      anime({
+        targets: ['.ring-fill'],
+        height: '5px',
+        width: '5px',
+        duration: 3000,
+        loop: true,
+        easing: 'linear'
+      });
     }
   };
+  // Add target image
   const targetElement = target.getElement();
   targetElement.style.backgroundImage = `url('${pokemon.image}')`;
   if (pokemon.imageRatio > 1) {
     targetElement.style.height = `${target.size * pokemon.imageRatio}px`;
   }
-  // Move pokemon through path
+  // Move target through path
   const path = anime.path('.motion-path path');
   target.motion = anime({
     targets: '.target',

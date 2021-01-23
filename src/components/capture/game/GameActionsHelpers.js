@@ -1,11 +1,26 @@
 import { Resources } from './GameResourcesHelpers';
 import { getFirstElement } from './GameElementsHelpers';
-import { getRandomNumber } from './GameEffectsHelpers';
+import {
+  getRandomNumber,
+  isTransformableElement,
+  randomTransform,
+  emitBallColisionParticles
+} from './GameEffectsHelpers';
 
 export const createGameActions = (anime, ball, target, screen, state, captureSuccessCallback) => {
   const BALL_THROW_MAX_TIME = 200;
 
-  function moveBall(coords, final) {
+  const checkBallColisions = () => {
+    const elements = document.elementsFromPoint(ball.x, ball.y);
+    elements.forEach((element) => {
+      if (isTransformableElement(element)) {
+        randomTransform(element);
+        emitBallColisionParticles(anime, ball, element);
+      }
+    });
+  };
+
+  const moveBall = (coords, final) => {
     if (coords) {
       ball.moveBallPointer(coords.x, coords.y);
     }
@@ -16,7 +31,7 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
         }
       }, BALL_THROW_MAX_TIME);
     }
-  }
+  };
 
   function throwBall(angle, deltaY, velocity) {
     ball.inMotion = true;
@@ -307,6 +322,7 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
   };
 
   return {
+    checkBallColisions,
     moveBall,
     throwBall
   };
