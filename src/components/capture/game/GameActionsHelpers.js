@@ -11,13 +11,34 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
   const BALL_THROW_MAX_TIME = 200;
 
   const checkBallColisions = () => {
-    const elements = document.elementsFromPoint(ball.x, ball.y);
-    elements.forEach((element) => {
-      if (isTransformableElement(element)) {
-        randomTransform(element);
-        emitBallColisionParticles(anime, ball, element);
+    if (!ball.colision) {
+      const ballCoords = ball.getCenterCoords();
+      const elements = document.elementsFromPoint(ballCoords.x, ballCoords.y);
+      elements.forEach((element) => {
+        if (isTransformableElement(element)) {
+          console.log('Ball colision' + element);
+          ball.colision = true;
+          randomTransform(element);
+          emitBallColisionParticles(anime, ball, element);
+        }
+      });
+      // Restore ball after colision
+      if (ball.colision) {
+        const ballElement = ball.getElement();
+        anime.remove(ballElement);
+        anime({
+          targets: [ballElement],
+          opacity: {
+            value: 0,
+            delay: 800,
+            easing: 'easeInSine'
+          },
+          complete: () => {
+            ball.resetBall();
+          }
+        });
       }
-    });
+    }
   };
 
   const moveBall = (coords, final) => {
@@ -33,7 +54,31 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
     }
   };
 
-  function throwBall(angle, deltaY, velocity) {
+  const moveElement = (element, coords, duration, scalePercent) => {
+    const translateY = 0;
+    const translateX = 0;
+    anime({
+      targets: [element],
+      translateY: {
+        value: translateY,
+        duration: duration || 400,
+        easing: 'linear'
+      },
+      translateX: {
+        value: translateX,
+        duration: duration || 400,
+        easing: 'linear'
+      },
+      scale: {
+        value: 1 - 0.25 * (scalePercent || 0),
+        easing: 'easeInSine',
+        duration: 400
+      },
+      complete: determineThrowResult
+    });
+  };
+
+  const throwBall = (angle, deltaY, velocity) => {
     ball.inMotion = true;
     let maxVelocity = screen.height * 0.009;
     velocity = Math.abs(velocity);
@@ -48,21 +93,21 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
     const translateXValue = -1 * (angle + 90) * (translateYValue / 100);
     anime.remove('.ring-fill');
     anime({
-      targets: ['.ball'],
+      targets: [ball.getElement()],
       translateX: {
-        duration: 300,
         value: translateXValue,
+        duration: 300,
         easing: 'easeOutSine'
       },
       translateY: {
-        value: `${movementY * 1.25}px`,
+        value: movementY * 1.25,
         duration: 300,
         easing: 'easeOutSine'
       },
       scale: {
         value: 1 - 0.5 * scalePercent,
-        easing: 'easeInSine',
-        duration: 300
+        duration: 300,
+        easing: 'easeInSine'
       },
       complete: () => {
         if (movementY < 0) {
@@ -72,15 +117,15 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
         }
       }
     });
-  }
+  };
 
   const throwBall2 = (movementY, translateXValue, scalePercent) => {
     // Treat translations as fixed.
     ball.savePosition();
     anime({
-      targets: ['.ball'],
+      targets: [ball.getElement()],
       translateY: {
-        value: `${movementY * -0.5}px`,
+        value: movementY * -0.5,
         duration: 400,
         easing: 'easeInOutSine'
       },
@@ -117,7 +162,7 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
       ball.savePosition();
       const ballOrientation = ballCoords.x < targetCoords.x ? -1 : 1;
       anime({
-        targets: ['.ball'],
+        targets: [ball.getElement()],
         translateY: {
           value: -1.15 * radius,
           duration: 200,
@@ -194,7 +239,7 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
       ball.savePosition();
 
       anime({
-        targets: ['.ball'],
+        targets: [ball.getElement()],
         translateY: {
           value: '200px',
           delay: 400,
@@ -255,7 +300,7 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
     captureSuccessCallback();
   };
 
-  function showEscapeAnimationAndContinue() {
+  const showEscapeAnimationAndContinue = () => {
     const buttonContainer = getFirstElement('capture-ball-button-container');
     buttonContainer.classList.toggle('hidden');
 
@@ -276,11 +321,11 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
         }, 500);
       }
     });
-  }
+  };
 
   const makeItRainConfetti = () => {
+    const particleContainer = getFirstElement('capture-confetti');
     for (let i = 0; i < 100; i++) {
-      const particleContainer = getFirstElement('capture-confetti');
       const particleElement = document.createElement('div');
       particleElement.className = 'particle';
       particleElement.setAttribute('id', `particle-${i}`);
@@ -306,7 +351,7 @@ export const createGameActions = (anime, ball, target, screen, state, captureSuc
           easing: 'easeInSine'
         },
         complete: () => {
-          getFirstElement('capture-confetti').innerHTML = '';
+          particleContainer.innerHTML = '';
         }
       });
     }

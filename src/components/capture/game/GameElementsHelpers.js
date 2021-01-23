@@ -24,6 +24,7 @@ export const createBall = (screen) => {
     x: 0,
     y: 0,
     inMotion: false,
+    colision: false,
     getElement: () => {
       return getElementById(ball.id);
     },
@@ -53,12 +54,14 @@ export const createBall = (screen) => {
       ball.moveBall(screen.width / 2 - ball.size / 2, screen.height - (ball.size + BALL_INITIAL_POSITION));
       const ballElement = getElementById(ball.id);
       if (ballElement) {
+        ballElement.style.opacity = 1;
         ballElement.style.transform = '';
         ballElement.style.height = `${ball.size}px`;
         ballElement.style.width = `${ball.size}px`;
         ballElement.style.backgroundImage = `url('${Resources.pikaball}')`;
       }
       ball.inMotion = false;
+      ball.colision = false;
     },
     savePosition: () => {
       const ballElement = getElementById(ball.id);
@@ -89,8 +92,11 @@ export const createTarget = (anime, pokemon) => {
       return getElementById(target.id).getBoundingClientRect().width / 2;
     },
     resetTarget: () => {
-      // Show target
       const targetElement = target.getElement();
+      targetElement.style.backgroundImage = `url('${pokemon.image}')`;
+      if (pokemon.imageRatio > 1) {
+        targetElement.style.height = `${target.size * pokemon.imageRatio}px`;
+      }
       targetElement.style.opacity = 1;
       // Adjust Ring
       const ring = getFirstElement('ring-fill');
@@ -106,12 +112,6 @@ export const createTarget = (anime, pokemon) => {
       });
     }
   };
-  // Add target image
-  const targetElement = target.getElement();
-  targetElement.style.backgroundImage = `url('${pokemon.image}')`;
-  if (pokemon.imageRatio > 1) {
-    targetElement.style.height = `${target.size * pokemon.imageRatio}px`;
-  }
   // Move target through path
   const path = anime.path('.motion-path path');
   target.motion = anime({
