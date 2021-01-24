@@ -1,5 +1,5 @@
 import * as Hammer from 'hammerjs';
-import { getFirstElement } from './GameElementsHelpers';
+import { getFirstElement } from './GameUtils';
 
 export function createGameEvents(screen, state, actions) {
   // Create a manager to manage the touch area
@@ -12,7 +12,7 @@ export function createGameEvents(screen, state, actions) {
   // ball pan events
   touchManager.add(pan);
   touchManager.on('pan', (event) => {
-    actions.moveBall(event.center, event.isFinal);
+    actions.pointerBall(event.center, event.isFinal);
   });
 
   // ball swipe events

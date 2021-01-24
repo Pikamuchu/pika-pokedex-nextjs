@@ -1,5 +1,3 @@
-import anime from 'animejs/lib/anime.es.js';
-
 import { createScreen, createAudio, createBall, createTarget } from './game/GameElementsHelpers';
 import { createGameState } from './game/GameStateHelpers';
 import { createGameActions } from './game/GameActionsHelpers';
@@ -10,10 +8,10 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   const audio = createAudio();
 
   const ball = createBall(screen);
-  const target = createTarget(anime, pokemon);
+  const target = createTarget(pokemon);
 
   const state = createGameState(ball, target, screen, audio);
-  const actions = createGameActions(anime, ball, target, screen, state, captureSuccessCallback);
+  const actions = createGameActions(ball, target, screen, state, captureSuccessCallback);
 
   createGameEvents(screen, state, actions);
 

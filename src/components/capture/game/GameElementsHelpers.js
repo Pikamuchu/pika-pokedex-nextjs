@@ -1,4 +1,6 @@
 import { Resources } from './GameResourcesHelpers';
+import { getElementById, getFirstElement, getCenterCoords } from './GameUtils';
+import { elementShrinkEffect, moveElementThroughPath } from './GameEffectsHelpers';
 
 const BALL_DEFAULT_SIZE = 60;
 const BALL_INITIAL_POSITION = 120;
@@ -78,7 +80,7 @@ export const createBall = (screen) => {
   return ball;
 };
 
-export const createTarget = (anime, pokemon) => {
+export const createTarget = (pokemon) => {
   const target = {
     id: 'target',
     size: TARGET_DEFAULT_SIZE,
@@ -102,44 +104,9 @@ export const createTarget = (anime, pokemon) => {
       const ring = getFirstElement('ring-fill');
       ring.style.height = '150px';
       ring.style.width = '150px';
-      anime({
-        targets: ['.ring-fill'],
-        height: '5px',
-        width: '5px',
-        duration: 3000,
-        loop: true,
-        easing: 'linear'
-      });
+      elementShrinkEffect(ring);
     }
   };
-  // Move target through path
-  const path = anime.path('.motion-path path');
-  target.motion = anime({
-    targets: '.target',
-    translateX: path('x'),
-    translateY: path('y'),
-    rotate: 20,
-    easing: 'easeInOutQuad',
-    duration: 10000,
-    loop: true,
-    direction: 'alternate',
-    autoplay: false
-  });
+  target.motion = moveElementThroughPath(target.getElement(), '.motion-path path');
   return target;
-};
-
-export const getElementById = (id) => document.getElementById(id);
-
-export const getFirstElement = (className) => document.getElementsByClassName(className)[0];
-
-export const getCenterCoords = (element) => {
-  const rect = element?.getBoundingClientRect
-    ? element.getBoundingClientRect()
-    : getElementById(element)?.getBoundingClientRect();
-  return (
-    rect && {
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2
-    }
-  );
 };
