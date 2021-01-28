@@ -1,8 +1,8 @@
 import { Resources } from './GameResourcesHelpers';
 import { getFirstElement, getRandomNumber } from './GameUtils';
 import {
-  isTransformableElement,
-  randomTransform,
+  hasCollidableElement,
+  elementColisionEffect,
   emitBallColisionParticles,
   restoreBallAfterColision,
   removeElementAnimation,
@@ -22,16 +22,12 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     if (!ball.colision) {
       const ballCoords = ball.getCenterCoords();
       const elements = document.elementsFromPoint(ballCoords.x, ballCoords.y);
-      elements.forEach((element) => {
-        if (isTransformableElement(element)) {
-          console.log('Ball colision' + element);
-          ball.colision = true;
-          randomTransform(element);
-          emitBallColisionParticles(ball, element);
-        }
-      });
-      // Restore ball after colision
-      if (ball.colision) {
+      var elementColision = elements.find(hasCollidableElement);
+      if (elementColision) {
+        console.log('Ball colision' + elementColision);
+        ball.colision = true;
+        elementColisionEffect(elementColision, elements);
+        emitBallColisionParticles(ball, elementColision);
         restoreBallAfterColision(ball);
       }
     }
@@ -101,9 +97,9 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
         target.motion.pause();
       }
       ball.savePosition();
+      const ballElement = ball.getElement();
       const ballOrientation = ballCoords.x < targetCoords.x ? -1 : 1;
-      moveElementAsideEffect(ball, radius, ballOrientation, () => {
-        const ballElement = ball.getElement();
+      moveElementAsideEffect(ballElement, radius, ballOrientation, () => {
         ballElement.style.backgroundImage = `url('${Resources.pikaballOpened}')`;
         emitTargetParticlesToBall();
       });

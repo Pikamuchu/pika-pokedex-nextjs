@@ -3,6 +3,7 @@ import anime from 'animejs/lib/anime.es.js';
 import { getFirstElement, getRandomNumber, setTransform } from './GameUtils';
 
 const NUM_COLISION_PARTICLES = 5;
+const COLLIDABLE_ELEMENT_CLASS = ['collidable'];
 const NO_TRANSFORMABLE_ELEMENTS = [
   '__next',
   'particles',
@@ -28,13 +29,28 @@ const NO_TRANSFORMABLE_ELEMENTS = [
   'section',
   'footer',
   'svg',
-  'div',
-  'h1'
+  'div'
 ];
+
+export const hasCollidableElement = (element) => {
+  const classValues = element?.className?.toString().split(' ');
+  return classValues && COLLIDABLE_ELEMENT_CLASS.some((v) => classValues.indexOf(v) >= 0);
+};
 
 export const isTransformableElement = (element) => {
   const elementValues = [element.nodeName?.toLowerCase(), element.id, ...element.className?.toString().split(' ')];
   return !NO_TRANSFORMABLE_ELEMENTS.some((v) => elementValues.indexOf(v) >= 0);
+};
+
+export const elementColisionEffect = (elementColision, otherElements) => {
+  randomTransform(elementColision);
+  if (otherElements) {
+    otherElements.forEach((element) => {
+      if (isTransformableElement(element)) {
+        randomTransform(element);
+      }
+    });
+  }
 };
 
 export const randomTransform = (element) => {

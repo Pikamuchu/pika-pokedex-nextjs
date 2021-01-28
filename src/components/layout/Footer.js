@@ -15,7 +15,7 @@ const Footer = ({ t }) => {
   };
 
   return (
-    <Container>
+    <Container className="collidable">
       <Row className="justify-content-between">
         <Col xs={6}>
           <Row className="m-0">
