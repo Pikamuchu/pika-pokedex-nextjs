@@ -2,7 +2,7 @@ import anime from 'animejs/lib/anime.es.js';
 
 import { getFirstElement, getRandomNumber } from './GameUtils';
 
-const NUM_COLISION_PARTICLES = 5;
+const NUM_COLISION_PARTICLES = 10;
 
 export const emitBallColisionParticles = (ball, element) => {
   const ballCoords = ball.getCenterCoords();
@@ -23,11 +23,11 @@ export const emitBallColisionParticles = (ball, element) => {
     anime({
       targets: [`#particle-${i}`],
       translateX: {
-        value: colisionCoords.x + getRandomNumber(-60, 60),
+        value: getRandomNumber(-60, 60),
         delay: 100
       },
       translateY: {
-        value: colisionCoords.y + getRandomNumber(-60, 60),
+        value: getRandomNumber(-60, 60),
         delay: 100
       },
       opacity: {
@@ -64,10 +64,17 @@ export const fadeElementEffect = (element) => {
   });
 };
 
-export const emitParticlesToElementEffect = (element, elementSize, targetCoords, particleContainer) => {
+export const emitParticlesToElementEffect = (
+  element,
+  elementSize,
+  targetCoords,
+  particleContainer,
+  completeCallback
+) => {
+  const NUM_PARTICLES = 50;
   const elementRect = element.getBoundingClientRect();
   const palette = ['#E4D3A8', '#6EB8C0', '#FFF', '#2196F3'];
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < NUM_PARTICLES; i++) {
     const particleElement = document.createElement('div');
     particleElement.className = 'particle';
     particleElement.setAttribute('id', `particle-${i}`);
@@ -92,7 +99,8 @@ export const emitParticlesToElementEffect = (element, elementSize, targetCoords,
         delay: 100 + i * 10,
         duration: 800,
         easing: 'easeInSine'
-      }
+      },
+      complete: i === NUM_PARTICLES - 1 ? completeCallback : null
     });
   }
 };
@@ -151,7 +159,7 @@ export const throwEffect1 = (element, translateXValue, movementY, scalePercent, 
   });
 };
 
-export const throwEffect2 = (element, movementY, translateXValue, scalePercent, determineThrowResult) => {
+export const throwEffect2 = (element, movementY, translateXValue, scalePercent, completeCallback) => {
   anime({
     targets: [element],
     translateY: {
@@ -169,7 +177,7 @@ export const throwEffect2 = (element, movementY, translateXValue, scalePercent, 
       easing: 'easeInSine',
       duration: 400
     },
-    complete: determineThrowResult
+    complete: completeCallback
   });
 };
 
@@ -201,8 +209,9 @@ export const restoreBallEffect = (ball) => {
     targets: [ballElement],
     opacity: {
       value: 0,
-      delay: 800,
-      easing: 'easeInSine'
+      delay: 0,
+      easing: 'easeInSine',
+      duration: 500
     },
     complete: () => {
       ball.resetBall();
@@ -235,7 +244,8 @@ export const moveElementToCoords = (element, coords, duration, scalePercent, com
 };
 
 export const rainConfettiEffect = (container, completeCallback) => {
-  for (let i = 0; i < 100; i++) {
+  const NUM_PARTICLES = 100;
+  for (let i = 0; i < NUM_PARTICLES; i++) {
     const particleElement = document.createElement('div');
     particleElement.className = 'particle';
     particleElement.setAttribute('id', `particle-${i}`);
@@ -260,7 +270,7 @@ export const rainConfettiEffect = (container, completeCallback) => {
         duration: 800,
         easing: 'easeInSine'
       },
-      complete: completeCallback
+      complete: i === NUM_PARTICLES - 1 ? completeCallback : null
     });
   }
 };
@@ -282,7 +292,6 @@ export const moveElementThroughPath = (element, path) => {
     targets: [element],
     translateX: animePath('x'),
     translateY: animePath('y'),
-    rotate: 20,
     easing: 'easeInOutQuad',
     duration: 10000,
     loop: true,

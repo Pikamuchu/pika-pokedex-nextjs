@@ -27,7 +27,7 @@ export function createGameEvents(screen, state, actions) {
     if (state.isGameRunning() && state.isGameVisible()) {
       setTimeout(function () {
         ballColisions();
-      }, 100);
+      }, 50);
     }
   };
   state.addGameEvent(ballColisions);

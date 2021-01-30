@@ -1,6 +1,14 @@
 import { Resources } from './GameResourcesHelpers';
-import { getFirstElement, getRandomNumber, clearContainerElement } from './GameUtils';
 import { findCollidableElement, elementColisionTransform } from './GameCollisionsHelpers';
+import {
+  getFirstElement,
+  getRandomNumber,
+  clearContainerElement,
+  hideElement,
+  activeElement,
+  clearElementTransforms,
+  setElementImage
+} from './GameUtils';
 import {
   emitBallColisionParticles,
   restoreBallEffect,
@@ -39,7 +47,7 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
       ball.moveBallPointer(coords.x, coords.y);
     }
     if (final && !ball.inMotion) {
-      restoreBallEffect(ball);
+      //restoreBallEffect(ball);
     }
   };
 
@@ -57,21 +65,14 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     const translateYValue = -0.75 * screen.height * scalePercent;
     const translateXValue = -1 * (angle + 90) * (translateYValue / 100);
 
-    removeElementAnimation('.ring-fill');
-
     throwEffect1(ball.getElement(), translateXValue, movementY, scalePercent, () => {
       if (movementY < 0) {
-        throwBall2(movementY, translateXValue, scalePercent);
+        ball.savePosition();
+        throwEffect2(ball.getElement(), movementY, translateXValue, scalePercent, determineThrowResult);
       } else {
         setTimeout(state.resetState, 400);
       }
     });
-  };
-
-  const throwBall2 = (movementY, translateXValue, scalePercent) => {
-    // Treat translations as fixed.
-    ball.savePosition();
-    throwEffect2(ball.getElement(), movementY, translateXValue, scalePercent, determineThrowResult);
   };
 
   const determineThrowResult = () => {
@@ -86,6 +87,7 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
       ballCoords.y < targetCoords.y + radius
     ) {
       // Capture success
+      removeElementAnimation('.ring-fill');
       if (target.motion) {
         target.motion.pause();
       }
@@ -93,12 +95,12 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
       const ballElement = ball.getElement();
       const ballOrientation = ballCoords.x < targetCoords.x ? -1 : 1;
       moveElementAsideEffect(ballElement, radius, ballOrientation, () => {
-        ballElement.style.backgroundImage = `url('${Resources.pikaballOpened}')`;
+        setElementImage(ballElement, Resources.pikaballOpened);
         emitTargetParticlesToBall();
       });
     } else {
       // Capture fail
-      setTimeout(state.resetState, 400);
+      restoreBallEffect(ball);
     }
   };
 
@@ -107,15 +109,12 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     const ballElement = ball.getElement();
     const particleContainer = getFirstElement('particle-container');
 
-    emitParticlesToElementEffect(ballElement, ball.size, targetCoords, particleContainer);
+    emitParticlesToElementEffect(ballElement, ball.size, targetCoords, particleContainer, closingCaptureBall);
     fadeElementEffect(target.getElement());
-
-    setTimeout(closingCaptureBall, 1000);
   };
 
   const closingCaptureBall = () => {
-    const ballElement = ball.getElement();
-    ballElement.style.backgroundImage = `url('${Resources.pikaballClosed}')`;
+    setElementImage(ball.getElement(), Resources.pikaballClosed);
     clearContainerElement('particle-container');
     ball.savePosition();
 
@@ -127,35 +126,29 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
   };
 
   const animateCaptureState = () => {
-    const ballContainer = getFirstElement('capture-screen');
-    ballContainer.classList.toggle('hidden');
+    hideElement('capture-screen');
+    hideElement('capture-ball-button-container');
 
-    const buttonContainer = getFirstElement('capture-ball-button-container');
-    buttonContainer.classList.toggle('hidden');
-
-    const duration = 500;
-    shakeEffect('.capture-ball', duration);
+    const captureBallElement = getFirstElement('capture-ball');
+    shakeEffect(captureBallElement, 500);
 
     const ringRect = getFirstElement('ring-active').getBoundingClientRect();
     const successRate = ((150 - ringRect.width) / 150) * 100;
     const seed = getRandomNumber(0, 100);
     setTimeout(() => {
-      removeElementAnimation('.capture-ball');
+      removeElementAnimation(captureBallElement);
 
       if (seed < Math.floor(successRate)) {
         showCaptureSuccess();
       } else {
         showEscapeAnimationAndContinue();
       }
-    }, duration * 6);
+    }, 3000);
   };
 
   const showCaptureSuccess = () => {
-    const captureBallButton = getFirstElement('capture-ball-button');
-    captureBallButton.classList.toggle('active');
-
-    const captureStatus = getFirstElement('capture-status');
-    captureStatus.classList.toggle('hidden');
+    activeElement('capture-ball-button');
+    hideElement('capture-status');
 
     const particleContainer = getFirstElement('capture-confetti');
     rainConfettiEffect(particleContainer, () => {
@@ -165,24 +158,15 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
   };
 
   const showEscapeAnimationAndContinue = () => {
-    const buttonContainer = getFirstElement('capture-ball-button-container');
-    buttonContainer.classList.toggle('hidden');
-
-    const poofContainer = getFirstElement('poof-container');
-    poofContainer.classList.toggle('hidden');
-
-    const poofElement = getFirstElement('poof');
-
-    poofEffect(poofElement, hideEscapeAnimation);
+    hideElement('capture-ball-button-container');
+    hideElement('poof-container');
+    poofEffect(getFirstElement('poof'), hideEscapeAnimation);
   };
 
   const hideEscapeAnimation = () => {
-    const ballContainer = getFirstElement('capture-screen');
-    ballContainer.classList.toggle('hidden');
-    const poofEle = getFirstElement('poof');
-    poofEle.style.transform = '';
-    const poofContainer = getFirstElement('poof-container');
-    poofContainer.classList.toggle('hidden');
+    hideElement('capture-screen');
+    clearElementTransforms('poof');
+    hideElement('poof-container');
   };
 
   return {

@@ -29,8 +29,40 @@ export const setTransform = (element, rotation, scale, skewX, skewY) => {
 };
 
 export const clearContainerElement = (element) => {
-  const containerElement = typeof element === 'string' ? getFirstElement(element) : element;
+  const containerElement = getContainerElement(element);
   if (containerElement) {
     containerElement.innerHTML = '';
   }
+};
+
+export const clearElementTransforms = (element) => {
+  const containerElement = getContainerElement(element);
+  if (containerElement) {
+    containerElement.style.transform = '';
+  }
+};
+
+export const setElementImage = (element, image) => {
+  const containerElement = getContainerElement(element);
+  if (containerElement) {
+    containerElement.style.backgroundImage = `url('${image}')`;
+  }
+};
+
+export const hideElement = (element) => {
+  const containerElement = getContainerElement(element);
+  if (containerElement) {
+    containerElement.classList.toggle('hidden');
+  }
+};
+
+export const activeElement = (element) => {
+  const containerElement = getContainerElement(element);
+  if (containerElement) {
+    containerElement.classList.toggle('active');
+  }
+};
+
+const getContainerElement = (element) => {
+  return typeof element === 'string' ? getFirstElement(element) : element;
 };
