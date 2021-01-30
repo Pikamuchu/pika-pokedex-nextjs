@@ -28,14 +28,14 @@ const CapturePage = ({ initialData, t }) => {
 CapturePage.propTypes = {
   initialData: PropTypes.shape({
     pokemon: PropTypes.object,
-    query: PropTypes.object,
+    query: PropTypes.object
   }).isRequired,
   i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
-  t: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 };
 
 CapturePage.defaultProps = {
-  i18nNamespaces: ['common', 'pokemon'],
+  i18nNamespaces: ['common', 'pokemon', 'capture']
 };
 
 export const getServerSideProps = async ({ query }) => {
@@ -44,10 +44,10 @@ export const getServerSideProps = async ({ query }) => {
     props: {
       initialData: {
         query,
-        pokemon,
-      },
-    },
+        pokemon
+      }
+    }
   };
 };
 
-export default withTranslation('pokemon')(CapturePage);
+export default withTranslation('capture')(CapturePage);

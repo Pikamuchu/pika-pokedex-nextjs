@@ -1,10 +1,9 @@
 import { Resources } from './GameResourcesHelpers';
-import { getFirstElement, getRandomNumber } from './GameUtils';
+import { getFirstElement, getRandomNumber, clearContainerElement } from './GameUtils';
+import { findCollidableElement, elementColisionTransform } from './GameCollisionsHelpers';
 import {
-  hasCollidableElement,
-  elementColisionEffect,
   emitBallColisionParticles,
-  restoreBallAfterColision,
+  restoreBallEffect,
   removeElementAnimation,
   throwEffect1,
   throwEffect2,
@@ -21,14 +20,16 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
   const checkBallColisions = () => {
     if (!ball.colision) {
       const ballCoords = ball.getCenterCoords();
-      const elements = document.elementsFromPoint(ballCoords.x, ballCoords.y);
-      var elementColision = elements.find(hasCollidableElement);
-      if (elementColision) {
-        console.log('Ball colision' + elementColision);
-        ball.colision = true;
-        elementColisionEffect(elementColision, elements);
-        emitBallColisionParticles(ball, elementColision);
-        restoreBallAfterColision(ball);
+      if (ballCoords) {
+        const elements = document.elementsFromPoint(ballCoords.x, ballCoords.y);
+        var elementColision = findCollidableElement(elements);
+        if (elementColision) {
+          console.log('Ball colision' + elementColision);
+          ball.colision = true;
+          elementColisionTransform(elementColision, elements);
+          emitBallColisionParticles(ball, elementColision);
+          restoreBallEffect(ball);
+        }
       }
     }
   };
@@ -37,17 +38,9 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     if (coords) {
       ball.moveBallPointer(coords.x, coords.y);
     }
-    if (final) {
-      restoreBall(ball);
+    if (final && !ball.inMotion) {
+      restoreBallEffect(ball);
     }
-  };
-
-  const restoreBall = (ball) => {
-    setTimeout(() => {
-      if (ball.inMotion === false) {
-        ball.resetBall();
-      }
-    }, 200);
   };
 
   const throwBall = (angle, deltaY, velocity) => {
@@ -123,7 +116,7 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
   const closingCaptureBall = () => {
     const ballElement = ball.getElement();
     ballElement.style.backgroundImage = `url('${Resources.pikaballClosed}')`;
-    getFirstElement('particle-container').innerHTML = '';
+    clearContainerElement('particle-container');
     ball.savePosition();
 
     dropElementEffect(ball.getElement(), () => {
@@ -166,7 +159,7 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
 
     const particleContainer = getFirstElement('capture-confetti');
     rainConfettiEffect(particleContainer, () => {
-      particleContainer.innerHTML = '';
+      clearContainerElement(particleContainer);
       captureSuccessCallback();
     });
   };

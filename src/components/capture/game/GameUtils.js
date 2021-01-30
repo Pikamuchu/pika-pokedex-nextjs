@@ -27,3 +27,10 @@ export const setTransform = (element, rotation, scale, skewX, skewY) => {
   element.style.OTransform = transformString;
   element.style.transform = transformString;
 };
+
+export const clearContainerElement = (element) => {
+  const containerElement = typeof element === 'string' ? getFirstElement(element) : element;
+  if (containerElement) {
+    containerElement.innerHTML = '';
+  }
+};

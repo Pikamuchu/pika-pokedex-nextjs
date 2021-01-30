@@ -22,7 +22,7 @@ const CaptureGame = ({ pokemon, t }) => {
     <section className="wrapper">
       <div className="title">
         <h1>
-          <span className="collidable">{`Catch ${pokemon?.name}!`}</span>
+          <span className="collidable bouncing">{`Catch ${pokemon?.name}!`}</span>
         </h1>
       </div>
       <div className="touch-layer" />
