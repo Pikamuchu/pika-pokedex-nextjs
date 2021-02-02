@@ -24,6 +24,8 @@ import {
   poofEffect
 } from './GameEffectsHelpers';
 
+const MAX_BOUNCINGS = 2;
+
 export const createGameActions = (ball, target, screen, state, captureSuccessCallback) => {
   const checkBallColisions = () => {
     if (!ball.colision) {
@@ -35,11 +37,14 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
           console.log('Ball colision' + elementColision);
           ball.colision = true;
           elementColisionTransform(elementColision, elements);
-          emitBallColisionParticles(ball, elementColision, () => {
-            ball.colision = false;
-          });
+          emitBallColisionParticles(ball, elementColision);
           if (!isBouncingElement(elementColision)) {
             restoreBallEffect(ball);
+          } else {
+            ball.bouncing++;
+            if (ball.bouncing <= MAX_BOUNCINGS) {
+              ball.colision = false;
+            }
           }
         }
       }

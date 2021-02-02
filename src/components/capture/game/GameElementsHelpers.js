@@ -27,6 +27,7 @@ export const createBall = (screen) => {
     y: 0,
     inMotion: false,
     colision: false,
+    bouncing: 0,
     getElement: () => {
       return getElementById(ball.id);
     },
@@ -64,6 +65,7 @@ export const createBall = (screen) => {
       }
       ball.inMotion = false;
       ball.colision = false;
+      ball.bouncing = 0;
     },
     savePosition: () => {
       const ballElement = getElementById(ball.id);
