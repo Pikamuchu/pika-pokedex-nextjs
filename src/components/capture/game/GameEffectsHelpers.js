@@ -4,7 +4,7 @@ import { getFirstElement, getRandomNumber } from './GameUtils';
 
 const NUM_COLISION_PARTICLES = 10;
 
-export const emitBallColisionParticles = (ball, element) => {
+export const emitBallColisionParticles = (ball, element, completeCallback) => {
   const ballCoords = ball.getCenterCoords();
   const colisionCoords = {
     x: ballCoords.x,
@@ -35,7 +35,8 @@ export const emitBallColisionParticles = (ball, element) => {
         delay: 100,
         duration: 800,
         easing: 'easeInSine'
-      }
+      },
+      complete: completeCallback
     });
   }
 };

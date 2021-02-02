@@ -1,5 +1,5 @@
 import { Resources } from './GameResourcesHelpers';
-import { findCollidableElement, elementColisionTransform } from './GameCollisionsHelpers';
+import { findCollidableElement, elementColisionTransform, isBouncingElement } from './GameCollisionsHelpers';
 import {
   getFirstElement,
   getRandomNumber,
@@ -35,23 +35,55 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
           console.log('Ball colision' + elementColision);
           ball.colision = true;
           elementColisionTransform(elementColision, elements);
-          emitBallColisionParticles(ball, elementColision);
-          restoreBallEffect(ball);
+          emitBallColisionParticles(ball, elementColision, () => {
+            ball.colision = false;
+          });
+          if (!isBouncingElement(elementColision)) {
+            restoreBallEffect(ball);
+          }
         }
       }
     }
   };
 
-  const pointerBall = (coords, final) => {
+  const translateBall = (coords) => {
     if (coords) {
       ball.moveBallPointer(coords.x, coords.y);
     }
-    if (final && !ball.inMotion) {
+  };
+
+  const translateElementToCoords = (element, coords) => {
+    if (coords) {
+      ball.moveBallPointer(coords.x, coords.y);
+    }
+    if (final) {
       //restoreBallEffect(ball);
     }
   };
 
+  const pointerBall = (coords, final) => {
+    if (ball.inMotion) {
+      return;
+    }
+    if (coords) {
+      ball.moveBallPointer(coords.x, coords.y);
+    }
+    if (final) {
+      //restoreBallEffect(ball);
+    }
+  };
+
+  const throwTargetElementToBall = () => {
+    const targetCoords = target.getCenterCoords();
+    const ballCoords = ball.getCenterCoords();
+
+    //throwEffect2(ball.getElement(), movementY, translateXValue, scalePercent, determineThrowResult);
+  };
+
   const throwBall = (angle, deltaY, velocity) => {
+    if (ball.inMotion) {
+      return;
+    }
     ball.inMotion = true;
     let maxVelocity = screen.height * 0.009;
     velocity = Math.abs(velocity);
@@ -172,6 +204,7 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
   return {
     checkBallColisions,
     pointerBall,
-    throwBall
+    throwBall,
+    throwTargetElementToBall
   };
 };

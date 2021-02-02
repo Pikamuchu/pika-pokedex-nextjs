@@ -66,3 +66,18 @@ export const activeElement = (element) => {
 const getContainerElement = (element) => {
   return typeof element === 'string' ? getFirstElement(element) : element;
 };
+
+export const getTranslationBetweenElements = (element1, element2) => {
+  const position1 = getCenterCoords(element1);
+  const position2 = getCenterCoords(element2);
+
+  return {
+    x: position1.x - position2.x,
+    y: position1.y - position2.y
+  };
+};
+
+export const getDistanceBetweenElements = (element1, element2) => {
+  const translation = getTranslationBetweenElements(element1, element2);
+  return Math.hypot(translation.x, translation.y);
+};

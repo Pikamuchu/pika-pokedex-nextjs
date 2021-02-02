@@ -1,6 +1,7 @@
 import { getRandomNumber, setTransform } from './GameUtils';
 
-const COLLIDABLE_ELEMENT_CLASS = ['collidable'];
+const COLLIDABLE_ELEMENT_CLASS = 'collidable';
+const BOUNCING_ELEMENT_CLASS = 'bouncing';
 const NO_TRANSFORMABLE_ELEMENTS = [
   '__next',
   'particles',
@@ -34,8 +35,17 @@ export const findCollidableElement = (elements) => {
 };
 
 export const hasCollidableElement = (element) => {
-  const classValues = element?.className?.toString().split(' ');
-  return classValues && COLLIDABLE_ELEMENT_CLASS.some((v) => classValues.indexOf(v) >= 0);
+  const classValues = getElementClassValues(element);
+  return classValues && classValues.indexOf(COLLIDABLE_ELEMENT_CLASS) >= 0;
+};
+
+export const isBouncingElement = (element) => {
+  const classValues = getElementClassValues(element);
+  return classValues && classValues.indexOf(BOUNCING_ELEMENT_CLASS) >= 0;
+};
+
+export const getElementClassValues = (element) => {
+  return element?.className?.toString().split(' ');
 };
 
 export const isTransformableElement = (element) => {
