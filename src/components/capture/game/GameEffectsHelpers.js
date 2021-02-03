@@ -182,6 +182,28 @@ export const throwEffect2 = (element, movementY, translateXValue, scalePercent, 
   });
 };
 
+export const throwAttackEffect = (element, translateY, translateX, scalePercent, duration, completeCallback) => {
+  anime({
+    targets: [element],
+    translateY: {
+      value: translateY,
+      duration: duration,
+      easing: 'easeInOutSine'
+    },
+    translateX: {
+      value: translateX,
+      duration: duration,
+      easing: 'linear'
+    },
+    scale: {
+      value: 1 + 0.25 * scalePercent,
+      easing: 'easeInSine',
+      duration: duration
+    },
+    complete: completeCallback
+  });
+};
+
 export const removeElementAnimation = (element) => {
   anime.remove(element);
 };
@@ -300,3 +322,5 @@ export const moveElementThroughPath = (element, path) => {
     autoplay: false
   });
 };
+
+export const translateElementToCoords = (element, coords) => {};

@@ -1,6 +1,6 @@
 [
   {
-    "id": "sans",
+    "id": "U01",
     "code": "UND",
     "name": "sans",
     "slug": "sans",
@@ -14,7 +14,6 @@
       }
     ],
     "image": "/static/images/sans-undertale.png",
-    "audio": "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=Undertale+-+Megalovania&filename=24/246940-9197049f-e352-4a71-bdea-9303e664c54d.mp3",
     "abilities": [
       {
         "ability": {
@@ -89,6 +88,16 @@
     "color": {
       "name": "white"
     },
-    "evolves_from_species": null
+    "evolves_from_species": null,
+    "game_config": {
+      "attacks": [
+        {
+          "name": "Throw Bones",
+          "type": "throw",
+          "images": ["/static/images/sans-bones-attack.png"]
+        }
+      ],
+      "audio": "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=Undertale+-+Megalovania&filename=24/246940-9197049f-e352-4a71-bdea-9303e664c54d.mp3"
+    }
   }
 ]

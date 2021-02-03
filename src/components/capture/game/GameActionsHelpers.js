@@ -7,7 +7,8 @@ import {
   hideElement,
   activeElement,
   clearElementTransforms,
-  setElementImage
+  setElementImage,
+  getTranslationBetweenElements
 } from './GameUtils';
 import {
   emitBallColisionParticles,
@@ -15,6 +16,7 @@ import {
   removeElementAnimation,
   throwEffect1,
   throwEffect2,
+  throwAttackEffect,
   moveElementAsideEffect,
   emitParticlesToElementEffect,
   fadeElementEffect,
@@ -27,6 +29,19 @@ import {
 const MAX_BOUNCINGS = 2;
 
 export const createGameActions = (ball, target, screen, state, captureSuccessCallback) => {
+  const performTargetAttacks = () => {
+    if (!target.captured && target.attacks?.length > 0) {
+      target.numAttacks++;
+      const attack = target.attacks[0];
+      switch (attack.type) {
+        case 'throw':
+          throwAttackToBall(attack);
+          break;
+        default:
+      }
+    }
+  };
+
   const checkBallColisions = () => {
     if (!ball.colision) {
       const ballCoords = ball.getCenterCoords();
@@ -51,21 +66,6 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     }
   };
 
-  const translateBall = (coords) => {
-    if (coords) {
-      ball.moveBallPointer(coords.x, coords.y);
-    }
-  };
-
-  const translateElementToCoords = (element, coords) => {
-    if (coords) {
-      ball.moveBallPointer(coords.x, coords.y);
-    }
-    if (final) {
-      //restoreBallEffect(ball);
-    }
-  };
-
   const pointerBall = (coords, final) => {
     if (ball.inMotion) {
       return;
@@ -78,11 +78,24 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     }
   };
 
-  const throwTargetElementToBall = () => {
+  const throwAttackToBall = (attack) => {
     const targetCoords = target.getCenterCoords();
-    const ballCoords = ball.getCenterCoords();
+    const attackContainer = getFirstElement('attack-container');
+    const attackElement = document.createElement('div');
+    attackElement.className = 'particle collidable';
+    attackElement.setAttribute('id', `attack-${target.numAttacks}`);
+    attackElement.style.left = `${targetCoords.x}px`;
+    attackElement.style.top = `${targetCoords.y}px`;
 
-    //throwEffect2(ball.getElement(), movementY, translateXValue, scalePercent, determineThrowResult);
+    // TODO: backgroung image
+
+    attackContainer.appendChild(attackElement);
+
+    const translationCoords = getTranslationBetweenElements(attackElement, ball.getElement());
+
+    throwAttackEffect(attackElement, translationCoords.y, translationCoords.x, 0, 1000, () => {
+      attackElement.remove();
+    });
   };
 
   const throwBall = (angle, deltaY, velocity) => {
@@ -207,9 +220,9 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
   };
 
   return {
+    performTargetAttacks,
     checkBallColisions,
     pointerBall,
-    throwBall,
-    throwTargetElementToBall
+    throwBall
   };
 };

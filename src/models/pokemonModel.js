@@ -60,19 +60,19 @@ export const getDetails = async (id, lang) => {
       code,
       name: pokemon.name,
       slug: pokemon.name,
-      types: pokemon.types && mapTypes(pokemon.types),
+      types: mapTypes(pokemon.types) ?? null,
       image: getPokemonImage(pokemon, code),
-      imageRatio: pokemon.image_ratio || 1,
-      tName: species?.names && translateName(species.names, lang),
-      color: species?.color?.name,
-      evolvesFromId: species?.evolves_from_species && species?.evolves_from_species.name,
-      abilities: pokemon.abilities && pokemon.abilities.map((item) => item.ability.name),
+      imageRatio: pokemon.image_ratio ?? 1,
+      tName: translateName(species?.names, lang) ?? null,
+      color: species?.color?.name ?? null,
+      evolvesFromId: species?.evolves_from_species?.name ?? null,
+      abilities: pokemon.abilities?.map((item) => item.ability.name) ?? null,
       weight: pokemon.weight,
       height: pokemon.height,
-      stats: pokemon.stats && mapStats(pokemon.stats),
+      stats: mapStats(pokemon.stats) ?? null,
       category: '',
       description: '',
-      audio: pokemon.audio || null
+      gameConfig: mapGameConfig(pokemon.game_config) ?? null
     }
   );
 };
@@ -164,4 +164,13 @@ const mapStats = (stats) => {
 
 const getPokemonImage = (pokemon, code) => {
   return pokemon?.image ? pokemon.image : `${preferences.pokemonImageUrlPrefix}${code}.${preferences.pokemonImageType}`;
+};
+
+const mapGameConfig = (gameConfig) => {
+  return (
+    gameConfig && {
+      attacks: gameConfig.attacks || null,
+      audio: gameConfig.audio || null
+    }
+  );
 };

@@ -21,16 +21,17 @@ export function createGameEvents(screen, state, actions) {
     actions.throwBall(event.angle, event.deltaY, event.velocity);
   });
 
-  // ball colision events
-  const ballColisions = () => {
+  // Game events
+  const gameEvents = () => {
+    actions.performTargetAttacks();
     actions.checkBallColisions();
     if (state.isGameRunning() && state.isGameVisible()) {
       setTimeout(function () {
-        ballColisions();
+        gameEvents();
       }, 50);
     }
   };
-  state.addGameEvent(ballColisions);
+  state.addGameEvent(gameEvents);
 
   // Window events
   window.onresize = () => {

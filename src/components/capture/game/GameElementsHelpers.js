@@ -1,5 +1,5 @@
 import { Resources } from './GameResourcesHelpers';
-import { getElementById, getFirstElement, getCenterCoords } from './GameUtils';
+import { getElementById, getFirstElement, getCenterCoords, clearContainerElement } from './GameUtils';
 import { elementShrinkEffect, moveElementThroughPath } from './GameEffectsHelpers';
 
 const BALL_DEFAULT_SIZE = 60;
@@ -86,6 +86,9 @@ export const createTarget = (pokemon) => {
   const target = {
     id: 'target',
     size: TARGET_DEFAULT_SIZE,
+    captured: false,
+    attacks: pokemon.gameConfig?.attacks,
+    numAttacks: 0,
     getElement: () => {
       return getElementById(target.id);
     },
@@ -96,6 +99,10 @@ export const createTarget = (pokemon) => {
       return getElementById(target.id).getBoundingClientRect().width / 2;
     },
     resetTarget: () => {
+      // Init target state
+      target.captured = false;
+      target.numAttacks = 0;
+      // Initialize target image
       const targetElement = target.getElement();
       targetElement.style.backgroundImage = `url('${pokemon.image}')`;
       if (pokemon.imageRatio > 1) {
@@ -107,6 +114,9 @@ export const createTarget = (pokemon) => {
       ring.style.height = '150px';
       ring.style.width = '150px';
       elementShrinkEffect(ring);
+      // Remove attacks
+      const attackContainer = getFirstElement('attack-container');
+      clearContainerElement(attackContainer);
     }
   };
   target.motion = moveElementThroughPath(target.getElement(), '.motion-path path');

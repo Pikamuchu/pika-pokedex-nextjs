@@ -27,6 +27,7 @@ const CaptureGame = ({ pokemon, t }) => {
       </div>
       <div className="touch-layer" />
       <div className="particle-container" />
+      <div className="attack-container" />
       <div className="screen gradient-background">
         <div id="ball" className="ball" />
         <div className="output" />
@@ -60,7 +61,7 @@ const CaptureGame = ({ pokemon, t }) => {
           <div className="capture-ball-button" />
         </div>
       </div>
-      {pokemon.audio ? <audio id="game-music" src={pokemon.audio} muted /> : ''}
+      {pokemon?.gameConfig?.audio ? <audio id="game-music" src={pokemon.gameConfig.audio} muted /> : ''}
     </section>
   );
 };
