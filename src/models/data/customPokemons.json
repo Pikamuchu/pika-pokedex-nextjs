@@ -13,7 +13,7 @@
         }
       }
     ],
-    "image": "/static/images/sans-undertale.png",
+    "image": "/static/images/undertale-sans.png",
     "abilities": [
       {
         "ability": {
@@ -94,7 +94,7 @@
         {
           "name": "Throw Bones",
           "type": "throw",
-          "images": ["/static/images/sans-bones-attack.png"]
+          "images": ["/static/images/undertale-sans-bones-attack.png"]
         }
       ],
       "audio": "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=Undertale+-+Megalovania&filename=24/246940-9197049f-e352-4a71-bdea-9303e664c54d.mp3"

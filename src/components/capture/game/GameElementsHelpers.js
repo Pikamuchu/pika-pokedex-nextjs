@@ -89,6 +89,7 @@ export const createTarget = (pokemon) => {
     captured: false,
     attacks: pokemon.gameConfig?.attacks,
     numAttacks: 0,
+    level: 0,
     getElement: () => {
       return getElementById(target.id);
     },
@@ -97,6 +98,12 @@ export const createTarget = (pokemon) => {
     },
     getRadius: () => {
       return getElementById(target.id).getBoundingClientRect().width / 2;
+    },
+    getAttackType: () => {
+      return target.attacks[target.level]?.type;
+    },
+    getAttackImage: () => {
+      return target.attacks[target.level]?.images[0];
     },
     resetTarget: () => {
       // Init target state

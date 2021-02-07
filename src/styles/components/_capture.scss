@@ -149,6 +149,16 @@
   z-index: 30;
 }
 
+.attack {
+  position: fixed;
+  height: 100px;
+  width: 100px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  z-index: 30;
+}
+
 .touch-layer {
   position: fixed;
   top: 0;

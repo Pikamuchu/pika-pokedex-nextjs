@@ -30,12 +30,11 @@ const MAX_BOUNCINGS = 2;
 
 export const createGameActions = (ball, target, screen, state, captureSuccessCallback) => {
   const performTargetAttacks = () => {
-    if (!target.captured && target.attacks?.length > 0) {
-      target.numAttacks++;
-      const attack = target.attacks[0];
-      switch (attack.type) {
+    if (!target.captured) {
+      const attackType = target.getAttackType();
+      switch (attackType) {
         case 'throw':
-          throwAttackToBall(attack);
+          performTargetThrowAttack();
           break;
         default:
       }
@@ -78,25 +77,29 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     }
   };
 
-  const throwAttackToBall = (attack) => {
+  const performTargetThrowAttack = () => {
     const targetCoords = target.getCenterCoords();
     const attackContainer = getFirstElement('attack-container');
     if (targetCoords && attackContainer) {
-      const attackElement = document.createElement('div');
-      attackElement.className = 'particle collidable';
-      attackElement.setAttribute('id', `attack-${target.numAttacks}`);
-      attackElement.style.left = `${targetCoords.x}px`;
-      attackElement.style.top = `${targetCoords.y}px`;
+      target.numAttacks++;
+      if (target.numAttacks % 5 === 0) {
+        const attackElement = document.createElement('div');
+        attackElement.className = 'attack collidable';
+        attackElement.setAttribute('id', `attack-${target.numAttacks}`);
+        attackElement.style.left = `${targetCoords.x}px`;
+        attackElement.style.top = `${targetCoords.y}px`;
+        attackElement.style.backgroundImage = `url('${target.getAttackImage()}')`;
 
-      // TODO: backgroung image
+        // TODO: backgroung image
 
-      attackContainer.appendChild(attackElement);
+        attackContainer.appendChild(attackElement);
 
-      const translationCoords = getTranslationBetweenElements(attackElement, ball.getElement());
+        const translationCoords = getTranslationBetweenElements(attackElement, ball.getElement());
 
-      throwAttackEffect(attackElement, translationCoords.y, translationCoords.x, 0, 1000, () => {
-        attackElement.remove();
-      });
+        throwAttackEffect(attackElement, translationCoords.x, translationCoords.y, 0, 1000, () => {
+          attackElement.remove();
+        });
+      }
     }
   };
 
