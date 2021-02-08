@@ -83,7 +83,7 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     const attackContainer = getFirstElement('attack-container');
     if (targetCoords && attackContainer) {
       target.numAttacks++;
-      if (target.numAttacks % 5 === 0) {
+      if (target.numAttacks % 20 === 0) {
         const attackElement = document.createElement('div');
         attackElement.className = 'attack collidable';
         attackElement.setAttribute('id', `attack-${target.numAttacks}`);
