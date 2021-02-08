@@ -26,8 +26,8 @@ const CaptureGame = ({ pokemon, t }) => {
         </h1>
       </div>
       <div className="touch-layer" />
-      <div className="particle-container" />
-      <div className="attack-container" />
+      <div id="particle-container" className="particle-container" />
+      <div id="attack-container" className="attack-container" />
       <div className="screen gradient-background">
         <div id="ball" className="ball" />
         <div className="output" />
@@ -55,8 +55,8 @@ const CaptureGame = ({ pokemon, t }) => {
         <div className="poof-container hidden">
           <div className="poof" />
         </div>
-        <div className="capture-confetti" />
-        <div className="capture-ball" />
+        <div id="capture-confetti" className="capture-confetti" />
+        <div id="capture-ball" className="capture-ball" />
         <div className="capture-ball-button-container hidden">
           <div className="capture-ball-button" />
         </div>

@@ -188,12 +188,17 @@ export const throwAttackEffect = (element, translateY, translateX, scalePercent,
     translateY: {
       value: translateY,
       duration: duration,
-      easing: 'easeInOutSine'
+      easing: 'easeOutSine'
     },
     translateX: {
       value: translateX,
       duration: duration,
-      easing: 'linear'
+      easing: 'easeOutSine'
+    },
+    rotate: {
+      value: 360,
+      easing: 'easeInSine',
+      duration: duration
     },
     scale: {
       value: 1 + 0.25 * scalePercent,

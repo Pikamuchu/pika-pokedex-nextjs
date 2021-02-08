@@ -1,6 +1,7 @@
 import { Resources } from './GameResourcesHelpers';
 import { findCollidableElement, elementColisionTransform, isBouncingElement } from './GameCollisionsHelpers';
 import {
+  getElementById,
   getFirstElement,
   getRandomNumber,
   clearContainerElement,
@@ -90,8 +91,6 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
         attackElement.style.top = `${targetCoords.y}px`;
         attackElement.style.backgroundImage = `url('${target.getAttackImage()}')`;
 
-        // TODO: backgroung image
-
         attackContainer.appendChild(attackElement);
 
         const translationCoords = getTranslationBetweenElements(attackElement, ball.getElement());
@@ -162,7 +161,7 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
   const emitTargetParticlesToBall = () => {
     const targetCoords = target.getCenterCoords();
     const ballElement = ball.getElement();
-    const particleContainer = getFirstElement('particle-container');
+    const particleContainer = getElementById('particle-container');
 
     emitParticlesToElementEffect(ballElement, ball.size, targetCoords, particleContainer, closingCaptureBall);
     fadeElementEffect(target.getElement());
@@ -184,7 +183,7 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     hideElement('capture-screen');
     hideElement('capture-ball-button-container');
 
-    const captureBallElement = getFirstElement('capture-ball');
+    const captureBallElement = getElementById('capture-ball');
     shakeEffect(captureBallElement, 500);
 
     const ringRect = getFirstElement('ring-active').getBoundingClientRect();
@@ -205,9 +204,9 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     activeElement('capture-ball-button');
     hideElement('capture-status');
 
-    const particleContainer = getFirstElement('capture-confetti');
-    rainConfettiEffect(particleContainer, () => {
-      clearContainerElement(particleContainer);
+    const confettiContainer = getElementById('capture-confetti');
+    rainConfettiEffect(confettiContainer, () => {
+      clearContainerElement(confettiContainer);
       captureSuccessCallback();
     });
   };
