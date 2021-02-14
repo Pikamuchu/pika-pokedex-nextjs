@@ -90,6 +90,11 @@ export const createTarget = (pokemon) => {
     attacks: pokemon.gameConfig?.attacks,
     numAttacks: 0,
     level: 0,
+    attackDelay: 10,
+    attackBurst: 1,
+    getMaxSuccessRate: () => {
+      return (pokemon.gameConfig?.maxSuccesRate || 100) - target.level;
+    },
     getElement: () => {
       return getElementById(target.id);
     },
@@ -111,19 +116,25 @@ export const createTarget = (pokemon) => {
       target.numAttacks = 0;
       // Initialize target image
       const targetElement = target.getElement();
-      targetElement.style.backgroundImage = `url('${pokemon.image}')`;
-      if (pokemon.imageRatio > 1) {
-        targetElement.style.height = `${target.size * pokemon.imageRatio}px`;
+      if (targetElement) {
+        targetElement.style.backgroundImage = `url('${pokemon.image}')`;
+        if (pokemon.imageRatio > 1) {
+          targetElement.style.height = `${target.size * pokemon.imageRatio}px`;
+        }
+        targetElement.style.opacity = 1;
       }
-      targetElement.style.opacity = 1;
       // Adjust Ring
       const ring = getFirstElement('ring-fill');
-      ring.style.height = '150px';
-      ring.style.width = '150px';
-      elementShrinkEffect(ring);
+      if (ring) {
+        ring.style.height = '150px';
+        ring.style.width = '150px';
+        elementShrinkEffect(ring);
+      }
       // Remove attacks
       const attackContainer = getFirstElement('attack-container');
-      clearContainerElement(attackContainer);
+      if (attackContainer) {
+        clearContainerElement(attackContainer);
+      }
     }
   };
   // Initialize motion

@@ -78,16 +78,24 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     }
   };
 
+  let numEvents = 0;
+  let numAttack = 0;
   const performTargetThrowAttack = () => {
     const targetCoords = target.getCenterCoords();
     const attackContainer = getFirstElement('attack-container');
     if (targetCoords && attackContainer) {
-      target.numAttacks++;
-      if (target.numAttacks % 10 === 0) {
+      numEvents++;
+      numAttack++;
+      if (numEvents % target.attackDelay === 0) {
+        numAttack = 0;
+      }
+      if (numAttack < target.attackBurst + getRandomNumber(0, 2)) {
+        target.numAttacks++;
+
         const attackElement = document.createElement('div');
         attackElement.className = 'attack collidable';
         attackElement.setAttribute('id', `attack-${target.numAttacks}`);
-        attackElement.style.left = `${targetCoords.x}px`;
+        attackElement.style.left = `${targetCoords.x + getRandomNumber(-60, 60)}px`;
         attackElement.style.top = `${targetCoords.y}px`;
         attackElement.style.backgroundImage = `url('${target.getAttackImage()}')`;
 
@@ -174,22 +182,21 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     ball.savePosition();
 
     dropElementEffect(ball.getElement(), () => {
-      ball.resetBall();
-      state.resetState();
-      animateCaptureState();
+      showCaptureResult();
     });
   };
 
-  const animateCaptureState = () => {
+  const showCaptureResult = () => {
     hideElement('capture-screen');
     hideElement('capture-ball-button-container');
 
     const captureBallElement = getElementById('capture-ball');
     shakeEffect(captureBallElement, 500);
 
-    const ringRect = getFirstElement('ring-active').getBoundingClientRect();
-    const successRate = ((150 - ringRect.width) / 150) * 100;
+    const ringRect = getFirstElement('ring-fill').getBoundingClientRect();
+    const successRate = ((150 - ringRect.width) / 150) * target.getMaxSuccessRate();
     const seed = getRandomNumber(0, 100);
+
     setTimeout(() => {
       removeElementAnimation(captureBallElement);
 
@@ -215,13 +222,13 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
   const showEscapeAnimationAndContinue = () => {
     hideElement('capture-ball-button-container');
     hideElement('poof-container');
-    poofEffect(getFirstElement('poof'), hideEscapeAnimation);
-  };
-
-  const hideEscapeAnimation = () => {
-    hideElement('capture-screen');
-    clearElementTransforms('poof');
-    hideElement('poof-container');
+    poofEffect(getFirstElement('poof'), () => {
+      hideElement('capture-screen');
+      clearElementTransforms('poof');
+      hideElement('poof-container');
+      ball.resetBall();
+      state.resetState();
+    });
   };
 
   return {

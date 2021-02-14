@@ -16,5 +16,5 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   createGameEvents(screen, state, actions);
 
   // Init game
-  state.resetState();
+  state.startGame();
 }

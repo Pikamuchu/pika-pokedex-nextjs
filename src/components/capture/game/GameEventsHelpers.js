@@ -47,7 +47,7 @@ export function createGameEvents(screen, state, actions) {
       if (document.hidden) {
         state.pauseGame();
       } else {
-        state.startGame();
+        state.resumeGame();
       }
     },
     false

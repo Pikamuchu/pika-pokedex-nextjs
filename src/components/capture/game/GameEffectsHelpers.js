@@ -186,12 +186,12 @@ export const throwAttackEffect = (element, translateX, translateY, scalePercent,
   anime({
     targets: [element],
     translateX: {
-      value: translateX + getRandomNumber(-60, 60),
+      value: translateX + getRandomNumber(-90, 90),
       duration: duration,
       easing: 'easeOutSine'
     },
     translateY: {
-      value: translateY + getRandomNumber(-60, 60),
+      value: translateY + getRandomNumber(0, 120),
       duration: duration,
       easing: 'easeOutSine'
     },

@@ -171,6 +171,7 @@ const mapGameConfig = (gameConfig) => {
   return {
     attacks: gameConfig?.attacks || null,
     audio: gameConfig?.audio || null,
-    motionPath: gameConfig?.motionPath || defaultData.gameConfig.motionPath
+    motionPath: gameConfig?.motionPath || defaultData.gameConfig.motionPath,
+    maxSuccesRate: gameConfig?.maxSuccesRate || defaultData.gameConfig.maxSuccesRate
   };
 };

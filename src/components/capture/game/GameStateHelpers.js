@@ -1,5 +1,4 @@
 export function createGameState(ball, target, screen, audio) {
-  let startedEvents = false;
   let gameRunning = 0;
   const isGameRunning = () => !!gameRunning;
   const isGameVisible = () => !!target.getElement();
@@ -11,14 +10,11 @@ export function createGameState(ball, target, screen, audio) {
     }
   };
   const startGameEvents = () => {
-    if (!startedEvents) {
-      gameEvents.forEach((eventFunction) => eventFunction());
-      startedEvents = true;
-    }
+    gameEvents.forEach((eventFunction) => eventFunction());
   };
 
-  const startGame = (events) => {
-    gameRunning = 1;
+  const startGame = () => {
+    resetState();
     if (target.motion) {
       target.motion.play();
     }
@@ -40,10 +36,21 @@ export function createGameState(ball, target, screen, audio) {
     }
   };
 
-  const resetState = (events) => {
+  const resumeGame = () => {
+    gameRunning = 1;
+    if (target.motion) {
+      target.motion.play();
+    }
+    if (audio.music) {
+      audio.music.play();
+    }
+    startGameEvents();
+  };
+
+  const resetState = () => {
+    gameRunning = 1;
     ball.resetBall();
     target.resetTarget();
-    startGame();
   };
 
   return {
@@ -51,6 +58,7 @@ export function createGameState(ball, target, screen, audio) {
     isGameVisible,
     addGameEvent,
     startGame,
+    resumeGame,
     pauseGame,
     resetState
   };
