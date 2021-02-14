@@ -43,7 +43,7 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
   };
 
   const checkBallColisions = () => {
-    if (!ball.colision) {
+    if (!ball.colision && !target.captured) {
       const ballCoords = ball.getCenterCoords();
       if (ballCoords) {
         const elements = document.elementsFromPoint(ballCoords.x, ballCoords.y);
@@ -83,7 +83,7 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     const attackContainer = getFirstElement('attack-container');
     if (targetCoords && attackContainer) {
       target.numAttacks++;
-      if (target.numAttacks % 5 === 0) {
+      if (target.numAttacks % 10 === 0) {
         const attackElement = document.createElement('div');
         attackElement.className = 'attack collidable';
         attackElement.setAttribute('id', `attack-${target.numAttacks}`);
@@ -141,6 +141,7 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
       ballCoords.y < targetCoords.y + radius
     ) {
       // Capture success
+      target.captured = true;
       removeElementAnimation('.ring-fill');
       if (target.motion) {
         target.motion.pause();

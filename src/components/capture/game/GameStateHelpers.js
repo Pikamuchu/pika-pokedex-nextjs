@@ -1,4 +1,5 @@
 export function createGameState(ball, target, screen, audio) {
+  let startedEvents = false;
   let gameRunning = 0;
   const isGameRunning = () => !!gameRunning;
   const isGameVisible = () => !!target.getElement();
@@ -10,7 +11,10 @@ export function createGameState(ball, target, screen, audio) {
     }
   };
   const startGameEvents = () => {
-    gameEvents.forEach((eventFunction) => eventFunction());
+    if (!startedEvents) {
+      gameEvents.forEach((eventFunction) => eventFunction());
+      startedEvents = true;
+    }
   };
 
   const startGame = (events) => {
