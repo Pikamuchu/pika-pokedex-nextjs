@@ -49,7 +49,6 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
         const elements = document.elementsFromPoint(ballCoords.x, ballCoords.y);
         var elementColision = findCollidableElement(elements);
         if (elementColision) {
-          console.log('Ball colision' + elementColision);
           ball.colision = true;
           elementColisionTransform(elementColision, elements);
           emitBallColisionParticles(ball, elementColision);
