@@ -315,17 +315,20 @@ export const elementShrinkEffect = (element) => {
 };
 
 export const moveElementThroughPath = (element, path) => {
-  const animePath = anime.path(path);
-  return anime({
-    targets: [element],
-    translateX: animePath('x'),
-    translateY: animePath('y'),
-    easing: 'easeInOutQuad',
-    duration: 10000,
-    loop: true,
-    direction: 'alternate',
-    autoplay: false
-  });
+  const pathElement = getFirstElement(path);
+  if (pathElement) {
+    const animePath = anime.path(path);
+    return anime({
+      targets: [element],
+      translateX: animePath('x'),
+      translateY: animePath('y'),
+      easing: 'easeInOutQuad',
+      duration: 10000,
+      loop: true,
+      direction: 'alternate',
+      autoplay: false
+    });
+  }
 };
 
 export const translateElementToCoords = (element, coords) => {};

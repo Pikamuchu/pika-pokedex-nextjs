@@ -100,10 +100,10 @@ export const createTarget = (pokemon) => {
       return getElementById(target.id).getBoundingClientRect().width / 2;
     },
     getAttackType: () => {
-      return target.attacks[target.level]?.type;
+      return target.attacks ? target.attacks[target.level]?.type : null;
     },
     getAttackImage: () => {
-      return target.attacks[target.level]?.images[0];
+      return target.attacks ? target.attacks[target.level]?.images[0] : null;
     },
     resetTarget: () => {
       // Init target state
