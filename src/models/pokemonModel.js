@@ -14,7 +14,8 @@ const SEARCH_LIMIT = 893; // Excluding pokemons 100xx (No images available)
 const LIST_CHUNK_SIZE = preferences.pageSize;
 const DEFAULT_LANG = 'en';
 
-const customPokemonsList = require('./data/customPokemons.json');
+const customPokemonsList = require('./data/customPokemonsData.json');
+const defaultData = require('./data/defaultPokemonData.json');
 
 export const getPokemons = async (query) => {
   let list;
@@ -170,7 +171,8 @@ const mapGameConfig = (gameConfig) => {
   return (
     gameConfig && {
       attacks: gameConfig.attacks || null,
-      audio: gameConfig.audio || null
+      audio: gameConfig.audio || null,
+      motionPath: gameConfig.motionPath || defaultData.gameConfig.motionPath
     }
   );
 };
