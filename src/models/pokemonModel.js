@@ -168,11 +168,9 @@ const getPokemonImage = (pokemon, code) => {
 };
 
 const mapGameConfig = (gameConfig) => {
-  return (
-    gameConfig && {
-      attacks: gameConfig.attacks || null,
-      audio: gameConfig.audio || null,
-      motionPath: gameConfig.motionPath || defaultData.gameConfig.motionPath
-    }
-  );
+  return {
+    attacks: gameConfig?.attacks || null,
+    audio: gameConfig?.audio || null,
+    motionPath: gameConfig?.motionPath || defaultData.gameConfig.motionPath
+  };
 };

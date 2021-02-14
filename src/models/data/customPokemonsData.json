@@ -97,7 +97,8 @@
           "images": ["/static/images/undertale-sans-bones-attack.png"]
         }
       ],
-      "audio": "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=Undertale+-+Megalovania&filename=24/246940-9197049f-e352-4a71-bdea-9303e664c54d.mp3"
+      "audio": "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=Undertale+-+Megalovania&filename=24/246940-9197049f-e352-4a71-bdea-9303e664c54d.mp3",
+      "motionPath": "M 128 24 C 8 33.9086 25.9086 16 48 16 C 70.0914 16 91 25 92 43 C 88 78.0914 105.9086 92 128 24 C 150.0914 92 160 72 167 7 C 155 19 148 24 128 24 C 108 24 89 21 73 7 C 96 72 105.9086 92 128 8 C 154 93 135 -4 173 28 C 185 34 185.9086 16 208 16 C 230.0914 16 248 33.9086 128 24 C 248 78.0914 230.0914 96 177 4 L 57 4 C 25.9086 96 8 78.0914 128 24 Z"
     }
   }
 ]

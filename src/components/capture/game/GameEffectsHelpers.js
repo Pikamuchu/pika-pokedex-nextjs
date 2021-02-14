@@ -163,15 +163,15 @@ export const throwEffect1 = (element, translateXValue, movementY, scalePercent, 
 export const throwEffect2 = (element, movementY, translateXValue, scalePercent, completeCallback) => {
   anime({
     targets: [element],
-    translateY: {
-      value: movementY * -0.5,
-      duration: 400,
-      easing: 'easeInOutSine'
-    },
     translateX: {
       value: -translateXValue * 0.25,
       duration: 400,
       easing: 'linear'
+    },
+    translateY: {
+      value: movementY * -0.5,
+      duration: 400,
+      easing: 'easeInOutSine'
     },
     scale: {
       value: 1 - 0.25 * scalePercent,
@@ -182,16 +182,16 @@ export const throwEffect2 = (element, movementY, translateXValue, scalePercent, 
   });
 };
 
-export const throwAttackEffect = (element, translateY, translateX, scalePercent, duration, completeCallback) => {
+export const throwAttackEffect = (element, translateX, translateY, scalePercent, duration, completeCallback) => {
   anime({
     targets: [element],
-    translateY: {
-      value: translateY,
+    translateX: {
+      value: translateX + getRandomNumber(-60, 60),
       duration: duration,
       easing: 'easeOutSine'
     },
-    translateX: {
-      value: translateX,
+    translateY: {
+      value: translateY + getRandomNumber(-60, 60),
       duration: duration,
       easing: 'easeOutSine'
     },
@@ -315,20 +315,17 @@ export const elementShrinkEffect = (element) => {
 };
 
 export const moveElementThroughPath = (element, path) => {
-  const pathElement = getFirstElement(path);
-  if (pathElement) {
-    const animePath = anime.path(path);
-    return anime({
-      targets: [element],
-      translateX: animePath('x'),
-      translateY: animePath('y'),
-      easing: 'easeInOutQuad',
-      duration: 10000,
-      loop: true,
-      direction: 'alternate',
-      autoplay: false
-    });
-  }
+  const animePath = anime.path(path);
+  return anime({
+    targets: [element],
+    translateX: animePath('x'),
+    translateY: animePath('y'),
+    easing: 'easeInOutQuad',
+    duration: 10000,
+    loop: true,
+    direction: 'alternate',
+    autoplay: false
+  });
 };
 
 export const translateElementToCoords = (element, coords) => {};

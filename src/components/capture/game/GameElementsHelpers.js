@@ -126,6 +126,7 @@ export const createTarget = (pokemon) => {
       clearContainerElement(attackContainer);
     }
   };
+  // Initialize motion
   target.motion = moveElementThroughPath(target.getElement(), '.motion-path path');
   return target;
 };

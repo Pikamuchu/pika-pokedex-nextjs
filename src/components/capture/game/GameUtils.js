@@ -72,8 +72,8 @@ export const getTranslationBetweenElements = (element1, element2) => {
   const position2 = getCenterCoords(element2);
 
   return {
-    x: position1.x - position2.x,
-    y: position1.y - position2.y
+    x: position2.x - position1.x,
+    y: position2.y - position1.y
   };
 };
 
