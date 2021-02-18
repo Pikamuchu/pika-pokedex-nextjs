@@ -79,38 +79,40 @@ export const getDetails = async (id, lang) => {
 };
 
 const getPokemonsList = async () => {
+  let pokemonsList = [...customPokemonsList];
   try {
-    const pokemonsList = await P.getPokemonsList({
+    const pokeList = await P.getPokemonsList({
       limit: SEARCH_LIMIT
     });
-    return [...pokemonsList.results, ...customPokemonsList];
+    pokemonsList = [...pokeList.results, ...customPokemonsList];
   } catch (error) {
     console.error(error);
   }
+  return pokemonsList;
 };
 
 const getPokemonByName = async (name) => {
-  try {
-    let pokemon = getCustomPokemonByName(name);
-    if (!pokemon) {
+  let pokemon = getCustomPokemonByName(name);
+  if (!pokemon) {
+    try {
       pokemon = await P.getPokemonByName(name);
+    } catch (error) {
+      console.error(error);
     }
-    return pokemon;
-  } catch (error) {
-    console.error(error);
   }
+  return pokemon;
 };
 
 const getPokemonSpeciesByName = async (name) => {
-  try {
-    let pokemonSpecies = getCustomPokemonByName(name);
-    if (!pokemonSpecies) {
+  let pokemonSpecies = getCustomPokemonByName(name);
+  if (!pokemonSpecies) {
+    try {
       pokemonSpecies = await P.getPokemonSpeciesByName(name);
+    } catch (error) {
+      console.error(error);
     }
-    return pokemonSpecies;
-  } catch (error) {
-    console.error(error);
   }
+  return pokemonSpecies;
 };
 
 const getCustomPokemonByName = (name) => {
