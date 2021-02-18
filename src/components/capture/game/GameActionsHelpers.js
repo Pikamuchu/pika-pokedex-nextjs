@@ -69,11 +69,8 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     if (ball.inMotion) {
       return;
     }
-    if (coords) {
+    if (coords && !final) {
       ball.moveBallPointer(coords.x, coords.y);
-    }
-    if (final) {
-      //restoreBallEffect(ball);
     }
   };
 

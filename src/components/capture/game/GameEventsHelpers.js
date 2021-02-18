@@ -14,6 +14,10 @@ export function createGameEvents(screen, state, actions) {
   touchManager.on('pan', (event) => {
     actions.pointerBall(event.center, event.isFinal);
   });
+  touchManager.on('panend', (event) => {
+    console.log('panend: ' + event.angle + ' ' + event.deltaY + ' ' + event.velocity);
+    actions.throwBall(event.angle, event.deltaY, event.velocity);
+  });
 
   // ball swipe events
   touchManager.add(swipe);
