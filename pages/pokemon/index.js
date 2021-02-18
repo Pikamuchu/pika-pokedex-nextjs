@@ -21,6 +21,7 @@ const PokemonListPage = ({ initialData, t }) => {
     pokemonListLoaded.push(<PokemonListLoad key={i} index={i} query={query} />);
   }
 
+  const showLoadMoreButton = pokemons?.length;
   return (
     <>
       <Head>
@@ -29,9 +30,13 @@ const PokemonListPage = ({ initialData, t }) => {
       <Container className="pokemon-list-page-container">
         <PokemonList pokemons={pokemons} />
         {pokemonListLoaded}
-        <Row className="justify-content-center">
-          <Button onClick={() => setPageIndex(pageIndex + 1)}>Load More</Button>
-        </Row>
+        {showLoadMoreButton ? (
+          <Row className="justify-content-center">
+            <Button onClick={() => setPageIndex(pageIndex + 1)}>Load More</Button>
+          </Row>
+        ) : (
+          ''
+        )}
       </Container>
     </>
   );

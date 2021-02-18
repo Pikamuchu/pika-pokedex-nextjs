@@ -54,9 +54,9 @@ export const searchListItems = async (params, limit, offset) => {
 
 export const getDetails = async (id, lang) => {
   const [pokemon, species] = await Promise.all([getPokemonByName(id), getPokemonSpeciesByName(id)]);
-  const code = formatCode(pokemon.id);
+  const code = formatCode(pokemon?.id);
   return (
-    pokemon && {
+    (pokemon && {
       id,
       code,
       name: pokemon.name,
@@ -74,7 +74,8 @@ export const getDetails = async (id, lang) => {
       category: '',
       description: '',
       gameConfig: mapGameConfig(pokemon.game_config) ?? null
-    }
+    }) ??
+    null
   );
 };
 
@@ -128,21 +129,24 @@ const parseParams = (query) => {
 
 const getItem = async (id) => {
   const pokemon = await getPokemonByName(id);
-  const code = formatCode(pokemon?.id ?? id);
-  return {
-    id,
-    code,
-    name: pokemon?.name ?? id,
-    slug: pokemon?.name ?? id,
-    types: mapTypes(pokemon?.types) ?? null,
-    image: getPokemonImage(pokemon, code)
-  };
+  const code = formatCode(pokemon?.id);
+  return (
+    (pokemon && {
+      id,
+      code,
+      name: pokemon.name,
+      slug: pokemon.name,
+      types: mapTypes(pokemon.types),
+      image: getPokemonImage(pokemon, code)
+    }) ??
+    null
+  );
 };
 
 const getItems = async (list, params) => {
   const items = await Promise.all(
     list.map(async (item) => {
-      return getItem(item.name, params?.lang || DEFAULT_LANG);
+      return getItem(item?.name, params?.lang || DEFAULT_LANG);
     })
   );
   return items.filter((pokemon) => !pokemon.evolvesFromId);

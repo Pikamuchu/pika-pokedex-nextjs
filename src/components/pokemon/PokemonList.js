@@ -10,13 +10,23 @@ const PokemonList = ({ pokemons, showNotFound, t }) => {
   return (
     <Row className="pokemons-container justify-content-around">
       {pokemons && pokemons.length
-        ? pokemons.map((pokemon) => (
-            <Col key={pokemon.id} lg={3} md={4} sm={6} xs={6}>
-              <PokemonTile key={pokemon.id} pokemon={pokemon} />
-            </Col>
-          ))
+        ? pokemons.map((pokemon) => <PokemonItem pokemon={pokemon} t={t} />)
         : notFoundMessage}
     </Row>
+  );
+};
+
+const PokemonItem = ({ pokemon, t }) => {
+  return (
+    <>
+      {pokemon?.id ? (
+        <Col key={pokemon.id} lg={3} md={4} sm={6} xs={6}>
+          <PokemonTile key={pokemon.id} pokemon={pokemon} />
+        </Col>
+      ) : (
+        ''
+      )}
+    </>
   );
 };
 
