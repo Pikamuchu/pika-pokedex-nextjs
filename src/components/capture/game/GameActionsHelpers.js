@@ -99,7 +99,7 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
 
         const translationCoords = getTranslationBetweenElements(attackElement, ball.getElement());
 
-        throwAttackEffect(attackElement, translationCoords.x, translationCoords.y, 0, 1000, () => {
+        throwAttackEffect(attackElement, translationCoords.x, translationCoords.y, 2, 1000, () => {
           attackElement.remove();
         });
       }

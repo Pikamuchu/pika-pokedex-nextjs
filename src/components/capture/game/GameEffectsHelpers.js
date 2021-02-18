@@ -325,14 +325,18 @@ export const moveElementThroughPath = (element, path, screen) => {
     loop: true,
     direction: 'alternate',
     autoplay: false,
-    update: function () {
-      const position = getCenterCoords(element);
-      const xAxis = (screen.width / 2 - position.x) / 10;
-      const yAxis = (screen.height / 2 - position.y) / 20;
-      const scale = 1.5 - (screen.height - position.y) / screen.height;
-      element.style.transform += `rotateY(${-xAxis}deg) rotateX(${-yAxis}deg) scale(${scale})`;
+    update: () => {
+      updateElement3DEffectTransform(element, screen);
     }
   });
+};
+
+const updateElement3DEffectTransform = (element, screen) => {
+  const position = getCenterCoords(element);
+  const xAxis = (screen.width / 2 - position.x) / 10;
+  const yAxis = (screen.height / 2 - position.y) / 20;
+  const scale = 1.5 - (screen.height - position.y) / screen.height;
+  element.style.transform += `rotateY(${-xAxis}deg) rotateX(${-yAxis}deg) scale(${scale})`;
 };
 
 export const translateElementToCoords = (element, coords) => {};
