@@ -133,6 +133,7 @@ export const createTarget = (pokemon, screen) => {
       // Initialize motion
       removeElementAnimation(targetElement);
       target.motion = moveElementThroughPath(targetElement, '.motion-path path', screen);
+      target.motion.play();
       // Remove attacks
       const attackContainer = getFirstElement('attack-container');
       if (attackContainer) {
