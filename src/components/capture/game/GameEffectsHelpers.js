@@ -1,6 +1,6 @@
 import anime from 'animejs/lib/anime.es.js';
 
-import { getFirstElement, getRandomNumber } from './GameUtils';
+import { getFirstElement, getRandomNumber, getCenterCoords } from './GameUtils';
 
 const NUM_COLISION_PARTICLES = 10;
 
@@ -314,7 +314,7 @@ export const elementShrinkEffect = (element) => {
   });
 };
 
-export const moveElementThroughPath = (element, path) => {
+export const moveElementThroughPath = (element, path, screen) => {
   const animePath = anime.path(path);
   return anime({
     targets: [element],
@@ -324,7 +324,14 @@ export const moveElementThroughPath = (element, path) => {
     duration: 10000,
     loop: true,
     direction: 'alternate',
-    autoplay: false
+    autoplay: false,
+    update: function () {
+      const position = getCenterCoords(element);
+      const xAxis = (screen.width / 2 - position.x) / 10;
+      const yAxis = (screen.height / 2 - position.y) / 20;
+      const scale = 1.5 - (screen.height - position.y) / screen.height;
+      element.style.transform += `rotateY(${-xAxis}deg) rotateX(${-yAxis}deg) scale(${scale})`;
+    }
   });
 };
 

@@ -8,7 +8,7 @@ export default function captureGame(pokemon, captureSuccessCallback) {
   const audio = createAudio();
 
   const ball = createBall(screen);
-  const target = createTarget(pokemon);
+  const target = createTarget(pokemon, screen);
 
   const state = createGameState(ball, target, screen, audio);
   const actions = createGameActions(ball, target, screen, state, captureSuccessCallback);

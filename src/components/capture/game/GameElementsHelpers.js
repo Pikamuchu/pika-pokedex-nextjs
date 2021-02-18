@@ -1,6 +1,6 @@
 import { Resources } from './GameResourcesHelpers';
 import { getElementById, getFirstElement, getCenterCoords, clearContainerElement } from './GameUtils';
-import { elementShrinkEffect, moveElementThroughPath } from './GameEffectsHelpers';
+import { elementShrinkEffect, moveElementThroughPath, removeElementAnimation } from './GameEffectsHelpers';
 
 const BALL_DEFAULT_SIZE = 60;
 const BALL_INITIAL_POSITION = 120;
@@ -82,7 +82,7 @@ export const createBall = (screen) => {
   return ball;
 };
 
-export const createTarget = (pokemon) => {
+export const createTarget = (pokemon, screen) => {
   const target = {
     id: 'target',
     size: TARGET_DEFAULT_SIZE,
@@ -130,6 +130,9 @@ export const createTarget = (pokemon) => {
         ring.style.width = '150px';
         elementShrinkEffect(ring);
       }
+      // Initialize motion
+      removeElementAnimation(targetElement);
+      target.motion = moveElementThroughPath(targetElement, '.motion-path path', screen);
       // Remove attacks
       const attackContainer = getFirstElement('attack-container');
       if (attackContainer) {
@@ -138,6 +141,6 @@ export const createTarget = (pokemon) => {
     }
   };
   // Initialize motion
-  target.motion = moveElementThroughPath(target.getElement(), '.motion-path path');
+  target.motion = moveElementThroughPath(target.getElement(), '.motion-path path', screen);
   return target;
 };
