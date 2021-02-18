@@ -9,7 +9,7 @@ import useCapture from '../../hooks/useCapture';
 import Search from './Search';
 
 const Header = ({ t }) => (
-  <Navbar collapseOnSelect bg="light" expand="lg" fixed="top" className="menu-pokeball-shape">
+  <Navbar collapseOnSelect bg="light" expand="lg" fixed="top" className="menu-pokeball-shape collidable">
     <Container>
       <Navbar.Toggle aria-controls="collapsible-nav-dropdown" className="border-0" />
       <Link href="/" passHref>
@@ -31,10 +31,10 @@ const Header = ({ t }) => (
           </Link>
         </Nav>
       </Navbar.Collapse>
-      <div className="menu-searchbox">
+      <div className="menu-searchbox collidable">
         <Search />
       </div>
-      <div className="menu-pokebox">
+      <div className="menu-pokebox collidable">
         <PokeballButton />
       </div>
     </Container>

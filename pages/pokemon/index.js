@@ -17,7 +17,7 @@ const PokemonListPage = ({ initialData, t }) => {
   const { data: pokemons } = usePokemon(query, initialData.pokemons);
 
   const pokemonListLoaded = [];
-  for (let i = initialPageIndex + 1; i < pageIndex; i++) {
+  for (let i = initialPageIndex + 1; i < pageIndex + 1; i++) {
     pokemonListLoaded.push(<PokemonListLoad key={i} index={i} query={query} />);
   }
 
@@ -40,16 +40,16 @@ const PokemonListPage = ({ initialData, t }) => {
 PokemonListPage.propTypes = {
   initialData: PropTypes.shape({
     query: PropTypes.shape({
-      pageIndex: PropTypes.number,
+      pageIndex: PropTypes.number
     }),
-    pokemons: PropTypes.arrayOf(PropTypes.object),
+    pokemons: PropTypes.arrayOf(PropTypes.object)
   }).isRequired,
   t: PropTypes.func.isRequired,
-  i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
+  i18nNamespaces: PropTypes.arrayOf(PropTypes.string)
 };
 
 PokemonListPage.defaultProps = {
-  i18nNamespaces: ['common', 'pokemon'],
+  i18nNamespaces: ['common', 'pokemon']
 };
 
 export const getServerSideProps = async ({ query }) => {
@@ -58,9 +58,9 @@ export const getServerSideProps = async ({ query }) => {
     props: {
       initialData: {
         query,
-        pokemons,
-      },
-    },
+        pokemons
+      }
+    }
   };
 };
 
