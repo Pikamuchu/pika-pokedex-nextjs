@@ -149,7 +149,8 @@ const getItems = async (list, params) => {
       return getItem(item?.name, params?.lang || DEFAULT_LANG);
     })
   );
-  return items.filter((pokemon) => !pokemon.evolvesFromId);
+  // TODO: param filters
+  return items.filter((pokemon) => pokemon && !pokemon.evolvesFromId);
 };
 
 const getRandomList = (list) => {
