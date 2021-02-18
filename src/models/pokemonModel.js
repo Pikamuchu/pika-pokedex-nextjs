@@ -128,13 +128,13 @@ const parseParams = (query) => {
 
 const getItem = async (id) => {
   const pokemon = await getPokemonByName(id);
-  const code = formatCode(pokemon.id);
+  const code = formatCode(pokemon?.id ?? id);
   return {
     id,
     code,
-    name: pokemon.name,
-    slug: pokemon.name,
-    types: mapTypes(pokemon.types),
+    name: pokemon?.name ?? id,
+    slug: pokemon?.name ?? id,
+    types: mapTypes(pokemon?.types) ?? null,
     image: getPokemonImage(pokemon, code)
   };
 };
