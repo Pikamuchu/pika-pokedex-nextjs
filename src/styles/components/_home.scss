@@ -1,9 +1,13 @@
 .home-hello {
   background-color: #fdfdec !important;
   border: 2px solid #dee2e6;
-  padding-top: 2 * $grid-gutter-width;
+  margin-bottom: 2 * $grid-gutter-width;
   margin-left: -$grid-gutter-width/2;
   margin-right: -$grid-gutter-width/2;
   margin-top: -$grid-gutter-width/2;
   text-align: center;
+}
+
+.card-image {
+  border-radius: 0px 0px 5px 5px/25px 25px 25px 5px;
 }

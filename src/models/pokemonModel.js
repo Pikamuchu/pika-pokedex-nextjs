@@ -7,12 +7,15 @@ const P = new Pokedex({
   hostName: 'pokeapi.co',
   versionPath: '/api/v2/',
   cacheLimit: 100 * 1000, // 100s
-  timeout: 5 * 1000, // 5s
+  timeout: 5 * 1000 // 5s
 });
 
 const SEARCH_LIMIT = 893; // Excluding pokemons 100xx (No images available)
 const LIST_CHUNK_SIZE = preferences.pageSize;
 const DEFAULT_LANG = 'en';
+
+const customPokemonsList = require('./data/customPokemonsData.json');
+const defaultData = require('./data/defaultPokemonData.json');
 
 export const getPokemons = async (query) => {
   let list;
@@ -30,13 +33,10 @@ export const getPokemonDetails = async (query) => {
 };
 
 export const getListItems = async (params) => {
-  const itemList = await P.getPokemonsList({
-    limit: SEARCH_LIMIT,
-  });
-  let list = itemList.results;
+  let list = await getPokemonsList();
   if (params.ids) {
     const idsArray = params.ids.split(',');
-    list = list.filter(item => idsArray.includes(item.name));
+    list = list.filter((item) => idsArray.includes(item.name));
   }
   if (params.listType === 'random') {
     list = getRandomList(list);
@@ -46,34 +46,78 @@ export const getListItems = async (params) => {
 };
 
 export const searchListItems = async (params, limit, offset) => {
-  const itemList = await P.getPokemonsList({
-    limit: SEARCH_LIMIT,
-  });
-  const results = itemList.results.filter((item) => item.name.includes(params.q));
+  const itemList = await getPokemonsList();
+  const results = itemList.filter((item) => item.name.includes(params.q));
   const list = getChunk(results, params.limit, params.offset);
   return getItems(list, params);
 };
 
 export const getDetails = async (id, lang) => {
-  const [pokemon, species] = await Promise.all([P.getPokemonByName(id), P.getPokemonSpeciesByName(id)]);
-  const code = formatCode(pokemon.id);
-  return pokemon && {
-    id,
-    code,
-    name: pokemon.name,
-    slug: pokemon.name,
-    types: mapTypes(pokemon.types),
-    image: getPokemonImage(code),
-    tName: species && translateName(species.names, lang),
-    color: species?.color?.name,
-    evolvesFromId: species?.evolves_from_species && species?.evolves_from_species.name,
-    abilities: pokemon.abilities && pokemon.abilities.map((item) => item.ability.name),
-    weight: pokemon.weight,
-    height: pokemon.height,
-    stats: mapStats(pokemon.stats),
-    category: '',
-    description: '',
-  };
+  const [pokemon, species] = await Promise.all([getPokemonByName(id), getPokemonSpeciesByName(id)]);
+  const code = formatCode(pokemon?.id);
+  return (
+    (pokemon && {
+      id,
+      code,
+      name: pokemon.name,
+      slug: pokemon.name,
+      types: mapTypes(pokemon.types) ?? null,
+      image: getPokemonImage(pokemon, code),
+      imageRatio: pokemon.image_ratio ?? 1,
+      tName: translateName(species?.names, lang) ?? null,
+      color: species?.color?.name ?? null,
+      evolvesFromId: species?.evolves_from_species?.name ?? null,
+      abilities: pokemon.abilities?.map((item) => item.ability.name) ?? null,
+      weight: pokemon.weight,
+      height: pokemon.height,
+      stats: mapStats(pokemon.stats) ?? null,
+      category: '',
+      description: '',
+      gameConfig: mapGameConfig(pokemon.game_config) ?? null
+    }) ??
+    null
+  );
+};
+
+const getPokemonsList = async () => {
+  let pokemonsList = [...customPokemonsList];
+  try {
+    const pokeList = await P.getPokemonsList({
+      limit: SEARCH_LIMIT
+    });
+    pokemonsList = [...pokeList.results, ...customPokemonsList];
+  } catch (error) {
+    console.error(error);
+  }
+  return pokemonsList;
+};
+
+const getPokemonByName = async (name) => {
+  let pokemon = getCustomPokemonByName(name);
+  if (!pokemon) {
+    try {
+      pokemon = await P.getPokemonByName(name);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  return pokemon;
+};
+
+const getPokemonSpeciesByName = async (name) => {
+  let pokemonSpecies = getCustomPokemonByName(name);
+  if (!pokemonSpecies) {
+    try {
+      pokemonSpecies = await P.getPokemonSpeciesByName(name);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  return pokemonSpecies;
+};
+
+const getCustomPokemonByName = (name) => {
+  return customPokemonsList.find((item) => item.name === name);
 };
 
 const parseParams = (query) => {
@@ -84,25 +128,29 @@ const parseParams = (query) => {
 };
 
 const getItem = async (id) => {
-  const pokemon = await P.getPokemonByName(id);
-  const code = formatCode(pokemon.id);
-  return {
-    id,
-    code,
-    name: pokemon.name,
-    slug: pokemon.name,
-    types: mapTypes(pokemon.types),
-    image: getPokemonImage(code),
-  };
+  const pokemon = await getPokemonByName(id);
+  const code = formatCode(pokemon?.id);
+  return (
+    (pokemon && {
+      id,
+      code,
+      name: pokemon.name,
+      slug: pokemon.name,
+      types: mapTypes(pokemon.types),
+      image: getPokemonImage(pokemon, code)
+    }) ??
+    null
+  );
 };
 
 const getItems = async (list, params) => {
   const items = await Promise.all(
     list.map(async (item) => {
-      return getItem(item.name, params?.lang || DEFAULT_LANG);
+      return getItem(item?.name, params?.lang || DEFAULT_LANG);
     })
   );
-  return items.filter((pokemon) => !pokemon.evolvesFromId);
+  // TODO: param filters
+  return items.filter((pokemon) => pokemon && !pokemon.evolvesFromId);
 };
 
 const getRandomList = (list) => {
@@ -123,21 +171,26 @@ const translateName = (translations, lang) => {
 };
 
 const mapTypes = (types) => {
-  return (
-    types &&
-    types.map((item) => {
-      return { id: item.type.name, name: item.type.name };
-    })
-  );
+  return types?.map((item) => {
+    return item && { id: item.type?.name, name: item.type?.name };
+  });
 };
 
 const mapStats = (stats) => {
-  return (
-    stats &&
-    stats.map((item) => {
-      return { name: item.stat.name, value: item.base_stat };
-    })
-  );
+  return stats?.map((item) => {
+    return item && { name: item.stat?.name, value: item.base_stat };
+  });
 };
 
-const getPokemonImage = (code) => `${preferences.pokemonImageUrlPrefix}/${code}.${preferences.pokemonImageType}`;
+const getPokemonImage = (pokemon, code) => {
+  return pokemon?.image ? pokemon.image : `${preferences.pokemonImageUrlPrefix}${code}.${preferences.pokemonImageType}`;
+};
+
+const mapGameConfig = (gameConfig) => {
+  return {
+    attacks: gameConfig?.attacks || null,
+    audio: gameConfig?.audio || null,
+    motionPath: gameConfig?.motionPath || defaultData.gameConfig.motionPath,
+    maxSuccesRate: gameConfig?.maxSuccesRate || defaultData.gameConfig.maxSuccesRate
+  };
+};

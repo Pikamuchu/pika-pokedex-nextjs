@@ -1,0 +1,105 @@
+[
+  {
+    "id": "U01",
+    "code": "UND",
+    "name": "sans",
+    "slug": "sans",
+    "height": 3,
+    "weight": 20,
+    "types": [
+      {
+        "type": {
+          "name": "undertale"
+        }
+      }
+    ],
+    "image": "/static/images/undertale-sans.png",
+    "abilities": [
+      {
+        "ability": {
+          "name": "Bones"
+        }
+      },
+      {
+        "ability": {
+          "name": "Gaster Blasters"
+        }
+      }
+    ],
+    "stats": [
+      {
+        "base_stat": 48,
+        "effort": 1,
+        "stat": {
+          "name": "hp",
+          "url": "https://pokeapi.co/api/v2/stat/1/"
+        }
+      },
+      {
+        "base_stat": 48,
+        "effort": 0,
+        "stat": {
+          "name": "attack",
+          "url": "https://pokeapi.co/api/v2/stat/2/"
+        }
+      },
+      {
+        "base_stat": 48,
+        "effort": 0,
+        "stat": {
+          "name": "defense",
+          "url": "https://pokeapi.co/api/v2/stat/3/"
+        }
+      },
+      {
+        "base_stat": 48,
+        "effort": 0,
+        "stat": {
+          "name": "special-attack",
+          "url": "https://pokeapi.co/api/v2/stat/4/"
+        }
+      },
+      {
+        "base_stat": 48,
+        "effort": 0,
+        "stat": {
+          "name": "special-defense",
+          "url": "https://pokeapi.co/api/v2/stat/5/"
+        }
+      },
+      {
+        "base_stat": 48,
+        "effort": 0,
+        "stat": {
+          "name": "speed",
+          "url": "https://pokeapi.co/api/v2/stat/6/"
+        }
+      }
+    ],
+    "names": [
+      {
+        "language": {
+          "name": "en",
+          "url": "https://pokeapi.co/api/v2/language/9/"
+        },
+        "name": "Sans"
+      }
+    ],
+    "color": {
+      "name": "white"
+    },
+    "evolves_from_species": null,
+    "game_config": {
+      "attacks": [
+        {
+          "name": "Throw Bones",
+          "type": "throw",
+          "images": ["/static/images/undertale-sans-bones-attack.png"]
+        }
+      ],
+      "audio": "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=Undertale+-+Megalovania&filename=24/246940-9197049f-e352-4a71-bdea-9303e664c54d.mp3",
+      "motionPath": "M 128 24 C 151 -11 34 0 35 14 C 37 37 199 57 214 40 C 239 17 218 4 177 4 C 61 0 92 50 128 24 C 200 22 125 92 128 24 Z",
+      "maxSuccesRate": 50
+    }
+  }
+]

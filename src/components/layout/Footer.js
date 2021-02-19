@@ -15,7 +15,7 @@ const Footer = ({ t }) => {
   };
 
   return (
-    <Container>
+    <Container className="collidable">
       <Row className="justify-content-between">
         <Col xs={6}>
           <Row className="m-0">
@@ -65,7 +65,7 @@ const Footer = ({ t }) => {
 };
 
 Footer.propTypes = {
-  t: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 };
 
 export default withTranslation('common')(Footer);
