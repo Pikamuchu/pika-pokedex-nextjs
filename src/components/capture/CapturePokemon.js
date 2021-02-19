@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 import { withTranslation } from '../../i18n';
 import useCapture, { postCapture, routeCapture } from '../../hooks/useCapture';
-import captureGame from './CaptureGameHelpers';
+import captureGame from './CaptureGame';
 
 const CaptureGame = ({ pokemon, t }) => {
   const { data: captures, mutate, revalidate } = useCapture();

@@ -152,7 +152,7 @@ export const throwEffect1 = (element, translateXValue, movementY, scalePercent, 
       easing: 'easeOutSine'
     },
     scale: {
-      value: 1 - 0.5 * scalePercent,
+      value: 1 - 0.75 * scalePercent,
       duration: 300,
       easing: 'easeInSine'
     },
@@ -174,7 +174,7 @@ export const throwEffect2 = (element, movementY, translateXValue, scalePercent, 
       easing: 'easeInOutSine'
     },
     scale: {
-      value: 1 - 0.25 * scalePercent,
+      value: 1 - 0.5 * scalePercent,
       easing: 'easeInSine',
       duration: 400
     },
