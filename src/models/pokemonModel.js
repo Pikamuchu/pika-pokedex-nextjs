@@ -72,7 +72,7 @@ export const getDetails = async (id, lang) => {
       height: pokemon.height,
       stats: mapStats(pokemon.stats) ?? null,
       category: '',
-      description: '',
+      description: getPokemonDescription(species, lang),
       gameConfig: mapGameConfig(pokemon.game_config) ?? null
     }) ??
     null
@@ -184,6 +184,18 @@ const mapStats = (stats) => {
 
 const getPokemonImage = (pokemon, code) => {
   return pokemon?.image ? pokemon.image : `${preferences.pokemonImageUrlPrefix}${code}.${preferences.pokemonImageType}`;
+};
+
+const getPokemonDescription = (species, lang) => {
+  var descriptionEntry = species?.flavor_text_entries?.length
+    ? species.flavor_text_entries.find((entry) => entry?.language?.name === lang)
+    : null;
+  if (!descriptionEntry) {
+    descriptionEntry = species?.flavor_text_entries?.length
+      ? species.flavor_text_entries.find((entry) => entry?.language?.name === DEFAULT_LANG)
+      : null;
+  }
+  return descriptionEntry?.flavor_text ?? '';
 };
 
 const mapGameConfig = (gameConfig) => {
