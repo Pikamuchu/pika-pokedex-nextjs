@@ -21,7 +21,7 @@ export const emitBallColisionParticles = (ball, element, completeCallback) => {
     particleElement.style.backgroundColor = palette[getRandomNumber(0, palette.length)];
     particleContainer.appendChild(particleElement);
     anime({
-      targets: [`#particle-${i}`],
+      targets: [particleElement],
       translateX: {
         value: getRandomNumber(-60, 60),
         delay: 100
@@ -36,7 +36,12 @@ export const emitBallColisionParticles = (ball, element, completeCallback) => {
         duration: 800,
         easing: 'easeInSine'
       },
-      complete: completeCallback
+      complete: (anim) => {
+        removeElementAnimation(particleElement);
+        if (completeCallback) {
+          completeCallback(anim);
+        }
+      }
     });
   }
 };
