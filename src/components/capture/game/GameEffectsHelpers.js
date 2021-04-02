@@ -382,20 +382,24 @@ export const elementShrinkEffect = (element, completeCallback) => {
 };
 
 export const moveElementThroughPath = (element, path, screen) => {
-  const animePath = anime.path(path);
-  return anime({
-    targets: [element],
-    translateX: animePath('x'),
-    translateY: animePath('y'),
-    easing: 'easeInOutQuad',
-    duration: 10000,
-    loop: true,
-    direction: 'alternate',
-    autoplay: false,
-    update: () => {
-      updateElement3DEffectTransform(element, screen);
+  if (path) {
+    const animePath = anime.path(path);
+    if (animePath) {
+      return anime({
+        targets: [element],
+        translateX: animePath('x'),
+        translateY: animePath('y'),
+        easing: 'easeInOutQuad',
+        duration: 10000,
+        loop: true,
+        direction: 'alternate',
+        autoplay: false,
+        update: () => {
+          updateElement3DEffectTransform(element, screen);
+        }
+      });
     }
-  });
+  }
 };
 
 const updateElement3DEffectTransform = (element, screen) => {
