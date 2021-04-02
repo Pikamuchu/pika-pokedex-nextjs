@@ -13,27 +13,27 @@ const PokemonDetails = ({ t, pokemon }) => {
           <Row className="justify-content-center">
             <h2 className="pr-1">{`${pokemon.code} - ${pokemon.name}`}</h2>
           </Row>
-          <Row className="justify-content-center">
+          <Row className="justify-content-center pt-3 px-3">
             <p>{`${pokemon.description}`}</p>
           </Row>
-          <Row className="pt-3 px-5">
-            <Col sm={6} xs={12} className="pb-5 pr-5">
+          <Row className="pt-3 px-3">
+            <Col sm={6} xs={12} className="pb-5 pr-3">
               <Row className="pokemon-image justify-content-center">
                 <Link href={`/pokemon/${pokemon.id}`}>
                   <Image src={pokemon.image} label={pokemon.slug} alt={pokemon.slug} thumbnail fluid />
                 </Link>
-                <PokemonCaptureButton pokemon={pokemon} size="large mr-5" />
+                <PokemonCaptureButton pokemon={pokemon} size="large mr-3" />
               </Row>
             </Col>
-            <Col sm={6} xs={12}>
+            <Col sm={6} xs={12} className="pl-5 pb-5">
               <PokemonData pokemon={pokemon} t={t} />
             </Col>
           </Row>
-          <Row className="px-5 pb-5">
-            <Col sm={6} xs={12} className="pb-5 pr-5">
+          <Row className="px-3">
+            <Col sm={6} xs={12} className="pb-5 pl-5">
               <PokemonStats stats={pokemon.stats} t={t} />
             </Col>
-            <Col sm={6} xs={12}>
+            <Col sm={6} xs={12} className="pb-5 pl-5">
               <PokemonAbilities abilities={pokemon.abilities} t={t} />
             </Col>
           </Row>
