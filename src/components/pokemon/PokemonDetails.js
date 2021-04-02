@@ -13,33 +13,28 @@ const PokemonDetails = ({ t, pokemon }) => {
           <Row className="justify-content-center">
             <h2 className="pr-1">{`${pokemon.code} - ${pokemon.name}`}</h2>
           </Row>
-          <Row className="justify-content-left">
-            <h3 className="pr-1">{`${pokemon.description}`}</h3>
+          <Row className="justify-content-center">
+            <p>{`${pokemon.description}`}</p>
           </Row>
-          <Row className="pt-5 pb-5">
-            <Col sm={5} xs={12}>
+          <Row className="pt-3 px-5">
+            <Col sm={6} xs={12} className="pb-5 pr-5">
               <Row className="pokemon-image justify-content-center">
                 <Link href={`/pokemon/${pokemon.id}`}>
                   <Image src={pokemon.image} label={pokemon.slug} alt={pokemon.slug} thumbnail fluid />
                 </Link>
-                <PokemonCaptureButton pokemon={pokemon} size="large" />
+                <PokemonCaptureButton pokemon={pokemon} size="large mr-5" />
               </Row>
             </Col>
-            <Col sm={3} xs={6} className="ml-3">
-              <Row className="justify-content-left">
-                <h5>{t('pokemon-types')}</h5>
-              </Row>
-              <Row className="justify-content-left">
-                <PokemonTypes types={pokemon.types} t={t} />
-              </Row>
-            </Col>
-            <Col sm={3} xs={6} className="ml-3">
-              <PokemonStats stats={pokemon.stats} t={t} />
+            <Col sm={6} xs={12}>
+              <PokemonData pokemon={pokemon} t={t} />
             </Col>
           </Row>
-          <Row className="pt-5 pb-5">
-            <Col sm={3} xs={6} className="ml-3">
-              <PokemonAbilities stats={pokemon.abilities} t={t} />
+          <Row className="px-5 pb-5">
+            <Col sm={6} xs={12} className="pb-5 pr-5">
+              <PokemonStats stats={pokemon.stats} t={t} />
+            </Col>
+            <Col sm={6} xs={12}>
+              <PokemonAbilities abilities={pokemon.abilities} t={t} />
             </Col>
           </Row>
         </>
@@ -63,6 +58,31 @@ PokemonDetails.propTypes = {
   }).isRequired
 };
 
+const PokemonData = ({ t, pokemon }) => {
+  return (
+    <>
+      <Row className="justify-content-left">
+        <h5>{t('pokemon-data')}</h5>
+      </Row>
+      <Row className="justify-content-left"></Row>
+      <Row className="justify-content-left">
+        <div className="pokemon-stats">
+          <ul className="list-unstyled">
+            <li>
+              {`${t('type')}:`}
+              <PokemonTypes types={pokemon.types} t={t} />
+            </li>
+            <li>{`${t('color')}: ${pokemon.color}`}</li>
+            <li>{`${t('weight')}: ${pokemon.weight}`}</li>
+            <li>{`${t('height')}: ${pokemon.height}`}</li>
+            <li>{`${t('evolves-from')}: ${pokemon.evolvesFromId}`}</li>
+          </ul>
+        </div>
+      </Row>
+    </>
+  );
+};
+
 const PokemonStats = ({ t, stats }) => {
   return (
     <>
@@ -71,9 +91,11 @@ const PokemonStats = ({ t, stats }) => {
       </Row>
       <Row className="justify-content-left">
         <div className="pokemon-stats">
-          {stats?.map((stat) => (
-            <p key={stat.name}>{`${stat.name}: ${stat.value}`}</p>
-          ))}
+          <ul className="list-unstyled">
+            {stats?.map((stat) => (
+              <li key={stat.name}>{`${stat.name}: ${stat.value}`}</li>
+            ))}
+          </ul>
         </div>
       </Row>
     </>
@@ -88,9 +110,11 @@ const PokemonAbilities = ({ t, abilities }) => {
       </Row>
       <Row className="justify-content-left">
         <div className="pokemon-abilities">
-          {abilities?.map((ability) => (
-            <p key={ability.name}>{ability.name}</p>
-          ))}
+          <ul className="list-unstyled">
+            {abilities?.map((ability) => (
+              <li key={ability}>{ability}</li>
+            ))}
+          </ul>
         </div>
       </Row>
     </>
