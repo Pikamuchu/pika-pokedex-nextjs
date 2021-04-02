@@ -37,7 +37,7 @@ export const emitBallColisionParticles = (ball, element, completeCallback) => {
         easing: 'easeInSine'
       },
       complete: (anim) => {
-        removeElementAnimation(particleElement);
+        removeElementAnimation(particleElement, true);
         if (completeCallback) {
           completeCallback(anim);
         }
@@ -55,17 +55,28 @@ export const dropElementEffect = (element, completeCallback) => {
       duration: 400,
       easing: 'linear'
     },
-    complete: completeCallback
+    complete: (anim) => {
+      removeElementAnimation(element);
+      if (completeCallback) {
+        completeCallback(anim);
+      }
+    }
   });
 };
 
-export const fadeElementEffect = (element) => {
+export const fadeElementEffect = (element, completeCallback) => {
   anime({
     targets: [element],
     opacity: {
       value: 0,
       delay: 200,
       easing: 'easeInSine'
+    },
+    complete: (anim) => {
+      removeElementAnimation(element);
+      if (completeCallback) {
+        completeCallback(anim);
+      }
     }
   });
 };
@@ -106,19 +117,30 @@ export const emitParticlesToElementEffect = (
         duration: 800,
         easing: 'easeInSine'
       },
-      complete: i === NUM_PARTICLES - 1 ? completeCallback : null
+      complete: (anim) => {
+        removeElementAnimation(particleElement, true);
+        if (i === (NUM_PARTICLES - 1) && completeCallback) {
+          completeCallback(anim);
+        }
+      }
     });
   }
 };
 
-export const shakeEffect = (element, duration) => {
+export const shakeEffect = (element, duration, completeCallback) => {
   anime({
     targets: [element],
     rotate: 40,
     duration,
     easing: 'easeInOutBack',
     loop: true,
-    direction: 'alternate'
+    direction: 'alternate',
+    complete: (anim) => {
+      removeElementAnimation(element);
+      if (completeCallback) {
+        completeCallback(anim);
+      }
+    }
   });
 };
 
@@ -139,7 +161,12 @@ export const moveElementAsideEffect = (element, distance, orientation, completeC
       value: orientation,
       duration: 200
     },
-    complete: completeCallback
+    complete: (anim) => {
+      removeElementAnimation(element);
+      if (completeCallback) {
+        completeCallback(anim);
+      }
+    }
   });
 };
 
@@ -161,7 +188,12 @@ export const throwEffect1 = (element, translateXValue, movementY, scalePercent, 
       duration: 300,
       easing: 'easeInSine'
     },
-    complete: completeCallback
+    complete: (anim) => {
+      removeElementAnimation(element);
+      if (completeCallback) {
+        completeCallback(anim);
+      }
+    }
   });
 };
 
@@ -183,7 +215,12 @@ export const throwEffect2 = (element, movementY, translateXValue, scalePercent, 
       easing: 'easeInSine',
       duration: 400
     },
-    complete: completeCallback
+    complete: (anim) => {
+      removeElementAnimation(element);
+      if (completeCallback) {
+        completeCallback(anim);
+      }
+    }
   });
 };
 
@@ -210,12 +247,20 @@ export const throwAttackEffect = (element, translateX, translateY, scalePercent,
       easing: 'easeInSine',
       duration: duration
     },
-    complete: completeCallback
+    complete: (anim) => {
+      removeElementAnimation(element, true);
+      if (completeCallback) {
+        completeCallback(anim);
+      }
+    }
   });
 };
 
-export const removeElementAnimation = (element) => {
+export const removeElementAnimation = (element, isRemoveElement) => {
   anime.remove(element);
+  if (isRemoveElement) {
+    element.remove()
+  }
 };
 
 export const poofEffect = (poofElement, hideEscapeAnimation) => {
@@ -227,7 +272,8 @@ export const poofEffect = (poofElement, hideEscapeAnimation) => {
       easing: 'linear',
       duration: 500
     },
-    complete: () => {
+    complete: (anim) => {
+      removeElementAnimation(poofElement);
       setTimeout(() => {
         hideEscapeAnimation();
       }, 500);
@@ -237,7 +283,6 @@ export const poofEffect = (poofElement, hideEscapeAnimation) => {
 
 export const restoreBallEffect = (ball) => {
   const ballElement = ball.getElement();
-  anime.remove(ballElement);
   anime({
     targets: [ballElement],
     opacity: {
@@ -246,7 +291,8 @@ export const restoreBallEffect = (ball) => {
       easing: 'easeInSine',
       duration: 500
     },
-    complete: () => {
+    complete: (anim) => {
+      removeElementAnimation(ballElement);
       ball.resetBall();
     }
   });
@@ -272,7 +318,12 @@ export const moveElementToCoords = (element, coords, duration, scalePercent, com
       easing: 'easeInSine',
       duration: 400
     },
-    complete: completeCallback
+    complete: (anim) => {
+      removeElementAnimation(element, true);
+      if (completeCallback) {
+        completeCallback(anim);
+      }
+    }
   });
 };
 
@@ -289,7 +340,7 @@ export const rainConfettiEffect = (container, completeCallback) => {
     particleElement.style.backgroundColor = getRandomNumber(0, 2) ? '#FFF' : '#4aa6fb';
     container.appendChild(particleElement);
     anime({
-      targets: [`#particle-${i}`],
+      targets: [particleElement],
       translateX: {
         value: (getRandomNumber(0, 2) ? -1 : 1) * getRandomNumber(0, window.innerWidth / 2),
         delay: 100
@@ -303,19 +354,30 @@ export const rainConfettiEffect = (container, completeCallback) => {
         duration: 800,
         easing: 'easeInSine'
       },
-      complete: i === NUM_PARTICLES - 1 ? completeCallback : null
+      complete: (anim) => {
+        removeElementAnimation(particleElement, true);
+        if (i === (NUM_PARTICLES - 1) && completeCallback) {
+          completeCallback(anim);
+        }
+      }
     });
   }
 };
 
-export const elementShrinkEffect = (element) => {
+export const elementShrinkEffect = (element, completeCallback) => {
   anime({
     targets: [element],
     height: '5px',
     width: '5px',
     duration: 3000,
     loop: true,
-    easing: 'linear'
+    easing: 'linear',
+    complete: (anim) => {
+      removeElementAnimation(element, true);
+      if (completeCallback) {
+        completeCallback(anim);
+      }
+    }
   });
 };
 
