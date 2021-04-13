@@ -9,7 +9,7 @@ export const arrayChunk = (array, chunk) => {
 };
 
 export const arrayPage = (array, pageSize, pageNumber) => {
-  return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+  return array?.slice((pageNumber - 1) * pageSize, pageNumber * pageSize) ?? [];
 };
 
 export const querySeparator = (url) => {
