@@ -28,6 +28,7 @@ const PokemonListPage = ({ initialData, t }) => {
         <title>{`Pikadex - ${t('pokemon-list-title')}`}</title>
       </Head>
       <Container className="pokemon-list-page-container">
+        <h3>{t('pokemon-title')}</h3>
         <PokemonList pokemons={pokemons} />
         {pokemonListLoaded}
         {showLoadMoreButton ? (
