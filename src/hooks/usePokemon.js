@@ -18,7 +18,7 @@ export const routePokemon = (query) => {
 };
 
 const shouldFetch = (query) => {
-  return query && (query.id || query.ids?.length || query.searchTerm || query.pageIndex || query.listType);
+  return query && (query.id || query.ids?.length || query.q || query.searchTerm || query.pageIndex || query.listType);
 };
 
 const createApiUrl = (query) => {
@@ -34,8 +34,8 @@ const createUrl = (query) => {
   if (query?.ids && query.ids.length > 0) {
     url += `${querySeparator(url)}ids=${query.ids.join(',')}`;
   }
-  if (query?.searchTerm) {
-    url += `${querySeparator(url)}q=${query.searchTerm}`;
+  if (query?.q || query?.searchTerm) {
+    url += `${querySeparator(url)}q=${query.q || query.searchTerm}`;
   }
   if (query?.listType) {
     url += `${querySeparator(url)}listType=${query.listType}`;

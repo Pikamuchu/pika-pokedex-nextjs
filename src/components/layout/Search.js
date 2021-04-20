@@ -53,19 +53,17 @@ const Search = ({ t }) => {
       fetchPokemon({ searchTerm: debouncedSearchTerm, type: 'thumbnail' }).then((pokemons) => {
         setIsSearching(false);
         setSuggestions([
+          ...initialSearchSuggestions,
           {
             title: 'Pokemons',
             suggestions: pokemons
-          },
-          ...initialSearchSuggestions
+          }
         ]);
       });
     } else {
       setSuggestions(initialSearchSuggestions);
     }
   }, [debouncedSearchTerm]);
-
-  //console.log(suggestions);
 
   return (
     <Container className="pokedex-search">
@@ -120,7 +118,6 @@ Search.propTypes = {
 };
 
 const Suggestion = (suggestion, { query }) => {
-  console.log(suggestion);
   const matches = AutosuggestHighlightMatch(suggestion.name, query);
   const parts = AutosuggestHighlightParse(suggestion.name, matches);
   return (
@@ -154,7 +151,6 @@ const Suggestion = (suggestion, { query }) => {
 };
 
 const SuggestionSectionTitle = (section) => {
-  console.log(section);
   return <strong>{section.title}</strong>;
 };
 

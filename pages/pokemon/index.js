@@ -10,6 +10,8 @@ import PokemonList from '../../src/components/pokemon/PokemonList';
 import PokemonListLoad from '../../src/components/pokemon/PokemonListLoad';
 import usePokemon from '../../src/hooks/usePokemon';
 
+const POKEMON_PAGE_SIZE = 20;
+
 const PokemonListPage = ({ initialData, t }) => {
   const initialPageIndex = initialData.query?.pageIndex || 1;
   const [query, setQuery] = useState(initialData.query);
@@ -21,7 +23,7 @@ const PokemonListPage = ({ initialData, t }) => {
     pokemonListLoaded.push(<PokemonListLoad key={i} index={i} query={query} />);
   }
 
-  const showLoadMoreButton = pokemons?.length;
+  const showLoadMoreButton = pokemons?.length >= POKEMON_PAGE_SIZE;
   return (
     <>
       <Head>

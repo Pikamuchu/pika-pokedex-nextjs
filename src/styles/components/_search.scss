@@ -13,7 +13,7 @@
 .react-autosuggest__suggestions-container--open {
   display: block;
   position: absolute;
-  width: 280px;
+  width: 90%;
   border: 1px solid #aaa;
   background-color: #fff;
   z-index: 2;
@@ -36,6 +36,8 @@
 
 .react-autosuggest__section-container {
   border-top: 1px dashed #ccc;
+  max-height: 200px;
+  overflow-y: scroll;
 }
 
 .react-autosuggest__section-container--first {
