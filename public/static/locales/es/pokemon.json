@@ -1,7 +1,8 @@
 {
   "pokemon-details-title": "Detalles",
-  "pokemon-list-title": "Lista",
+  "pokemon-list-title": "Pokemons",
   "pokemon-stats": "Estadísticas",
   "pokemon-skills": "Habilidades",
-  "pokemon-not-found": "No se han encontrado Pokémon"
+  "pokemon-not-found": "No se han encontrado Pokémon",
+  "load-more": "Muestra más"
 }

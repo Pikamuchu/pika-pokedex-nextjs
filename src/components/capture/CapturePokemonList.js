@@ -31,7 +31,7 @@ const CapturePokemonList = ({ t }) => {
       {morePokemonList}
       {showMoreButton ? (
         <Row className="justify-content-center invisible">
-          <Button onClick={() => setPageIndex(pageIndex + 1)}>Show More</Button>
+          <Button onClick={() => setPageIndex(pageIndex + 1)}>{t('load-more')}</Button>
         </Row>
       ) : (
         ''

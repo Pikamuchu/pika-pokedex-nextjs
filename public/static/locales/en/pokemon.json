@@ -1,7 +1,8 @@
 {
   "pokemon-details-title": "Details",
-  "pokemon-list-title": "List",
+  "pokemon-list-title": "Pokemons",
   "pokemon-stats": "Stats",
   "pokemon-abilities": "Abilities",
-  "pokemon-not-found": "No Pokemons Found"
+  "pokemon-not-found": "No Pokemons Found",
+  "load-more": "Show more"
 }

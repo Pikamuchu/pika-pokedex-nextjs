@@ -28,12 +28,12 @@ const PokemonListPage = ({ initialData, t }) => {
         <title>{`Pikadex - ${t('pokemon-list-title')}`}</title>
       </Head>
       <Container className="pokemon-list-page-container">
-        <h3>{t('pokemon-title')}</h3>
+        <h3>{t('pokemon-list-title')}</h3>
         <PokemonList pokemons={pokemons} />
         {pokemonListLoaded}
         {showLoadMoreButton ? (
           <Row className="justify-content-center">
-            <Button onClick={() => setPageIndex(pageIndex + 1)}>Load More</Button>
+            <Button onClick={() => setPageIndex(pageIndex + 1)}>{t('load-more')}</Button>
           </Row>
         ) : (
           ''

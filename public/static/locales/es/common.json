@@ -14,5 +14,6 @@
   "error-500-title": "Error del servidor",
   "error-404-title": "No encontrado",
   "back-to-homepage": "Volver a la página de inicio",
-  "spinner-loading": "Cargando ..."
+  "spinner-loading": "Cargando ...",
+  "back-to-top": "Vuelve a arriba"
 }

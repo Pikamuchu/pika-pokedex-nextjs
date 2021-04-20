@@ -1,4 +1,4 @@
 {
-  "about-title": "About",
-  "about-description": "This website is a PWA production ready pokedex example using Nextjs framework. Using this website, you can get information on Pokémon available on PokeAPI. You can also Catch them all on a mini game."
+  "about-title": "Acerca de",
+  "about-description": "Este sitio web es un ejemplo de pokedex PWA listo para producción que utiliza el framework Nextjs. Al usar este sitio web, puede obtener información sobre Pokémon disponibles en PokeAPI. También puedes capturarlos a todos en un minijuego"
 }

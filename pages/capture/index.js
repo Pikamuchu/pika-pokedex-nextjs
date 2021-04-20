@@ -16,7 +16,7 @@ const CaptureListPage = ({ t }) => {
         <title>{`Pikadex - ${t('capture-list-title')}`}</title>
       </Head>
       <Container className="pokemon-list-page-container">
-        <h3>{t('capture-title')}</h3>
+        <h3>{t('capture-list-title')}</h3>
         <CapturePokemonList />
       </Container>
     </>
