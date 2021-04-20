@@ -31,7 +31,7 @@ const Search = ({ t }) => {
 
   const handleSelectSuggestion = (event, { suggestionValue }) => {
     setIsSelected(true);
-    routePokemon({ slug: suggestionValue });
+    routePokemon({ searchTerm: suggestionValue });
   };
 
   const handleChange = (event, { newValue }) => {
@@ -43,7 +43,7 @@ const Search = ({ t }) => {
     event.preventDefault();
     event.stopPropagation();
     if (searchTerm?.length >= MIN_SEARCH_TEXT_LENGTH) {
-      routePokemon(isSelected ? { slug: searchTerm } : { searchTerm });
+      routePokemon({ searchTerm });
     }
   };
 
@@ -77,7 +77,9 @@ const Search = ({ t }) => {
             onSuggestionsClearRequested={handleClearSuggestions}
             onSuggestionsFetchRequested={handleLoadSuggestions}
             onSuggestionSelected={handleSelectSuggestion}
+            getSectionSuggestions={(section) => section.suggestions}
             getSuggestionValue={(suggestion) => suggestion.name}
+            renderSectionTitle={SuggestionSectionTitle}
             renderSuggestion={Suggestion}
             inputProps={{
               placeholder: t('search-placeholder'),
@@ -90,7 +92,15 @@ const Search = ({ t }) => {
               suggestionsContainer: 'dropdown',
               suggestionsList: `dropdown-menu ${suggestions.length ? 'show' : ''}`,
               suggestion: 'dropdown-item',
-              suggestionHighlighted: 'active'
+              suggestionHighlighted: 'active',
+              sectionTitle: 'dropdown-divider',
+              containerOpen: 'react-autosuggest__container--open',
+              suggestionsContainerOpen: 'react-autosuggest__suggestions-container--open',
+              suggestionsList: 'react-autosuggest__suggestions-list',
+              suggestionFirst: 'react-autosuggest__suggestion--first',
+              sectionContainer: 'react-autosuggest__section-container',
+              sectionContainerFirst: 'react-autosuggest__section-container--first',
+              sectionTitle: 'react-autosuggest__section-title'
             }}
             highlightFirstSuggestion
           />
@@ -126,7 +136,7 @@ const Suggestion = (suggestion, { query }) => {
           }}
         />
       ) : (
-        ''
+        <span className={`background-color-${suggestion.id} badge badge-pill mr-2`}>{suggestion.id}</span>
       )}
       <span>
         {parts.map((part, index) => {
