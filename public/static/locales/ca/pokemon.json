@@ -1,7 +1,8 @@
 {
   "pokemon-details-title": "Detalls",
-  "pokemon-list-title": "Llista",
+  "pokemon-list-title": "Pokemons",
   "pokemon-stats": "Estadístiques",
   "pokemon-skills": "Habilitats",
-  "pokemon-not-found": "No s'ha trobat cap Pokémon"
+  "pokemon-not-found": "No s'ha trobat cap Pokémon",
+  "load-more": "Mostra més"
 }

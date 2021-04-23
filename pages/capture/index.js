@@ -16,6 +16,7 @@ const CaptureListPage = ({ t }) => {
         <title>{`Pikadex - ${t('capture-list-title')}`}</title>
       </Head>
       <Container className="pokemon-list-page-container">
+        <h3>{t('capture-list-title')}</h3>
         <CapturePokemonList />
       </Container>
     </>
@@ -24,11 +25,11 @@ const CaptureListPage = ({ t }) => {
 
 CaptureListPage.propTypes = {
   t: PropTypes.func.isRequired,
-  i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
+  i18nNamespaces: PropTypes.arrayOf(PropTypes.string)
 };
 
 CaptureListPage.defaultProps = {
-  i18nNamespaces: ['common', 'pokemon', 'capture'],
+  i18nNamespaces: ['common', 'pokemon', 'capture']
 };
 
 export default withTranslation('capture')(CaptureListPage);

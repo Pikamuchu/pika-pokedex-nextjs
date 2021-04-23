@@ -12,6 +12,7 @@ const About = ({ t }) => {
       </Head>
       <Container>
         <h3>{t('about-title')}</h3>
+        <p>{t('about-description')}</p>
         <p>
           Made with love by
           <a className="pl-1" href="https://pikamachu.github.com">
@@ -49,20 +50,20 @@ const About = ({ t }) => {
 
 About.propTypes = {
   i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
-  t: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 };
 
 About.defaultProps = {
-  i18nNamespaces: ['common', 'about'],
+  i18nNamespaces: ['common', 'about']
 };
 
 export const getServerSideProps = async ({ query }) => {
   return {
     props: {
       initialData: {
-        query,
-      },
-    },
+        query
+      }
+    }
   };
 };
 

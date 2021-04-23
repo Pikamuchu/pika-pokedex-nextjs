@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Types",
+    "suggestions": [
+      {
+        "id": "bug",
+        "name": "Bug"
+      },
+      {
+        "id": "dark",
+        "name": "Dark"
+      },
+      {
+        "id": "dragon",
+        "name": "Dragon"
+      },
+      {
+        "id": "electric",
+        "name": "Electric"
+      },
+      {
+        "id": "fairy",
+        "name": "Fairy"
+      },
+      {
+        "id": "fighting",
+        "name": "Fighting"
+      },
+      {
+        "id": "fire",
+        "name": "Fire"
+      },
+      {
+        "id": "flying",
+        "name": "Flying"
+      },
+      {
+        "id": "ghost",
+        "name": "Ghost"
+      },
+      {
+        "id": "grass",
+        "name": "grass"
+      },
+      {
+        "id": "ground",
+        "name": "Ground"
+      },
+      {
+        "id": "ice",
+        "name": "Ice"
+      },
+      {
+        "id": "normal",
+        "name": "Normal"
+      },
+      {
+        "id": "poison",
+        "name": "Poison"
+      },
+      {
+        "id": "psychic",
+        "name": "Psychic"
+      },
+      {
+        "id": "rock",
+        "name": "Rock"
+      },
+      {
+        "id": "steel",
+        "name": "Steel"
+      },
+      {
+        "id": "water",
+        "name": "Water"
+      },
+      {
+        "id": "undertale",
+        "name": "Undertale"
+      }
+    ]
+  }
+]

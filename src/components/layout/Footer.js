@@ -36,7 +36,7 @@ const Footer = ({ t }) => {
         </Col>
         <Col xs={6} className="text-right">
           <div className="pb-2">
-            <a href="#top">Back to top</a>
+            <a href="#top">{t('back-to-top')}</a>
           </div>
           <div className="clearfix">
             <DropdownButton

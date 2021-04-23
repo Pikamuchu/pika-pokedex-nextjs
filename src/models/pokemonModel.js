@@ -14,6 +14,7 @@ const SEARCH_LIMIT = 893; // Excluding pokemons 100xx (No images available)
 const LIST_CHUNK_SIZE = preferences.pageSize;
 const DEFAULT_LANG = 'en';
 
+const searchPokemonsList = require('./data/searchPokemonsData.json');
 const customPokemonsList = require('./data/customPokemonsData.json');
 const defaultData = require('./data/defaultPokemonData.json');
 
@@ -46,8 +47,10 @@ export const getListItems = async (params) => {
 };
 
 export const searchListItems = async (params, limit, offset) => {
-  const itemList = await getPokemonsList();
-  const results = itemList.filter((item) => item.name.includes(params.q));
+  const searchTerm = params.q?.toLowerCase();
+  const results = searchPokemonsList.filter(
+    (item) => item.name?.includes(searchTerm) || item.types?.some((type) => type.name === searchTerm)
+  );
   const list = getChunk(results, params.limit, params.offset);
   return getItems(list, params);
 };

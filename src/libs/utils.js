@@ -8,6 +8,10 @@ export const arrayChunk = (array, chunk) => {
   return result;
 };
 
+export const arrayPage = (array, pageSize, pageNumber) => {
+  return array?.slice((pageNumber - 1) * pageSize, pageNumber * pageSize) ?? [];
+};
+
 export const querySeparator = (url) => {
   return url.includes('?') ? '&' : '?';
 };
