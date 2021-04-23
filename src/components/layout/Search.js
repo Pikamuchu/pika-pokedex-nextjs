@@ -90,7 +90,7 @@ const Search = ({ t }) => {
             getSuggestionValue={(suggestion) => suggestion.name?.toLowerCase()}
             renderSectionTitle={SuggestionSectionTitle}
             renderSuggestion={Suggestion}
-            shouldRenderSuggestions={() => true}
+            shouldRenderSuggestions={(value) => value?.trim().length > 0}
             inputProps={{
               placeholder: t('search-placeholder'),
               value: searchTerm,
