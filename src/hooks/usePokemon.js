@@ -5,6 +5,8 @@ import fetcher from '../libs/fetcher';
 import { querySeparator } from '../libs/utils';
 
 export default function usePokemon(query, initialData) {
+  console.log('usePokemon');
+  console.log(shouldFetch(query) ? createApiUrl(query) : null);
   const response = useSWR(shouldFetch(query) ? createApiUrl(query) : null, fetcher, { initialData });
   return response;
 }

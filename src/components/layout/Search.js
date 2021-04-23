@@ -14,7 +14,6 @@ const initialSearchSuggestions = require('../../models/data/searchSuggestions.js
 const Search = ({ t }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState(initialSearchSuggestions);
-  const [isSearching, setIsSearching] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -31,7 +30,11 @@ const Search = ({ t }) => {
 
   const handleSelectSuggestion = (event, { suggestionValue }) => {
     setIsSelected(true);
-    routePokemon({ searchTerm: suggestionValue });
+    routePokemon({ searchTerm: suggestionValue }).then((success) => {
+      if (success) {
+        setSearchTerm('');
+      }
+    });
   };
 
   const handleChange = (event, { newValue }) => {
@@ -43,17 +46,25 @@ const Search = ({ t }) => {
     event.preventDefault();
     event.stopPropagation();
     if (searchTerm?.length >= MIN_SEARCH_TEXT_LENGTH) {
-      routePokemon({ searchTerm });
+      routePokemon({ searchTerm }).then((success) => {
+        if (success) {
+          setSearchTerm('');
+        }
+      });
     }
   };
 
   useEffect(() => {
+    const searchSuggestions = initialSearchSuggestions.map((suggestionSection) => ({
+      ...suggestionSection,
+      suggestions: debouncedSearchTerm
+        ? suggestionSection.suggestions.filter((suggestion) => suggestion.id.includes(debouncedSearchTerm))
+        : suggestionSection.suggestions
+    }));
     if (!isSelected && debouncedSearchTerm?.length >= MIN_SEARCH_TEXT_LENGTH) {
-      setIsSearching(true);
       fetchPokemon({ searchTerm: debouncedSearchTerm, type: 'thumbnail' }).then((pokemons) => {
-        setIsSearching(false);
         setSuggestions([
-          ...initialSearchSuggestions,
+          ...searchSuggestions,
           {
             title: 'Pokemons',
             suggestions: pokemons
@@ -61,7 +72,7 @@ const Search = ({ t }) => {
         ]);
       });
     } else {
-      setSuggestions(initialSearchSuggestions);
+      setSuggestions(searchSuggestions);
     }
   }, [debouncedSearchTerm]);
 
@@ -76,9 +87,10 @@ const Search = ({ t }) => {
             onSuggestionsFetchRequested={handleLoadSuggestions}
             onSuggestionSelected={handleSelectSuggestion}
             getSectionSuggestions={(section) => section.suggestions}
-            getSuggestionValue={(suggestion) => suggestion.name}
+            getSuggestionValue={(suggestion) => suggestion.name?.toLowerCase()}
             renderSectionTitle={SuggestionSectionTitle}
             renderSuggestion={Suggestion}
+            shouldRenderSuggestions={() => true}
             inputProps={{
               placeholder: t('search-placeholder'),
               value: searchTerm,
@@ -88,10 +100,8 @@ const Search = ({ t }) => {
               container: 'w-100 autosuggest',
               input: 'w-100 form-control',
               suggestionsContainer: 'dropdown',
-              suggestionsList: `dropdown-menu ${suggestions.length ? 'show' : ''}`,
               suggestion: 'dropdown-item',
               suggestionHighlighted: 'active',
-              sectionTitle: 'dropdown-divider',
               containerOpen: 'react-autosuggest__container--open',
               suggestionsContainerOpen: 'react-autosuggest__suggestions-container--open',
               suggestionsList: 'react-autosuggest__suggestions-list',

@@ -2,7 +2,7 @@
 /* eslint-disable no-plusplus */
 import PropTypes from 'prop-types';
 import Head from 'next/head';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Container, Row } from 'react-bootstrap';
 import { withTranslation } from '../../src/i18n';
 import { getPokemons } from '../../src/models/pokemonModel';
@@ -14,14 +14,24 @@ const POKEMON_PAGE_SIZE = 20;
 
 const PokemonListPage = ({ initialData, t }) => {
   const initialPageIndex = initialData.query?.pageIndex || 1;
-  const [query, setQuery] = useState(initialData.query);
+  const initialQuery = initialData.query || {};
+  const searchTerm = initialQuery.q || initialQuery.searchTerm || '';
   const [pageIndex, setPageIndex] = useState(initialPageIndex);
-  const { data: pokemons } = usePokemon(query, initialData.pokemons);
+  const { data: pokemons } = usePokemon(initialQuery, initialData.pokemons);
+
+  console.log('initialData');
+  console.log(initialData);
 
   const pokemonListLoaded = [];
   for (let i = initialPageIndex + 1; i < pageIndex + 1; i++) {
-    pokemonListLoaded.push(<PokemonListLoad key={i} index={i} query={query} />);
+    pokemonListLoaded.push(<PokemonListLoad key={i} index={i} query={initialQuery} />);
   }
+
+  useEffect(() => {
+    console.log('useEffect');
+    console.log(initialData);
+    setPageIndex(1);
+  }, [initialQuery]);
 
   const showLoadMoreButton = pokemons?.length >= POKEMON_PAGE_SIZE;
   return (
@@ -30,8 +40,8 @@ const PokemonListPage = ({ initialData, t }) => {
         <title>{`Pikadex - ${t('pokemon-list-title')}`}</title>
       </Head>
       <Container className="pokemon-list-page-container">
-        <h3>{t('pokemon-list-title')}</h3>
-        <PokemonList pokemons={pokemons} />
+        <h3>{`${t('pokemon-list-title')} ${searchTerm ? ' - ' + searchTerm : ''}`}</h3>
+        <PokemonList pokemons={pokemons} showNotFound={false} />
         {pokemonListLoaded}
         {showLoadMoreButton ? (
           <Row className="justify-content-center">
