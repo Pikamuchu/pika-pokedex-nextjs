@@ -15,11 +15,11 @@ const About = ({ t }) => {
         <p>{t('about-description')}</p>
         <p>
           Made with love by
-          <a className="pl-1" href="https://pikamachu.github.com">
+          <a className="pl-1" href="https://pikamuchu.github.com">
             Antonio Marin
           </a>
           . Code released under the
-          <a className="pl-1" href="https://github.com/pikamachu/pika-pokedex-nextjs/blob/master/LICENSE">
+          <a className="pl-1" href="https://github.com/pikamuchu/pika-pokedex-nextjs/blob/master/LICENSE">
             MIT License
           </a>
           .
