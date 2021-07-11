@@ -24,13 +24,13 @@ const Footer = ({ t }) => {
                 <a href="https://twitter.com/AntonioMarinJim">Twitter</a>
               </li>
               <li>
-                <a href="https://github.com/pikamachu/pika-pokedex-nextjs/">GitHub</a>
+                <a href="https://github.com/pikamuchu/pika-pokedex-nextjs/">GitHub</a>
               </li>
             </ul>
           </Row>
           <Row className="m-0">
             <p>
-              <a href="https://pikamachu.github.io/">Developed with ♥</a>
+              <a href="https://pikamuchu.github.io/">Developed with ♥</a>
             </p>
           </Row>
         </Col>
