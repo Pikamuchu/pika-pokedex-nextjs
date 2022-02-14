@@ -28,9 +28,10 @@ const Search = ({ t }) => {
     setSuggestions(initialSearchSuggestions);
   };
 
-  const handleSelectSuggestion = (event, { suggestionValue }) => {
+  const handleSelectSuggestion = (event, { suggestion, suggestionValue }) => {
     setIsSelected(true);
-    routePokemon({ searchTerm: suggestionValue }).then((success) => {
+    const routeQuery = suggestion?.slug ? { id: suggestionValue } : { searchTerm: suggestionValue };
+    routePokemon(routeQuery).then((success) => {
       if (success) {
         setSearchTerm('');
       }

@@ -124,12 +124,8 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     const translateXValue = -1 * (angle + 90) * (translateYValue / 100);
 
     throwEffect1(ball.getElement(), translateXValue, movementY, scalePercent, () => {
-      if (movementY < 0) {
-        ball.savePosition();
-        throwEffect2(ball.getElement(), movementY, translateXValue, scalePercent, determineThrowResult);
-      } else {
-        setTimeout(state.resetState, 400);
-      }
+      ball.savePosition();
+      throwEffect2(ball.getElement(), movementY, translateXValue, scalePercent, determineThrowResult);
     });
   };
 
@@ -142,7 +138,8 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
       ballCoords.x > targetCoords.x - radius &&
       ballCoords.x < targetCoords.x + radius &&
       ballCoords.y > targetCoords.y - radius &&
-      ballCoords.y < targetCoords.y + radius
+      ballCoords.y < targetCoords.y + radius &&
+      !ball.colision
     ) {
       // Capture success
       target.captured = true;
