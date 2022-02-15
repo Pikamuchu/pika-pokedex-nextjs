@@ -165,7 +165,13 @@ export const createGameActions = (ball, target, screen, state, captureSuccessCal
     const ballElement = ball.getElement();
     const particleContainer = getElementById('particle-container');
 
-    emitParticlesToElementEffect(ballElement, ball.size, targetCoords, particleContainer, closingCaptureBall);
+    emitParticlesToElementEffect(
+      ballElement,
+      ball.getCurrentSize(),
+      targetCoords,
+      particleContainer,
+      closingCaptureBall
+    );
     fadeElementEffect(target.getElement());
   };
 
