@@ -17,23 +17,27 @@ const PokemonListPage = ({ initialData, t }) => {
   const initialQuery = initialData.query || {};
   const searchTerm = initialQuery.q || initialQuery.searchTerm || '';
   const [pageIndex, setPageIndex] = useState(initialPageIndex);
+  const [isMoreResults, setMoreResults] = useState(true);
   const { data: pokemons } = usePokemon(initialQuery, initialData.pokemons);
-
-  console.log('initialData');
-  console.log(initialData);
 
   const pokemonListLoaded = [];
   for (let i = initialPageIndex + 1; i < pageIndex + 1; i++) {
-    pokemonListLoaded.push(<PokemonListLoad key={i} index={i} query={initialQuery} />);
+    pokemonListLoaded.push(
+      <PokemonListLoad
+        key={i}
+        index={i}
+        query={initialQuery}
+        onResults={(numResults) => setMoreResults(numResults >= POKEMON_PAGE_SIZE)}
+      />
+    );
   }
 
   useEffect(() => {
-    console.log('useEffect');
-    console.log(initialData);
     setPageIndex(1);
+    setMoreResults(true);
   }, [initialQuery]);
 
-  const showLoadMoreButton = pokemons?.length >= POKEMON_PAGE_SIZE;
+  const showLoadMoreButton = pokemons?.length >= POKEMON_PAGE_SIZE && isMoreResults;
   return (
     <>
       <Head>

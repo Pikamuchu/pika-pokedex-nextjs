@@ -34,6 +34,10 @@ export const createBall = (screen) => {
     getCenterCoords: () => {
       return getCenterCoords(ball.id);
     },
+    getCurrentSize: () => {
+      const ballElement = getElementById(ball.id);
+      return ballElement.style.height ? ballElement.style.height.replace('px', '') : ball.size;
+    },
     moveBall: (x, y) => {
       ball.x = x;
       ball.y = y;
