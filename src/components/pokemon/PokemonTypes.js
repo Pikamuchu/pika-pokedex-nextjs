@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import { Badge } from 'react-bootstrap';
-import { withTranslation } from '../../i18n';
 
-const PokemonTypes = ({ t, types }) => {
+const PokemonTypes = ({ types }) => {
   return (
     <div className="pokemon-abilities">
       {types?.map((type) => (
@@ -18,4 +17,4 @@ PokemonTypes.propTypes = {
   types: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default withTranslation('pokemon')(PokemonTypes);
+export default PokemonTypes;

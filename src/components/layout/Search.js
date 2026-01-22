@@ -4,14 +4,15 @@ import { Container, InputGroup, Form, Button } from 'react-bootstrap';
 import AutoSuggest from 'react-autosuggest';
 import AutosuggestHighlightMatch from 'autosuggest-highlight/match';
 import AutosuggestHighlightParse from 'autosuggest-highlight/parse';
-import { withTranslation } from '../../i18n';
+import { useTranslation } from 'next-i18next';
 import useDebounce from '../../hooks/useDebounce';
 import { fetchPokemon, routePokemon } from '../../hooks/usePokemon';
 
 const MIN_SEARCH_TEXT_LENGTH = 3;
 const initialSearchSuggestions = require('../../models/data/searchSuggestions.json');
 
-const Search = ({ t }) => {
+const Search = () => {
+  const { t } = useTranslation('common');
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState(initialSearchSuggestions);
   const [isSelected, setIsSelected] = useState(false);
@@ -68,14 +69,16 @@ const Search = ({ t }) => {
           ...searchSuggestions,
           {
             title: 'Pokemons',
-            suggestions: pokemons
+            suggestions: pokemons || []
           }
         ]);
+      }).catch(() => {
+        setSuggestions(searchSuggestions);
       });
     } else {
       setSuggestions(searchSuggestions);
     }
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, isSelected]);
 
   return (
     <Container className="pokedex-search">
@@ -113,19 +116,13 @@ const Search = ({ t }) => {
             }}
             highlightFirstSuggestion
           />
-          <InputGroup.Append>
-            <Button variant="primary" type="submit">
-              {t('search-submit-button')}
-            </Button>
-          </InputGroup.Append>
+          <Button variant="primary" type="submit">
+            {t('search-submit-button')}
+          </Button>
         </InputGroup>
       </Form>
     </Container>
   );
-};
-
-Search.propTypes = {
-  t: PropTypes.func.isRequired
 };
 
 const Suggestion = (suggestion, { query }) => {
@@ -165,4 +162,4 @@ const SuggestionSectionTitle = (section) => {
   return <strong>{section.title}</strong>;
 };
 
-export default withTranslation('common')(Search);
+export default Search;

@@ -1,25 +1,28 @@
 /* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
-const withPWA = require('next-pwa');
-const { nextI18NextRewrites } = require('next-i18next/rewrites');
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  skipWaiting: true,
+});
 
-const localeSubpaths = {
-  en: 'en',
-  es: 'es',
-  ca: 'ca',
-};
+const { i18n } = require('./next-i18next.config');
 
 console.log(`Using env config ${process.env.NODE_ENV}`);
 
-module.exports = withPWA({
-  target: 'serverless',
-  distDir: '.next',
-  pwa: {
-    dest: 'public',
-  },
-  rewrites: async () => nextI18NextRewrites(localeSubpaths),
-  publicRuntimeConfig: {
-    localeSubpaths,
+const nextConfig = {
+  reactStrictMode: false,
+  i18n,
+  sassOptions: {
+    silenceDeprecations: [
+      'color-functions',
+      'global-builtin',
+      'import',
+      'slash-div',
+      'legacy-js-api',
+    ],
+    quietDeps: true,
   },
   webpack: (config) => {
     if (process.env.NODE_ENV === 'development') {
@@ -27,4 +30,6 @@ module.exports = withPWA({
     }
     return config;
   },
-});
+};
+
+module.exports = withPWA(nextConfig);

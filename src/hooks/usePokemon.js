@@ -1,13 +1,11 @@
 import useSWR from 'swr';
+import Router from 'next/router';
 
-import { Router, i18n } from '../i18n';
 import fetcher from '../libs/fetcher';
 import { querySeparator } from '../libs/utils';
 
 export default function usePokemon(query, initialData) {
-  console.log('usePokemon');
-  console.log(shouldFetch(query) ? createApiUrl(query) : null);
-  const response = useSWR(shouldFetch(query) ? createApiUrl(query) : null, fetcher, { initialData });
+  const response = useSWR(shouldFetch(query) ? createApiUrl(query) : null, fetcher, { fallbackData: initialData });
   return response;
 }
 
@@ -16,7 +14,10 @@ export const fetchPokemon = async (query) => {
 };
 
 export const routePokemon = (query) => {
-  return Router.push(createUrl(query));
+  if (typeof window !== 'undefined') {
+    return Router.push(createUrl(query));
+  }
+  return Promise.resolve(false);
 };
 
 const shouldFetch = (query) => {
@@ -28,8 +29,8 @@ const createApiUrl = (query) => {
 };
 
 const createUrl = (query) => {
-  const lang = i18n.language ?? 'en';
-  let url = `/${lang}${query?.api ? '/api' : ''}/pokemon`;
+  const lang = (typeof window !== 'undefined' && window.location.pathname.split('/')[1]) || 'en';
+  let url = query?.api ? '/api/pokemon' : `/${lang}/pokemon`;
   if (query?.id || query?.slug) {
     url += `/${query.id || query?.slug}`;
   }

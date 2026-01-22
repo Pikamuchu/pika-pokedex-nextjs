@@ -1,19 +1,18 @@
 import PropTypes from 'prop-types';
-import { Jumbotron } from 'react-bootstrap';
-import { withTranslation } from '../../i18n';
+import { useTranslation } from 'next-i18next';
 
-const NotFound = ({ t, message }) => {
+const NotFound = ({ message }) => {
+  const { t } = useTranslation('common');
   return (
-    <Jumbotron fluid className="not-found">
+    <div className="not-found py-5 px-3">
       <h1>{t('not-found')}</h1>
       <p>{message}</p>
-    </Jumbotron>
+    </div>
   );
 };
 
 NotFound.propTypes = {
   message: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired,
 };
 
-export default withTranslation('common')(NotFound);
+export default NotFound;

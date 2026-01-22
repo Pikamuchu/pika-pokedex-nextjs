@@ -1,9 +1,8 @@
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable no-plusplus */
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Button, Row } from 'react-bootstrap';
-import { withTranslation } from '../../i18n';
+import { useTranslation } from 'next-i18next';
 import PokemonList from '../pokemon/PokemonList';
 import usePokemon from '../../hooks/usePokemon';
 import useCapture from '../../hooks/useCapture';
@@ -11,7 +10,8 @@ import { arrayPage } from '../../libs/utils';
 
 const CAPTURE_PAGE_SIZE = 20;
 
-const CapturePokemonList = ({ t }) => {
+const CapturePokemonList = () => {
+  const { t } = useTranslation('capture');
   const initialPageIndex = 1;
   const [pageIndex, setPageIndex] = useState(initialPageIndex);
   const { data: ids } = useCapture();
@@ -40,8 +40,4 @@ const CapturePokemonList = ({ t }) => {
   );
 };
 
-CapturePokemonList.propTypes = {
-  t: PropTypes.func.isRequired
-};
-
-export default withTranslation('capture')(CapturePokemonList);
+export default CapturePokemonList;

@@ -1,22 +1,22 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-
-import { withTranslation } from '../../i18n';
+import { useTranslation } from 'next-i18next';
 import useCapture, { postCapture, routeCapture } from '../../hooks/useCapture';
 import captureGame from './CaptureGame';
 
-const CaptureGame = ({ pokemon, t }) => {
+const CaptureGame = ({ pokemon }) => {
+  const { t } = useTranslation('capture');
   const { data: captures, mutate, revalidate } = useCapture();
 
   useEffect(() => {
     captureGame(pokemon, () => {
-      captures.push(pokemon.id);
-      postCapture(captures, mutate, revalidate);
+      const updatedCaptures = [...(captures || []), pokemon.id];
+      postCapture(updatedCaptures, mutate, revalidate);
       setTimeout(() => {
         routeCapture({});
       }, 2000);
     });
-  }, [pokemon]);
+  }, [pokemon, captures, mutate, revalidate]);
 
   return (
     <section className="wrapper">
@@ -67,7 +67,7 @@ const CaptureGame = ({ pokemon, t }) => {
 };
 
 CaptureGame.propTypes = {
-  t: PropTypes.func.isRequired
+  pokemon: PropTypes.object
 };
 
-export default withTranslation('capture')(CaptureGame);
+export default CaptureGame;

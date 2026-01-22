@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
-import { withTranslation } from '../../i18n';
+import { useTranslation } from 'next-i18next';
 
-const Spanner = ({ t }) => {
+const Spanner = () => {
+  const { t } = useTranslation('common');
   return (
     <div className="spanner d-flex flex-row-reverse">
       <div className="spinner-box">
@@ -14,8 +14,4 @@ const Spanner = ({ t }) => {
   );
 };
 
-Spanner.propTypes = {
-  t: PropTypes.func.isRequired,
-};
-
-export default withTranslation('common')(Spanner);
+export default Spanner;

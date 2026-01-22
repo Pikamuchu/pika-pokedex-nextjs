@@ -1,39 +1,41 @@
 import PropTypes from 'prop-types';
+import Link from 'next/link';
 import { Col, Image, Row } from 'react-bootstrap';
-import { Link, withTranslation } from '../../i18n';
+import { useTranslation } from 'next-i18next';
 import PokemonTypes from './PokemonTypes';
 import PokemonCaptureButton from './PokemonCaptureButton';
 import NotFound from '../layout/NotFound';
 
-const PokemonDetails = ({ t, pokemon }) => {
+const PokemonDetails = ({ pokemon }) => {
+  const { t } = useTranslation('pokemon');
   return (
     <>
       {pokemon?.id ? (
         <>
           <Row className="justify-content-center">
-            <h2 className="pr-1">{`${pokemon.code} - ${pokemon.name}`}</h2>
+            <h2 className="pe-1">{`${pokemon.code} - ${pokemon.name}`}</h2>
           </Row>
           <Row className="justify-content-center pt-3 px-3">
             <p>{`${pokemon.description}`}</p>
           </Row>
           <Row className="pt-3 px-3">
-            <Col sm={6} xs={12} className="pb-5 pr-3">
+            <Col sm={6} xs={12} className="pb-5 pe-3">
               <Row className="pokemon-image justify-content-center">
                 <Link href={`/pokemon/${pokemon.id}`}>
                   <Image src={pokemon.image} label={pokemon.slug} alt={pokemon.slug} thumbnail fluid />
                 </Link>
-                <PokemonCaptureButton pokemon={pokemon} size="large mr-3" />
+                <PokemonCaptureButton pokemon={pokemon} size="large me-3" />
               </Row>
             </Col>
-            <Col sm={6} xs={12} className="pl-5 pb-5">
+            <Col sm={6} xs={12} className="ps-5 pb-5">
               <PokemonData pokemon={pokemon} t={t} />
             </Col>
           </Row>
           <Row className="px-3">
-            <Col sm={6} xs={12} className="pb-5 pl-5">
+            <Col sm={6} xs={12} className="pb-5 ps-5">
               <PokemonStats stats={pokemon.stats} t={t} />
             </Col>
-            <Col sm={6} xs={12} className="pb-5 pl-5">
+            <Col sm={6} xs={12} className="pb-5 ps-5">
               <PokemonAbilities abilities={pokemon.abilities} t={t} />
             </Col>
           </Row>
@@ -121,4 +123,4 @@ const PokemonAbilities = ({ t, abilities }) => {
   );
 };
 
-export default withTranslation('pokemon')(PokemonDetails);
+export default PokemonDetails;

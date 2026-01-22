@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import fetch from 'isomorphic-unfetch';
 import { enableSpanner, disableSpanner } from './spanner';
 import { sendTrackEvent } from './tracker';
 

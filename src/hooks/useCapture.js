@@ -1,6 +1,6 @@
 import useSWR from 'swr';
+import Router from 'next/router';
 
-import { Router, i18n } from '../i18n';
 import fetcher from '../libs/fetcher';
 import postData from '../libs/postData';
 import { isBrowser } from '../libs/utils';
@@ -30,7 +30,10 @@ export const postCapture = async (data, mutate, revalidate) => {
 };
 
 export const routeCapture = (query) => {
-  return Router.push(createUrl(query));
+  if (typeof window !== 'undefined') {
+    return Router.push(createUrl(query));
+  }
+  return Promise.resolve(false);
 };
 
 const getInitialData = (key) => {
@@ -51,8 +54,8 @@ const createApiUrl = (query) => {
 };
 
 const createUrl = (query) => {
-  const lang = i18n.language ?? 'en';
-  let url = `/${lang}${query?.api ? '/api' : ''}/capture`;
+  const lang = (typeof window !== 'undefined' && window.location.pathname.split('/')[1]) || 'en';
+  let url = query?.api ? '/api/capture' : `/${lang}/capture`;
   if (query?.id || query?.slug) {
     url += `/${query.id || query?.slug}`;
   }

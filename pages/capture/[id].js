@@ -4,15 +4,18 @@ import PropTypes from 'prop-types';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { Container } from 'react-bootstrap';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { withTranslation } from '../../src/i18n';
 import { getPokemonDetails } from '../../src/models/pokemonModel';
 import usePokemon from '../../src/hooks/usePokemon';
 
 const CapturePokemon = dynamic(() => import('../../src/components/capture/CapturePokemon'), { ssr: false });
 
-const CapturePage = ({ initialData, t }) => {
+const CapturePage = ({ initialData }) => {
+  const { t } = useTranslation('capture');
   const { data: pokemon } = usePokemon({ id: initialData?.query?.id }, initialData?.pokemon);
+
   return (
     <>
       <Head>
@@ -30,24 +33,19 @@ CapturePage.propTypes = {
     pokemon: PropTypes.object,
     query: PropTypes.object
   }).isRequired,
-  i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
-  t: PropTypes.func.isRequired
 };
 
-CapturePage.defaultProps = {
-  i18nNamespaces: ['common', 'pokemon', 'capture']
-};
-
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = async ({ query, locale }) => {
   const pokemon = await getPokemonDetails(query);
   return {
     props: {
       initialData: {
         query,
         pokemon
-      }
+      },
+      ...(await serverSideTranslations(locale, ['common', 'pokemon', 'capture'])),
     }
   };
 };
 
-export default withTranslation('capture')(CapturePage);
+export default CapturePage;

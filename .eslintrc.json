@@ -5,7 +5,18 @@
     "es6": true,
     "node": true
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "babelOptions": {
+      "presets": ["next/babel"]
+    }
+  },
   "extends": [
     "eslint:recommended",
     "airbnb",
@@ -15,18 +26,12 @@
     "plugin:import/warnings",
     "plugin:jsx-a11y/recommended",
     "plugin:react-hooks/recommended",
+    "next/core-web-vitals",
     "prettier"
   ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
-  },
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true // enable linting for jsx files
-    },
-    "ecmaVersion": 11,
-    "sourceType": "module"
   },
   "settings": {
     "react": {

@@ -6,15 +6,18 @@ import { isBrowser } from '../libs/utils';
 
 const key = 'globalState';
 
-if (isBrowser()) {
-  const data = localStorage.getItem(key);
-  mutateStore(data);
-}
+const getInitialData = () => {
+  if (isBrowser()) {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : initialStore;
+  }
+  return initialStore;
+};
 
 export default function useStore() {
-  return useSWR(key, {
-    initialData: initialStore,
-    onFailure() {
+  return useSWR(key, null, {
+    fallbackData: getInitialData(),
+    onError() {
       if (isBrowser()) localStorage.removeItem(key);
     },
     onSuccess(store) {

@@ -4,29 +4,32 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { i18n, Link, withTranslation } from '../../i18n';
+import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 import useCapture from '../../hooks/useCapture';
 import Search from './Search';
 
-const Header = ({ t }) => (
+const Header = () => {
+  const { t } = useTranslation('common');
+  return (
   <Navbar collapseOnSelect bg="light" expand="lg" fixed="top" className="menu-pokeball-shape collidable">
     <Container>
       <Navbar.Toggle aria-controls="collapsible-nav-dropdown" className="border-0" />
-      <Link href="/" passHref>
+      <Link href="/">
         <Navbar.Brand className="font-weight-bold">{t('menu-title')}</Navbar.Brand>
       </Link>
       <Navbar.Collapse id="collapsible-nav-dropdown">
-        <Nav className="mr-auto">
-          <Link href="/" passHref>
+        <Nav className="me-auto">
+          <Link href="/">
             <Nav.Link>{t('menu-option-home')}</Nav.Link>
           </Link>
-          <Link href="/pokemon" passHref>
+          <Link href="/pokemon">
             <Nav.Link>{t('menu-option-pokemon')}</Nav.Link>
           </Link>
-          <Link href="/capture" passHref>
+          <Link href="/capture">
             <Nav.Link>{t('menu-option-capture')}</Nav.Link>
           </Link>
-          <Link href="/about" passHref>
+          <Link href="/about">
             <Nav.Link>{t('menu-option-about')}</Nav.Link>
           </Link>
         </Nav>
@@ -39,27 +42,29 @@ const Header = ({ t }) => (
       </div>
     </Container>
   </Navbar>
-);
+  );
+};
 
 const PokeballButton = () => {
   const [active, setActive] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { data: captures } = useCapture();
 
   useEffect(() => {
-    setActive(captures && captures.length > 0);
-  }, [captures]);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      setActive(captures && captures.length > 0);
+    }
+  }, [captures, mounted]);
 
   return (
     <Link href="/capture">
-      <a>
-        <div className={`pokeball-button ${active ? 'active' : ''}`} />
-      </a>
+      <div className={`pokeball-button ${mounted && active ? 'active' : ''}`} />
     </Link>
   );
 };
 
-Header.propTypes = {
-  t: PropTypes.func.isRequired
-};
-
-export default withTranslation('common')(Header);
+export default Header;

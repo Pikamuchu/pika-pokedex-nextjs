@@ -3,12 +3,15 @@
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { Container } from 'react-bootstrap';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { withTranslation } from '../src/i18n';
 import HomeHello from '../src/components/home/HomeHello';
 import HomeCarousel from '../src/components/home/HomeCarousel';
 
-const HomePage = ({ initialData, t }) => {
+const HomePage = ({ initialData }) => {
+  const { t } = useTranslation('home');
+
   return (
     <>
       <Head>
@@ -26,22 +29,17 @@ HomePage.propTypes = {
   initialData: PropTypes.shape({
     query: PropTypes.object
   }).isRequired,
-  t: PropTypes.func.isRequired,
-  i18nNamespaces: PropTypes.arrayOf(PropTypes.string)
 };
 
-HomePage.defaultProps = {
-  i18nNamespaces: ['common', 'home', 'pokemon']
-};
-
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = async ({ query, locale }) => {
   return {
     props: {
       initialData: {
         query
-      }
+      },
+      ...(await serverSideTranslations(locale, ['common', 'home', 'pokemon'])),
     }
   };
 };
 
-export default withTranslation('home')(HomePage);
+export default HomePage;
