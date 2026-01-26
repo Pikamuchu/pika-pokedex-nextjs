@@ -2,15 +2,18 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Container, Col, Row, DropdownButton, Dropdown, ButtonGroup } from 'react-bootstrap';
-import { i18n, Link, withTranslation } from '../../i18n';
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 import preferences from '../../preferences';
 
-const Footer = ({ t }) => {
+const Footer = () => {
+  const { t, i18n } = useTranslation('common');
+  const router = useRouter();
   const [availableLanguages, setAvailableLanguages] = useState(preferences?.availableLanguages);
 
   const handleSelect = (eventKey) => {
-    if (eventKey !== i18n.language) {
-      i18n.changeLanguage(eventKey);
+    if (eventKey !== router.locale) {
+      router.push(router.pathname, router.asPath, { locale: eventKey });
     }
   };
 
@@ -34,7 +37,7 @@ const Footer = ({ t }) => {
             </p>
           </Row>
         </Col>
-        <Col xs={6} className="text-right">
+        <Col xs={6} className="text-end">
           <div className="pb-2">
             <a href="#top">{t('back-to-top')}</a>
           </div>
@@ -51,7 +54,7 @@ const Footer = ({ t }) => {
                   key={language}
                   eventKey={language}
                   onSelect={handleSelect}
-                  active={language === i18n.language}
+                  active={language === router.locale}
                 >
                   {t(language)}
                 </Dropdown.Item>
@@ -64,8 +67,4 @@ const Footer = ({ t }) => {
   );
 };
 
-Footer.propTypes = {
-  t: PropTypes.func.isRequired
-};
-
-export default withTranslation('common')(Footer);
+export default Footer;

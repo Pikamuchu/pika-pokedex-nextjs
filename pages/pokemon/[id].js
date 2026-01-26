@@ -2,14 +2,17 @@
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { Container } from 'react-bootstrap';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { withTranslation } from '../../src/i18n';
 import { getPokemonDetails } from '../../src/models/pokemonModel';
 import PokemonDetails from '../../src/components/pokemon/PokemonDetails';
 import usePokemon from '../../src/hooks/usePokemon';
 
-const PokemonDetailsPage = ({ initialData, t }) => {
+const PokemonDetailsPage = ({ initialData }) => {
+  const { t } = useTranslation('pokemon');
   const { data: pokemon } = usePokemon({ id: initialData?.query?.id }, initialData?.pokemon);
+
   return (
     <>
       <Head>
@@ -27,24 +30,19 @@ PokemonDetailsPage.propTypes = {
     pokemon: PropTypes.object,
     query: PropTypes.object
   }).isRequired,
-  i18nNamespaces: PropTypes.arrayOf(PropTypes.string),
-  t: PropTypes.func.isRequired
 };
 
-PokemonDetailsPage.defaultProps = {
-  i18nNamespaces: ['common', 'pokemon']
-};
-
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = async ({ query, locale }) => {
   const pokemon = await getPokemonDetails(query);
   return {
     props: {
       initialData: {
         query,
         pokemon
-      }
+      },
+      ...(await serverSideTranslations(locale, ['common', 'pokemon'])),
     }
   };
 };
 
-export default withTranslation('pokemon')(PokemonDetailsPage);
+export default PokemonDetailsPage;

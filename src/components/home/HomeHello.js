@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { Card } from 'react-bootstrap';
-import { withTranslation } from '../../i18n';
+import { useTranslation } from 'next-i18next';
 
-const HomeHello = ({ t }) => {
+const HomeHello = () => {
+  const { t } = useTranslation('home');
   return (
     <Card className="home-hello">
       <Card.Body>
@@ -16,14 +17,11 @@ const HomeHello = ({ t }) => {
         alt="Home hello"
         width={590}
         height={350}
-        layout="responsive"
+        style={{ width: '100%', height: 'auto' }}
+        priority
       />
     </Card>
   );
 };
 
-HomeHello.propTypes = {
-  t: PropTypes.func.isRequired
-};
-
-export default withTranslation('home')(HomeHello);
+export default HomeHello;

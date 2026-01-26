@@ -1,15 +1,16 @@
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable no-plusplus */
-import PropTypes from 'prop-types';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { Container } from 'react-bootstrap';
-
-import { withTranslation } from '../../src/i18n';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const CapturePokemonList = dynamic(() => import('../../src/components/capture/CapturePokemonList'), { ssr: false });
 
-const CaptureListPage = ({ t }) => {
+const CaptureListPage = () => {
+  const { t } = useTranslation('capture');
+
   return (
     <>
       <Head>
@@ -23,13 +24,12 @@ const CaptureListPage = ({ t }) => {
   );
 };
 
-CaptureListPage.propTypes = {
-  t: PropTypes.func.isRequired,
-  i18nNamespaces: PropTypes.arrayOf(PropTypes.string)
+export const getServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'pokemon', 'capture'])),
+    }
+  };
 };
 
-CaptureListPage.defaultProps = {
-  i18nNamespaces: ['common', 'pokemon', 'capture']
-};
-
-export default withTranslation('capture')(CaptureListPage);
+export default CaptureListPage;

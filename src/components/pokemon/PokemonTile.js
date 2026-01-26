@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
+import Link from 'next/link';
 import { Col, Image, Row } from 'react-bootstrap';
-import { Link, withTranslation } from '../../i18n';
 import PokemonTypes from './PokemonTypes';
 import PokemonCaptureButton from './PokemonCaptureButton';
 
-const PokemonTile = ({ pokemon, size, t }) => {
+const PokemonTile = ({ pokemon, size = '' }) => {
   return (
     <Col className="pokemon-card p-3">
       <Row className="pokemon-image justify-content-center">
@@ -35,8 +35,4 @@ PokemonTile.propTypes = {
   size: PropTypes.string,
 };
 
-PokemonTile.defaultProps = {
-  size: '',
-};
-
-export default withTranslation('pokemon')(PokemonTile);
+export default PokemonTile;

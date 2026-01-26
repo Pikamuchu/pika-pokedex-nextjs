@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import { Carousel, Row } from 'react-bootstrap';
-import { withTranslation } from '../../i18n';
 import PokemonTile from './PokemonTile';
 
-const PokemonCarousel = ({ t, pokemons }) => {
+const PokemonCarousel = ({ pokemons = null }) => {
   return (
     <Carousel>
       {pokemons ? (
@@ -25,8 +24,4 @@ PokemonCarousel.propTypes = {
   pokemons: PropTypes.arrayOf(PropTypes.object)
 };
 
-PokemonCarousel.defaultProps = {
-  pokemons: null
-};
-
-export default withTranslation('pokemon')(PokemonCarousel);
+export default PokemonCarousel;

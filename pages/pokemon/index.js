@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { Button, Container, Row } from 'react-bootstrap';
-import { withTranslation } from '../../src/i18n';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
 import { getPokemons } from '../../src/models/pokemonModel';
 import PokemonList from '../../src/components/pokemon/PokemonList';
 import PokemonListLoad from '../../src/components/pokemon/PokemonListLoad';
@@ -12,7 +14,8 @@ import usePokemon from '../../src/hooks/usePokemon';
 
 const POKEMON_PAGE_SIZE = 20;
 
-const PokemonListPage = ({ initialData, t }) => {
+const PokemonListPage = ({ initialData }) => {
+  const { t } = useTranslation('pokemon');
   const initialPageIndex = initialData.query?.pageIndex || 1;
   const initialQuery = initialData.query || {};
   const searchTerm = initialQuery.q || initialQuery.searchTerm || '';
@@ -66,24 +69,19 @@ PokemonListPage.propTypes = {
     }),
     pokemons: PropTypes.arrayOf(PropTypes.object)
   }).isRequired,
-  t: PropTypes.func.isRequired,
-  i18nNamespaces: PropTypes.arrayOf(PropTypes.string)
 };
 
-PokemonListPage.defaultProps = {
-  i18nNamespaces: ['common', 'pokemon']
-};
-
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = async ({ query, locale }) => {
   const pokemons = await getPokemons(query);
   return {
     props: {
       initialData: {
         query,
         pokemons
-      }
+      },
+      ...(await serverSideTranslations(locale, ['common', 'pokemon'])),
     }
   };
 };
 
-export default withTranslation('pokemon')(PokemonListPage);
+export default PokemonListPage;

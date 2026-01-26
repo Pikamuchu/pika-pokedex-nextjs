@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
 /* global describe, it, expect */
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 
 import Layout from '../src/components/layout/Layout';
 import HomePage from '../pages/index';
@@ -18,12 +18,12 @@ describe('Pikadex Test', () => {
     const initialData = {
       randomPokemons: pokemonsData,
     };
-    const homePage = shallow(
+    render(
       <Layout>
         <HomePage initialData={initialData} />
       </Layout>
     );
-    expect(homePage).toBeDefined();
+    expect(screen.getByRole('main')).toBeInTheDocument();
   });
 
   it('Load Pokemon List page', () => {

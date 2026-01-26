@@ -1,49 +1,77 @@
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-console */
-/* eslint-disable no-undef */
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-// import 'jsdom-global/register';
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import '@testing-library/jest-dom';
 
-// Mock react-i18next
-i18n.use(initReactI18next).init({
-  lng: 'en',
-  fallbackLng: 'en',
-  ns: ['common'],
-  defaultNS: 'common',
-  resources: {
-    en: {
-      common: {},
+// Mock next/router
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(() => ({
+    route: '/',
+    pathname: '/',
+    query: {},
+    asPath: '/',
+    locale: 'en',
+    locales: ['en', 'es', 'ca'],
+    defaultLocale: 'en',
+    push: jest.fn(),
+    replace: jest.fn(),
+    reload: jest.fn(),
+    back: jest.fn(),
+    prefetch: jest.fn(),
+    beforePopState: jest.fn(),
+    events: {
+      on: jest.fn(),
+      off: jest.fn(),
+      emit: jest.fn(),
     },
+    isFallback: false,
+  })),
+}));
+
+// Mock next-i18next
+jest.mock('next-i18next', () => ({
+  useTranslation: () => ({
+    t: (key) => key,
+    i18n: {
+      language: 'en',
+      changeLanguage: jest.fn(),
+    },
+  }),
+  withTranslation: () => (Component) => {
+    const t = (key) => key;
+    Component.defaultProps = { ...Component.defaultProps, t };
+    return Component;
   },
-});
+  Trans: ({ children }) => children,
+  serverSideTranslations: jest.fn(() => Promise.resolve({ _nextI18Next: { initialLocale: 'en' } })),
+}));
 
-// Mock i18n
-jest.mock('./src/i18n', () => {
-  const t = (key, params) => {
-    if (key === 'key.with.params') {
-      return `key.with.params.${params?.param}`;
-    }
-    return key;
-  };
-  return {
-    useTranslation: () => {
-      return {
-        t,
-        i18n: {
-          language: 'en',
-          changeLanguage: jest.fn().mockImplementation((lang) => console.log(lang)),
-        },
-      };
-    },
-    withTranslation: () => (Component) => {
-      Component.defaultProps = { ...Component.defaultProps, t };
-      return Component;
-    },
-  };
-});
+// Mock src/i18n module
+jest.mock('./src/i18n', () => ({
+  useTranslation: () => ({
+    t: (key) => key,
+    i18n: { language: 'en' },
+  }),
+  withTranslation: () => (Component) => {
+    const t = (key) => key;
+    Component.defaultProps = { ...Component.defaultProps, t };
+    return Component;
+  },
+  Router: {
+    push: jest.fn(() => Promise.resolve(true)),
+  },
+  useRouter: jest.fn(() => ({
+    locale: 'en',
+    push: jest.fn(),
+  })),
+  i18n: { language: 'en' },
+}));
 
-configure({ adapter: new Adapter() });
+// Mock IntersectionObserver
+global.IntersectionObserver = class IntersectionObserver {
+  constructor() {}
+  disconnect() {}
+  observe() {}
+  takeRecords() {
+    return [];
+  }
+  unobserve() {}
+};
+

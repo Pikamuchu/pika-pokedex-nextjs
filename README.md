@@ -22,9 +22,9 @@ You can preview source code using [codesandbox](https://codesandbox.io/s/github/
 ### Technical features
 
 - Progressive Web Application.
-- SSR hybrid rendering.
-- Serverless.
-- Multilanguage.
+- SSR hybrid rendering with Next.js 15.
+- React 18 with modern hooks and patterns.
+- Built-in i18n routing (en/es/ca).
 - Google Analytics integration.
 - PokeApi integration.
 
@@ -32,16 +32,16 @@ You can preview source code using [codesandbox](https://codesandbox.io/s/github/
 
 ### Built with
 
-- [Next.js](https://nextjs.org/)
-- [React Hooks](https://es.reactjs.org/docs/hooks-intro.html)
-- [React Bootstrap](https://react-bootstrap.github.io/)
-- [React Autosuggest](https://react-autosuggest.js.org/)
-- [Bootswatch](https://bootswatch.com/)
-- [animejs](https://animejs.com/)
-- [i18next](https://www.i18next.com/)
-- [PokeAPI](https://pokeapi.co/)
-- [SWR](https://swr.vercel.app/)
-- [Hammer.js](https://hammerjs.github.io/)
+- [Next.js 15](https://nextjs.org/) - React framework with SSR
+- [React 18](https://react.dev/) - UI library with hooks
+- [React Bootstrap 2](https://react-bootstrap.github.io/) - Bootstrap 5 components
+- [React Autosuggest](https://react-autosuggest.js.org/) - Search autocomplete
+- [Bootswatch](https://bootswatch.com/) - Bootstrap themes
+- [animejs](https://animejs.com/) - Animation library
+- [next-i18next](https://github.com/i18next/next-i18next) - Internationalization
+- [PokeAPI](https://pokeapi.co/) - Pokemon data source
+- [SWR 2](https://swr.vercel.app/) - Data fetching and caching
+- [Hammer.js](https://hammerjs.github.io/) - Touch gestures
 
 ### Folder structure
 
@@ -50,6 +50,11 @@ You can preview source code using [codesandbox](https://codesandbox.io/s/github/
 - public: Contains the application static resources.
 - src: Contains the application source code.
 - **tests**: Contains the application tests.
+
+### Requirements
+
+- Node.js 18.x or higher
+- Yarn package manager
 
 ### Installing / Getting started
 
@@ -62,13 +67,13 @@ Clone the source code repository
 Install node modules dependencies
 
 ```bash
-  yarn install
+  npm install
 ```
 
 Start application in development mode
 
 ```bash
-$ yarn dev
+$ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -80,7 +85,7 @@ The pages auto-updates as you edit the source files.
 Run tests with
 
 ```bash
-$ yarn test
+$ npm test
 ```
 
 ### Pika commands
@@ -99,3 +104,8 @@ where [command] is one of:
    docker build -> create application docker image.
    docker start -> run application docker image.
 ```
+
+## Documentation
+
+- **[Migration Guide](./docs/MIGRATION.md)** - Detailed guide for upgrading from Next.js 10 to Next.js 15
+- **[Copilot Instructions](./.github/copilot-instructions.md)** - AI coding assistant guidelines for this project

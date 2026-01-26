@@ -1,4 +1,5 @@
 module.exports = {
+  testEnvironment: 'jsdom',
   automock: false,
   collectCoverage: true,
   collectCoverageFrom: [
@@ -7,14 +8,19 @@ module.exports = {
     '!**/public/**',
     '!**/node_modules/**',
     '!**/_*.{js,jsx,ts,tsx}',
+    '!**/coverage/**',
   ],
-  setupFiles: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testPathIgnorePatterns: ['/node_modules/', '/.next/'],
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': '<rootDir>/node_modules/babel-jest',
+    '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
   },
-  transformIgnorePatterns: ['/node_modules/', '^.+\\.module\\.(css|sass|scss)$'],
+  transformIgnorePatterns: [
+    '/node_modules/(?!(pokedex-promise-v2)/)',
+    '^.+\\.module\\.(css|sass|scss)$',
+  ],
   moduleNameMapper: {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
 };

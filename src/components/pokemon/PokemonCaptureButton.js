@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import { withTranslation } from '../../i18n';
+import { useTranslation } from 'next-i18next';
 import useCapture, { routeCapture } from '../../hooks/useCapture';
 
-const PokemonCaptureButton = ({ t, pokemon, size }) => {
+const PokemonCaptureButton = ({ pokemon, size = '' }) => {
+  const { t } = useTranslation('pokemon');
   const [active, setActive] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { data: captures } = useCapture();
 
   const openCapturePage = (event) => {
@@ -12,14 +14,20 @@ const PokemonCaptureButton = ({ t, pokemon, size }) => {
   };
 
   useEffect(() => {
-    setActive(captures && captures.includes(pokemon.id));
-  }, [captures]);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      setActive(captures && captures.includes(pokemon.id));
+    }
+  }, [captures, mounted, pokemon.id]);
 
   return (
     <button
       type="button"
       title={t('capture-pokemon')}
-      className={`pokemon-capture-button ${active ? 'active' : ''} ${size}`}
+      className={`pokemon-capture-button ${mounted && active ? 'active' : ''} ${size}`}
       onClick={openCapturePage}
     />
   );
@@ -34,8 +42,4 @@ PokemonCaptureButton.propTypes = {
   size: PropTypes.string,
 };
 
-PokemonCaptureButton.defaultProps = {
-  size: '',
-};
-
-export default withTranslation('pokemon')(PokemonCaptureButton);
+export default PokemonCaptureButton;
